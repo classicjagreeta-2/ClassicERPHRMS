@@ -1,0 +1,337 @@
+﻿
+<!--<div class="row">
+    <div class="col-6">
+        <div class="oh-input__group">
+
+            <label class="oh-input__label" for="id_group_name">Unit</label>
+            Html.DropDownList("UNIT", new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..", new { class = "form-control", required = "required" })
+            Html.ValidationMessage("Unit", "", new {class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="oh-input__group">
+            <label class="oh-input__label" for="id_group_name">Month</label>
+           Html.DropDownList("MonthCode", new SelectList(ViewBag.Month, "Value", "Text"), "SELECT..", new {class = "form-control", required = "required" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="oh-input__group">
+            <label class="oh-input__label" for="select-employee">Employee</label>
+            <div id="widget6dc27">
+                <div>
+                    <select multiple id='select-employee' name="select_employee" data-placeholder="Please choose one or more" data-allow-clear="true" data-close-on-select="false" style="width:100%;">
+                        <option value="0">Select All</option>
+                    </select>
+
+                </div>-->
+                <!-- custom scroll/ horizontal scroll section -->
+
+
+                <!--<div class="oh-modal" id="filterChoosewidget6dc27" role="dialog" aria-labelledby="filterChoosewidget6dc27" aria-hidden="true">
+                    <div class="oh-modal__dialog">
+                        <div class="oh-modal__dialog-header">
+                            <button type="button" class="oh-modal__close-custom" onclick="event.stopPropagation();event.preventDefault;$('#filterChoosewidget6dc27').toggleClass('oh-modal--show');">
+                                <ion-icon name="close-outline" role="img" class="md hydrated" aria-label="close outline"></ion-icon>
+                            </button>
+                        </div>
+                        <div class="oh-modal__dialog-body" id="filterChooseModalBodye3aac515-ad14-45a2-b431-bbabf55ce937">
+                            <div class="oh-wrapper">-->
+                                <!-- Nav -->
+
+                                <!--<section class="oh-main__topbar p-3 mb-1 m-0" style="padding-left: 0 !important; padding-right: 0 !important" x-data="{searchShow: false}" id="widgetFilterFormContainere3aac515-ad14-45a2-b431-bbabf55ce937">
+                                    <div class="oh-main__titlebar oh-main__titlebar--left">
+                                        <div class="mb-2 mt-2">
+                                            <h1 class="oh-main__titlebar-title fw-bold">Employee</h1>
+                                        </div>
+                                    </div>
+                                    <div class="oh-main__titlebar oh-main__titlebar--right">
+                                        <div class="oh-input-group oh-input__search-group" :class="searchShow ? 'oh-input__search-group--show' : ''">
+                                            <input type="text" class="oh-input oh-input__icon" name="search" aria-label="Search Input" placeholder="Search">
+                                        </div>
+                                        <div class="oh-main__titlebar-button-container">
+                                            <div class="oh-dropdown" x-data="{open: false}">
+                                                <button hx-get="/horilla-widget/get-filter-form?template_path=employee_filters.html" hx-target="#wodgetFilterContainer" class="oh-btn ml-2" @@@@click="open = !open">
+                                                    <ion-icon name="filter" class="mr-1 md hydrated" role="img" aria-label="filter"></ion-icon>Filter
+                                                    <div id="filterCount"></div>
+                                                </button>
+                                                <div class="oh-dropdown__menu oh-dropdown__menu--left oh-dropdown__filter p-4" x-show="open" @@@@click.outside="open = false" style="display: none;">
+                                                    <div id="wodgetFilterContainer">
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>-->
+
+
+                                <!-- Filter Tags -->
+
+
+                                <!--<div class="oh-filter-tag-container mb-2 p-0" id="filterTagContainere3aac515-ad14-45a2-b431-bbabf55ce937">
+
+                                </div>
+                                <div class="ration-container mb-2 d-flex justify-content-between">
+                                    <div>
+                                        <div class="oh-checkpoint-badge oh-checkpoint-badge--secondary" data-toggle="oh-modal-toggle" data-target="#viewSelectedModal">
+                                            Selected <span class="selected-count">0</span>/<span class="total-count">24</span>
+                                        </div>
+                                        <div class="oh-checkpoint-badge oh-checkpoint-badge--secondary" id="selectAllUsers">
+                                            Select All <span class="total-count visible-count">24</span> user
+                                        </div>
+                                        <div class="oh-checkpoint-badge" id="unselectAllUsers">
+                                            Unselect All
+                                        </div>
+                                    </div>
+
+                                    <div class="oh-checkpoint-badge oh-checkpoint-badge--success m-zero" id="selectAllInstances">
+                                        Select All 24 Item
+                                    </div>
+                                </div>-->
+
+                                <!-- Sticky Table -->
+
+                                <!--<div class="oh-sticky-table" style="height: 50vh">
+                                    <div class="oh-sticky-table__table oh-table--sortable" id="chooseTableHeaderParent">
+                                        <div class="oh-sticky-table__thead" id="chooseTableHeader">
+                                            <div class="oh-sticky-table__tr">
+                                                <div class="oh-sticky-table__th oh-sticky-table__th--custom">
+                                                    <div class="d-flex">
+                                                        <div class="">
+                                                            <input type="checkbox" title="Select all users" class="oh-input oh-input__checkbox mt-1 mr-2" id="choose-all-user">
+                                                        </div>
+                                                        Employee
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="1" style="">
+                                            <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="1" data-label="Adam Luis " data-avatar="https://ui-avatars.com/api/?name=Adam Luis&amp;background=random" draggable="true" style="">
+                                                <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce9371">
+                                                    <div class="d-flex">
+                                                        <div class="">
+                                                            <input type="checkbox" value="1" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                        </div>
+                                                        <div class="oh-profile oh-profile--md">
+                                                            <div class="oh-profile__avatar mr-1">
+                                                                <img src="https://ui-avatars.com/api/?name=Adam Luis&amp;background=random" class="oh-profile__image">
+                                                            </div>
+                                                            <span class="oh-profile__name oh-text--dark">Adam Luis </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+
+
+                                <!-- Pagination -->
+                                <!--<div class="oh-pagination">
+                                    <span class="oh-pagination__page" data-toggle="modal" data-target="#addEmployeeModal">Page 1 of 1</span>
+                                </div>
+
+                                <div class="d-flex flex-row-reverse">
+                                    <a class="oh-btn oh-btn--secondary oh-btn--shadow pr-3 pl-3" onclick="event.stopPropagation();event.preventDefault;$('#filterChoosewidget6dc27').removeClass('oh-modal--show');">
+                                        Add
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<div class="row">
+    <div class="col-6">
+        <div class="oh-input__group">
+
+            <label class="oh-input__label" for="id_group_name">Unit</label>
+            <input type="hidden" id="dailyUnit" value="This is a text box">
+            <select id='Unit'name='Unit' data-placeholder="Please choose unit" data-allow-clear="true" data-close-on-select="false">
+                <optgroup label="select all">
+                    <option> </option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="oh-input__group">
+            <label class="oh-input__label" for="id_group_name">Month</label>
+            <input type="hidden" id="dailyMonth" value="This is a text box">
+            <select id='MonthCode'name='MonthCode' data-placeholder="Month Year" data-allow-clear="true" data-close-on-select="false">
+                <optgroup id="SELECTALL" label="select all">
+                    <option></option>
+                </optgroup>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="oh-input__group">
+            <label class="oh-input__label" for="select-employee">Employee</label>
+            <select id="select_employee"name="select_employee" placeholder="Select Text" multiple data-placeholder="Please choose one or more" data-allow-clear="true" data-close-on-select="false">
+            </select>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        debugger
+      let optionSelect2 = {
+
+      closeOnSelect: false,
+      width: '100%',
+      ajax: {
+           url: "@Url.Action("GetEmployee", "Setting")",
+           data: function (params) {
+               var UNIT = $('#dailyUnit').val();
+               //var _UNIT = $('#unitValue').val();
+               //var _Unit = $('#Unit').val();
+               //var _unit = $('#unit').val();
+               //if (typeof (_UNIT) !== "undefined") {
+               //    UNIT = _UNIT;
+               //}
+               //else if (typeof (_Unit) !== "undefined") {
+               //    UNIT = _Unit;
+               //}
+               //else {
+               //    UNIT = _unit;
+               //}
+           var query = {
+               searchString: params.term,
+               page: params.page || 1,
+               pageSize: 10,
+               UNIT: UNIT,
+           }
+           return query;
+   },
+           processResults: function (res) {
+       var list = res.Data.value.results;
+       var dataList =  $.map(list, function (x) {
+           return {
+               text: x.pK_EMPCODE + "-" + x.fname,
+               id: x.pK_EMPCODE
+           };
+       })
+       return {
+           results: dataList,
+           pagination: {
+               more: res.Data.value.currentPage < res.Data.value.pageCount
+           }
+       };
+   }
+      }
+  };
+    $("#select_employee").select2(optionSelect2);
+
+    $("#checkbox").click(function () {
+        if ($("#checkbox").is(':checked')) {
+            $("#select_employee > option").prop("selected", "selected");
+            $("#select_employee").trigger("change");
+        } else {
+            $("#select_employee > option").removeAttr("selected");
+            $("#select_employee").trigger("change");
+        }
+    });
+
+        $("#generatePayslipBtn").click(function () {
+            debugger
+            /*alert($("#select_employee").val());*/
+            var selectemployee=  $("#select_employee").val();
+            var mcode = $("#dailyMonth").val();
+            var unit = $("#dailyUnit").val();
+            //var yrcode = $("#yearcode").val();
+            //var monthcode = yrcode.concat(mcode);
+            window.location.href = "@Url.Action("Payslip", "Payslip")?select_employee=" + selectemployee + "&MonthCode=" + mcode + "&Unit=" + unit;
+    });
+    });
+</script>
+<script>
+
+    $('#Unit').change(function () {
+        debugger
+       var x = $(this).val();
+        $('#dailyUnit').val(x);
+    });
+
+    $('#MonthCode').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#dailyMonth').val(x);
+    });
+
+    debugger
+    $('#MonthCode').select2({
+       ajax: {
+       url:  "@Url.Action("GetMonthCodeDropDown", "DailyAttend")",
+       data: function (params) {
+           var query ={
+               searchString: params.term,
+               page: params.page || 1,
+               pageSize: 25,
+               UNIT: $('#dailyUnit').val(),
+           }
+           return query;
+       },
+            processResults: function (res, params) {
+                debugger;
+                var list = res.Data.value.results; // The data returned from the API
+           // Map the data into the Select2 expected format
+           return {
+               results: $.map(list, function (x) {
+                   return {
+                       text: x.MonthName, // The text to display in the dropdown
+                       id: x.pK_MONTHCODE
+                   };
+               }),
+               pagination: {
+                   more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+               }
+           };
+       },
+
+       cache: true
+      }
+    });
+
+    $('#Unit').select2({
+    ajax: {
+    url:  "@Url.Action("GetUnitDropdown", "DailyAttend")",
+    data: function (params) {
+        var query ={
+            searchString: params.term, // The search term
+            page: params.page || 1, // Page number for pagination
+            pageSize: 5, // Number of results per page
+            /*UNIT: $("#select-unit").val(), // The value of the UNIT dropdown*/
+        }
+        return query;
+    },
+    processResults: function (res, params) {
+
+        var list = res.Data.value.results; // The data returned from the API
+        return {
+            results: $.map(list, function (x) {
+                return {
+                    text: x.code + "-" + x.name, // The text to display in the dropdown
+                    id: x.code // The value to store for the option
+                };
+            }),
+            pagination: {
+                more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+            }
+        };
+    },
+
+    cache: true
+   }
+    });
+</script>

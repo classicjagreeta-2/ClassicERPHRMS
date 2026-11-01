@@ -1,0 +1,242 @@
+﻿@model WEB_VIEWMODEL17.Model_Common.ModelConfrimation
+@using WEB_PRO17.Common
+@{
+    /**/
+
+    ViewBag.Title = "CONFIRMATION";
+}
+
+
+<!-- jpro forms css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/demo.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/j-pro-modern.css">
+
+
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/css/component.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/CheckBoxStyle.css" rel="stylesheet" />
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-block">
+                    <div class="j-wrapper j-wrapper-400">
+                        <div class="j-content">
+                            <!-- start login -->
+                            <div class="j-unit">
+                                <div class="j-input">
+                                    <div class="card-block">
+
+                                        <div class="card user-card2">
+                                            <div class="panel-heading bg-success">
+                                                <center> <h4>CONFIRMATION</h4></center>
+                                            </div>
+                                            <div class="card-block text-center">
+
+
+                                                <div class="risk-rate">
+                                                    <i class="feather icon-check-circle f-40"></i>
+                                                </div>
+                                                <h6 class="m-b-10 m-t-10">SUCCESSFULLY SAVED</h6>
+                                                <div class="form-group">
+                                                    <label class="col-form-label">
+                                                        @Model.FormType :
+                                                    </label>
+                                                    @Model.Code
+                                                </div>
+
+                                                <input type="hidden" id="txtID" value="@Model.ID" />
+                                                <input type="hidden" id="txtfrmType" value="@Model.FMode" />
+
+
+
+                                                <hr />
+                                                @*<div class="col-md-12">
+
+            <div class="form-group">
+                <label class="col-form-label">
+                    EMAIL TO:
+                </label>
+                <textarea id="txtemailId" style="width: 100%;" pattern="[^\s]+">@Model.Email</textarea>
+
+                Comma Delimited Multi-Email
+            </div>
+        </div>*@
+                                                @if (ViewBag.DYMMODE == "DYNAMIC")
+                                                {
+                                                    <a class="btn btn-outline-primary m-r-20" onclick="LoadCheckListDynamic(@Model.ID,@Model.FMode,
+                                                   @Model.FMode,@Model.FilterCode)">
+                                                        <i class="icofont icofont-email"></i>Email/Preview
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-outline-primary m-r-20" onclick="LoadCheckList(@Model.ID,@Model.FMode,
+                                                   @Model.FMode)">
+                                                        <i class="icofont icofont-email"></i>Email/Preview
+                                                    </a>
+                                                }
+
+
+                                                <hr />
+                                                <a href=@Url.Action(Model.ControllerName,Model.ActionMethod,new {MenuId=Model.FMode,UnitId=Model.UnitId,BtnBack="YES"}) id="btncancel" class="btn btn-danger m-r-20">
+                                                    <i class="icofont icofont-close-line-circled"></i> Close
+                                                </a>
+
+
+
+                                                @*<a onclick="LoadCheckListPreview(ID=@Model.ID,@Model.FMode,@Model.FMode)"
+           class="btn btn-outline-primary m-r-20">
+            <i class="icofont icofont-letter"></i>Preview
+
+        </a>*@
+
+
+
+
+
+
+
+
+
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="default-Modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Head Selection </h5>
+                <button type="button" class="btn btn-danger HeadModelClose">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="j-unit">
+                    <div class="j-input">
+                        <div class="checkbox-zoom zoom-primary">
+                            <div class="form-group">
+                            </div>
+                            <div class="checkbox-fade fade-in-primary">
+
+                                <input type="hidden" id="HID" />
+                                <input type="hidden" id="HFmId" />
+
+                                <div id="lblCheckBoxList">
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect HeadModelClose">Close</button>
+                <button type="button" class="btn btn-primary  waves-effect btnpdfdownload">PDF</button>
+                <button type="button" class="btn btn-primary  waves-effect btnSendMail"> <i class="icofont icofont-email"></i>Email</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="default-ModalEmail" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Head Selection </h5>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="x">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="j-unit">
+                    <div class="j-input">
+                        <div class="checkbox-zoom zoom-primary">
+                            <div class="form-group">
+                            </div>
+                            <div class="checkbox-fade fade-in-primary">
+
+                                <input type="hidden" id="HID" />
+                                <input type="hidden" id="HFmId" />
+                                <input type="hidden" id="HEmail" />
+                                <div id="lblCheckBoxListEmail">
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary  waves-effect btnSendMail"> <i class="icofont icofont-email"></i>Email</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script src="~/JsProject/TD_ReportModel.js"></script>
+    <script src="~/JsProject/commanJs.js"></script>
+
+    <script>
+
+        $("#btnprintx").click(function () {
+            blockUIStart();
+            var Data = {
+                ID: $('#txtID').val(),
+                FmType: $('#txtfrmType').val(),
+            }
+            debugger;
+            var Rtn = httpPOST("/TD_Report/TD_Report_Details", Data, true)
+            if (Rtn.status != "OK") {
+                //window.open('/TD_Report/TD_Report_Details', '_blank');
+                $.unblockUI();
+            } else {
+                $.unblockUI();
+                msgError("Error");
+            }
+
+
+        })
+
+
+    </script>
+}

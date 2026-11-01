@@ -1,0 +1,266 @@
+﻿@model PagedList.StaticPagedList<HRMS.Models.TRN.T_DAILY_ATTEND>
+@using PagedList.Mvc;
+@using PagedList;
+@using System.Globalization;
+@{
+    ViewBag.Title = "DailyAttend";
+}
+
+
+
+<div class="modal fade" id="dataModalADD" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel"
+     aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="dataModalLabel">Add New</h5>
+                <a data-dismiss="modal" aria-label="Close" class="btn btn-sm btn-info">
+                    <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+                </a>
+            </div>
+            <div class="modal-body">
+                <label for="dataType">Select Add Type:</label>
+                <div class="container-fluid">
+                    <div class="row">
+                        <label for="id_SelectElement" class="col-sm-2">Employee: </label>
+                        <div class="col-sm-12">
+                            @Html.Partial("_MultiSelectEmployee")
+                        </div>
+                    </div>
+
+
+                </div>
+                @*<select class="form-control" id="dataType">
+                        <option value="single">Add New (Single Emp)</option>
+                        <option value="multiple">Add New (All Active Emp)</option>
+                    </select>*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="generateBtn">Okay</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-header pull-right">
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <input type="hidden" id="unitValue" value="This is a text box">
+            <select multiple id='select-unit' data-placeholder="Please choose unit" data-allow-clear="true"
+                    data-close-on-select="false">
+                <optgroup label="select all">
+                    <option></option>
+                </optgroup>
+            </select>
+            <input type="hidden" id="monthCodeValue" value="This is a text box">
+            <select multiple id='select-monthCode' data-placeholder="Month Year" data-allow-clear="true"
+                    data-close-on-select="false">
+                <optgroup id="SELECTALL" label="select all">
+                    <option></option>
+                </optgroup>
+            </select>
+            <button id="IdaddNewRecord" type="button" class="btn btn-sm btn-info"
+                    @*onclick="location.href='@Url.Action("DailyAttend", "DailyAttend")?MONTHCODE=' + '@Model.FirstOrDefault().ID'"*@>
+                <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> SEARCH
+            </button>
+        </div>
+        <div class="col-sm-6">
+            <div class="text-center"><h4>Attendance Entry@*(@monthList @ViewBag.Year)*@</h4></div>
+        </div>
+        <div class="col" style="text-align: right;">
+            @using (Html.BeginForm("DailyAttend", "DailyAttend", FormMethod.Post))
+            {
+                <button type="button" class="btn btn-sm btn-inverse btn-outline-inverse" data-toggle="modal"
+                        data-target="#dataModalADD" data-id="@ViewBag.FK_ID">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Add New
+                </button>
+            }
+        </div>
+    </div>
+
+
+</div>
+<div class="page-body">
+    <div class="card">
+        <div class="card-block" id="divcontainer">
+            <div class="table-responsive dt-responsive">
+                <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="dom-jqry_length">
+                                @using (Html.BeginForm("DailyAttend", "DailyAttend", FormMethod.Get))
+                                {
+                                    <label>
+                                        Show
+                                        <select name="pageSize" id="pageSize" onchange="document.forms[0].submit();"
+                                                aria-controls="dom-jqry" class="form-control input-sm"
+                                                fdprocessedid="794bn7">
+                                            <option value=25>25</option>
+                                            <option value=50>50</option>
+                                            <option value=100>100</option>
+                                        </select>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6">
+                            <div id="dom-jqry_filter" class="dataTables_filter">
+                                @using (Html.BeginForm("DailyAttend", "DailyAttend", FormMethod.Get))
+                                {
+                                    <label>
+                                        Search:@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control input-sm" })</label>
+                                    <button type="submit" class="btn btn-sm btn-info aLoader"> Search</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="dt-responsive table-responsive">
+                            <table class="table table-bordered nowrap" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th width="1%">Action</th>
+                                    <th width="1%">Unit</th>
+                                    <th width="5%">Employee Id</th>
+                                    <th>Employee's Name</th>
+                                    <th>MonthCode</th>
+                                    <th width="10%">Shift</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if (Model != null)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <a class='btn btn-mini btn-outline-primary aLoader'
+                                                   href="@Url.Action("EmployeesList", "DailyAttend", new { Unit = item.UNIT,EmpId = item._empCode, mcode = item.FK_MONTHCODE })"><i
+                                                        class='icofont icofont-hand-drag1 icofont-2x'></i></a>
+                                                @*<a class='btn btn-mini btn-outline-primary aLoader' href="@Url.Action("EmployeesCalenderList","DailyAttend",new {EmpId=item._empCode,mcode=item.FK_MONTHCODE })"><i class='icofont icofont-hand-drag1 icofont-2x'></i></a>*@
+                                            </td>
+
+                                            <td>@item.UNIT</td>
+                                            <td>@item._empCode</td>
+                                            <td>@item._name</td>
+                                            <td>@DateTime.ParseExact(item.FK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture).ToString("MMM") @DateTime.ParseExact(item.FK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture).ToString("yyyy") </td>
+                                            <td>@item.FK_SHIFT_CODE </td>
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-xs-12 col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite">
+                                    Showing @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dom-jqry_paginate">
+                                    @Html.PagedListPager(Model, page => Url.Action("DailyAttend", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $("#IdaddNewRecord").on("click", function () {
+        debugger;
+
+        var month = $("#select-monthCode").val();
+        var unit = $("#select-unit").val();
+        /*var data = year.toString() + month.toString();*/
+        window.location.href = "@Url.Action("DailyAttend", "DailyAttend")?MONTHCODE=" + month + "&Unit=" + unit;
+    });
+</script>
+<script>
+
+    $('#select-unit').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#unitValue').val(x);
+    });
+
+    $('#select-monthCode').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#monthCodeValue').val(x);
+    });
+
+    debugger
+    $('#select-monthCode').select2({
+        ajax: {
+            url: "@Url.Action("GetMonthCodeDropDown", "DailyAttend")",
+            data: function (params) {
+                var query = {
+                    searchString: params.term,
+                    page: params.page || 1,
+                    pageSize: 25,
+                    UNIT: $('#unitValue').val(),
+                }
+                return query;
+            },
+            processResults: function (res, params) {
+                debugger;
+                var list = res.Data.value.results; // The data returned from the API
+                // Map the data into the Select2 expected format
+                return {
+                    results: $.map(list, function (x) {
+                        return {
+                            text: x.MonthName, // The text to display in the dropdown
+                            id: x.pK_MONTHCODE
+                        };
+                    }),
+                    pagination: {
+                        more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+                    }
+                };
+            },
+
+            cache: true
+        }
+    });
+
+    $('#select-unit').select2({
+        ajax: {
+            url: "@Url.Action("GetUnitDropdown", "DailyAttend")",
+            data: function (params) {
+                var query = {
+                    searchString: params.term, // The search term
+                    page: params.page || 1, // Page number for pagination
+                    pageSize: 5, // Number of results per page
+                    /*UNIT: $("#select-unit").val(), // The value of the UNIT dropdown*/
+                }
+                return query;
+            },
+            processResults: function (res, params) {
+
+                var list = res.Data.value.results; // The data returned from the API
+                return {
+                    results: $.map(list, function (x) {
+                        return {
+                            text: x.code + "-" + x.name, // The text to display in the dropdown
+                            id: x.code // The value to store for the option
+                        };
+                    }),
+                    pagination: {
+                        more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+                    }
+                };
+            },
+
+            cache: true
+        }
+    });
+</script>

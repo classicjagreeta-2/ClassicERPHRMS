@@ -1,0 +1,420 @@
+﻿
+@{
+
+    ViewBag.Title = "Page Name";
+}
+
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/data-table/css/buttons.dataTables.min.css">
+
+
+
+
+
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/TableRowDesign.css" rel="stylesheet" />
+
+
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+</style>
+
+
+
+<div class="modal fade" id="IdModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    ccc
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;">
+                    Erorr In Edit
+                </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;"> </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Modal 4</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div>
+        <div class="container"></div>
+        <div class="modal-body">Content for the dialog / modal goes here.</div>
+        <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn">Close</a>
+            <a href="#" class="btn btn-primary">Save changes</a>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        <div class="label-main">
+            <label class="label label-inverse-noLine"><h4>Account Master</h4></label>
+        </div>
+        <button id="IdaddNewRecord" type="button" class="btn btn-grd-info  btn-md float-right" data-toggle="modal" data-target="#IdModal">Add New</button>
+
+        @*<a href=@Url.Action("MasterAccountHeadAddEdit","Master_AccountHead",new {@Id=0}) class="btn btn-danger m-r-20">
+                <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Add New
+            </a>*@
+    </div>
+    <div class="card-block">
+
+        <div class="dt-responsive table-responsive">
+            <table id="ajax-table" class="table table-striped table-bordered nowrap" style="width:100%">
+
+                <thead>
+                    <tr>
+                        <th>Master Account Head</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+@section scripts{
+
+
+    @*<script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>*@
+    @*<script type="text/javascript" src="~/libraries/bower_components/jquery-ui/js/jquery-ui.min.js"></script>*@
+
+    <script src="~/libraries/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/jszip.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/vfs_fonts.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+    @*<script src="~/libraries/assets/pages/data-table/js/data-table-custom.js"></script>*@
+    @*<script src="~/libraries/assets/pages/data-table/extensions/responsive/js/responsive-custom.js"></script>*@
+
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+
+    <script>
+        var Popup, dataTable;
+
+        $(document).ready(function () {
+
+            // AddNewRecords
+
+
+            $("#IdaddNewRecord").click(function () {
+
+                var data = { Id: 0 };
+                //var x = httpGetWithObj("/Master_AccountHead/AddEditModel", data);
+                //$("#IdModal").empty().append(x.data);
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "../Master_AccountHead/AddEditModel",
+                    async: false,
+                    data: data,
+                    success: function (data) {
+
+                        $("#IdModal").empty().append(data);
+
+
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+
+            });
+
+
+            $("#btnaddNewRecord").click(function () {
+                debugger;
+                var data = { Id: 0 };
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "../Master_AccountHead/AddEditModel",
+                    async: false,
+                    data: data,
+                    success: function (data) {
+
+                        //$("#divMsg").empty();
+                        //$("#IdModal").empty().append(data);
+
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+
+            });
+
+
+            dataTable = $("#ajax-table").DataTable({
+                initComplete: function () {
+                    var input = $('.dataTables_filter input').unbind(),
+                        self = this.api(),
+                        $searchButton = $('<button>')
+                            .text('search')
+                            .addClass('dt-button  buttons-html5')
+                            .click(function () {
+                                self.search(input.val()).draw();
+                            }),
+                        $clearButton = $('<button>')
+                            .text('clear')
+                            .addClass('dt-button  buttons-html5')
+                            .click(function () {
+                                input.val('');
+                                $searchButton.click();
+                            })
+                    $('.dataTables_filter').append($searchButton, $clearButton);
+                },
+                "proccessing": true,
+                "serverSide": true,
+                search: {
+                    return: true,
+                },
+                responsive: true,
+                ajax: {
+                    url: "../Master_AccountHead/GetData",
+                    type: "POST"
+                },
+
+                columns: [
+                    { data: "ACNAME" },
+                    { data: "ACCODE" },
+
+                    {
+                        "data": "ACCODE", "render": function (data) {
+
+
+                            return "<a class='btn btn-sm btn-info' data-toggle='modal' data-target='#IdModal' onclick=PopupForm('" + data + "')><i class='icofont icofont-eye-alt'></i></a> <a class='btn btn-sm btn-danger'  onclick=Delete('" + data + "')><i class='icofont icofont-delete-alt'></i></a>";
+                            @*return '<a href="@Url.Action("MasterAccountHeadAddEdit","Master_AccountHead")?Id=' + data + '" class="btn btn-sm btn-info"><i class="icofont icofont-eye-alt"></i></a><a class="btn btn-sm btn-danger"  onclick=Delete("' + data + '")><i class="icofont icofont-delete-alt"></i></a>';*@
+
+                        },
+                    }
+                ],
+
+                dom: 'lBfrtip',
+                buttons: [{
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }],
+
+                "language": {
+                    "search": "",
+                    "searchPlaceholder": "Search..."
+                },
+
+            });
+
+            new $.fn.dataTable.FixedHeader(dataTable);
+        });
+
+
+
+        function PopupForm(Id) {
+
+            var data = { Id: Id };
+
+            $.ajax({
+                type: "GET",
+                url: "../Master_AccountHead/AddEditModel",
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    $("#IdModal").empty().append(data);
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $('.btnClose').click();
+                    $.notify("Error In Edit", {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+
+
+                }
+
+            });
+        }
+
+        function SubmitForm(form) {
+
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $("#divMsg").empty().append("Please Wait......");
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    async: false,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        $("#divMsg").empty();
+                        if (data.success) {
+
+                            $('#IdModal').modal('toggle');
+
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+
+                        }
+                        else {
+                            $("#IdDivMsg").empty().append(data.message);
+                            $("#IdDivDeatils").empty().append(data.details);
+                            // $("#divMsg").empty().append(data.details);
+                            $("#myModal2").modal('show');
+
+                        }
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+            }
+
+            return false;
+
+        }
+
+        function Delete(id) {
+            $.confirm({
+                title: "Confirmation required",
+                content:"Are you sure you want to delete?",
+                buttons: {
+                    YES: function () {
+
+                        DeleteRecord(id);
+                    },
+                    NO: function () {
+
+                    },
+
+                }
+            });
+
+        }
+
+
+        function DeleteRecord(id) {
+            $.ajax({
+
+                type: "POST",
+                url: "../Master_AccountHead/Delete",
+                data: { Id: id },
+                success: function (data) {
+
+                    if (data.success) {
+
+                        dataTable.ajax.reload();
+
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+
+                    }
+                    else {
+                        $("#IdDivMsg").empty().append(data.message);
+                        $("#IdDivDeatils").empty().append(data.details);
+                        // $("#divMsg").empty().append(data.details);
+                        $("#myModal2").modal('show');
+
+                    }
+                },
+                error: function (errorjqXHR, exception) {
+
+
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+
+            });
+        }
+    </script>
+
+
+
+
+}
+

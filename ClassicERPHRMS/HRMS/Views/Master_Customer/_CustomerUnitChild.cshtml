@@ -1,0 +1,56 @@
+﻿@*@model  WEB_VIEWMODEL17.TD_Model.TD_Model_CustomerMaster*@
+@{
+    int RowIndex = ViewBag.RowIndex;// ViewBag.RowIndex;
+}
+
+@if (Model.CustLinkUnit != null && Model.CustLinkUnit.Any())
+
+
+{
+    for (int i = 0; i < Model.CustLinkUnit.Count; i++)
+    {
+
+        if (@ViewBag.EditForm == true)
+        {
+            RowIndex = i;
+        }
+
+<tr id="CustITable_@RowIndex" class="RowTable">
+
+    <td>
+        <button type="button" class="button button-small ag-i-btn btn-del" onclick="delRow(@RowIndex)"><i class="fa fa-trash"></i></button>
+    </td>
+    @*<td>
+        @Html.TextBox("CustLinkUnit[" + RowIndex + "].ID", Model.CustLinkUnit[i].ID, new { @class = "form-control", @readonly = "true" })
+    </td>*@
+    <td class="form-group">
+        @Html.DropDownList("CustLinkUnit[" + RowIndex + "].unit", new SelectList(ViewBag.DropdownListLocation, "PK_CODE", "NAME", Model.CustLinkUnit[i].unit),
+              "SELECT..", new  { @class = "js-example-responsive",  @Id = "ddlUnit_" + RowIndex, @required = "required" })
+    </td>
+    <td class="form-group">
+        @Html.DropDownList("CustLinkUnit[" + RowIndex + "].PARTY_TYPE", new SelectList(ViewBag.DropdownListMasterPartyType, "PK_CODE", "DESCN", Model.CustLinkUnit[i].PARTY_TYPE),
+              "SELECT..", new  {
+                  @class = "js-example-responsive",  @Id = "ddlPartyType_" + RowIndex, @required = "required" })
+    </td>
+</tr>
+
+    }
+
+}
+
+
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+
+<script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+<!-- Multiselect js -->
+<!-- Custom js -->
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/msg/jquery-confirm.min.js"></script>
+<script src="~/JsProject/TD_EntryProduct.js"></script>
+@*<script src="~/libraries/js/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            alert(@RowIndex);
+        });
+    </script>*@

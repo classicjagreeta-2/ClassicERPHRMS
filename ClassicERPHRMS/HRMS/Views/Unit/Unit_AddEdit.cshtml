@@ -1,0 +1,126 @@
+﻿
+@model HRMS.Models.Master.M_UNIT
+@{
+
+}
+
+@using (Html.BeginForm("Unit_AddEdit", "Unit", FormMethod.Post,  new { Id = "myForm" }))
+{
+    @Html.HiddenFor(x => x.id)
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Unit Master</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card-block">
+                <div class="row">
+                    @if (Model.id != 0)
+                    {
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Code :</label>
+                                @Html.TextBoxFor(x => x.code, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4", @id = "CODE", @disabled = "disabled" })
+
+                            </div>
+                            @Html.HiddenFor(x => x.id)
+                            @Html.HiddenFor(x => x.code)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Code :</label>
+                                @Html.TextBoxFor(x => x.code, new { @class = "form-control mustfiled", @required = "required", @style = "text-transform:uppercase", @maxlength = "4", @id = "CODE" })
+                            </div>
+                            @Html.HiddenFor(x => x.id)
+                        </div>
+                    }
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Name :</label>
+                            @Html.TextBoxFor(x => x.name, new { @class = "form-control mustfiled", @required = "required", @maxlength = "20" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Address :</label>
+                            @Html.TextBoxFor(x => x.adD1, new { @class = "form-control mustfiled", @maxlength = "40" })
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputName1">Address2 :</label>
+                            @Html.TextBoxFor(x => x.adD2, new { @class = "form-control mustfiled", @maxlength = "40" })
+                        </div>
+                        @*<div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">State :</label>
+                                    @Html.DropDownListFor(x => x.STATE, new SelectList(ViewBag.State, "Value", "Text"), "SELECT..", new { @class = "js-example-results col-sm-12", @id = "unt" })
+                                </div>
+                         </div>*@
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">City :</label>
+                                @Html.TextBoxFor(x => x.city, new { @class = "form-control mustfiled", @maxlength = "30" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">PIN :</label>
+                                @Html.TextBoxFor(x => x.pin, new { @class = "form-control mustfiled", @maxlength = "10" })
+                                @Html.ValidationMessageFor(m => m.pin, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">CIN :</label>
+                                @Html.TextBoxFor(x => x.ciN_NO, new { @class = "form-control mustfiled", @maxlength = "25" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">TEL :</label>
+                                @Html.TextBoxFor(x => x.tel, new { @class = "form-control mustfiled",  @maxlength = "12", type = "tel" })
+                                @Html.ValidationMessageFor(m => m.tel, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">FAX :</label>
+                                @Html.TextBoxFor(x => x.fax, new { @class = "form-control mustfiled",  @maxlength = "12", type = "tel" })
+                                @Html.ValidationMessageFor(m => m.fax, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Email ID :</label>
+                                @Html.TextBoxFor(x => x.emaiL_ID, new { @class = "form-control mustfiled", type = "email" })
+                                @*@Html.ValidationMessageFor(m => m.emaiL_ID, "", new { @class = "error" })*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" onclick="location.href='@Url.Action("Unit","Unit")'" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+

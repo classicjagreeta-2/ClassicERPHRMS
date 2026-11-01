@@ -1,0 +1,246 @@
+﻿
+@model HRMS.Models.Master.M_MONTH
+@using System.Globalization;
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal-dialog modal-lg" role="document">
+    @using (Html.BeginForm("AddOrUpdate", "M_Month", FormMethod.Post, new { id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Month Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+
+                        @if (Model.id == 0)
+                        {
+                            var unitCount = ViewBag.Unit;
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit :</label>
+                                    @if (unitCount.Count > 1)
+                                    {
+                                        @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..",
+                                                                            new { @class = "form-control", @required = "required", @id = "unit" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"),
+                                                                            new { @class = "form-control", @required = "required", @id = "unit" })
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit :</label>
+                                    @Html.TextBoxFor(x => x.unit, new { @class = "form-control", @id = "unit", @readonly = true })
+                                </div>
+                                @Html.HiddenFor(x => x.unit)
+                            </div>
+                        }
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Month Code :</label>
+                                    @*@Html.TextBoxFor(x => x.PK_MONTHCODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "6" })*@
+                                    @Html.DropDownListFor(x => x.pK_MONTHCODE, new SelectList(ViewBag.MonthList, "Value", "Text"),
+                                    "SELECT..", new { @class = "form-control", @id = "MONTH_MODE", @required = "required", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+                                @Html.HiddenFor(x => x.unit)
+                                @Html.HiddenFor(x => x.pK_MONTHCODE)
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Month Code :</label>
+                                    @*@Html.TextBoxFor(x => x.PK_MONTHCODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "6" })*@
+                                    @Html.DropDownListFor(x => x.pK_MONTHCODE, new SelectList(ViewBag.MonthList, "Value", "Text"),
+                                    "SELECT..", new { @class = "form-control", @id = "MONTH_MODE", @required = "required" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+                            </div>
+                        }
+
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">From Date :</label>
+                                    @Html.TextBoxFor(x => x.froM_PERIOD, new { @class = "form-control", @id = "beginDate", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.froM_PERIOD)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">From Date :</label>
+                                    @Html.TextBoxFor(x => x.froM_PERIOD, new { @class = "form-control", @id = "beginDate", @type = "date" })
+                                </div>
+                            </div>
+
+                        }
+
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">To Date :</label>
+                                    @Html.TextBoxFor(x => x.tO_PERIOD, new { @class = "form-control", @id = "endDate", @disabled = "disabled", @type = "date" })
+                                </div>
+                                @Html.HiddenFor(x => x.tO_PERIOD)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">To Date :</label>
+                                    @Html.TextBoxFor(x => x.tO_PERIOD, new { @class = "form-control", @id = "endDate", @type = "date" })
+                                </div>
+                            </div>
+                        }
+
+
+
+
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Number Of Days :</label>
+                                    @*@Html.TextBoxFor(x => x.NUM_DAYS, new { @class = "form-control", @id = "txtnumDays", @disabled = "disabled" })*@
+                                    @Html.EditorFor(x => x.nuM_DAYS, new { htmlAttributes = new { @class = "form-control", @id = "txtnumDays", @readonly = true, @value = Model.nuM_DAYS } })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Number Of Days :</label>
+                                    @*@Html.TextBoxFor(x => x.NUM_DAYS, new { @class = "form-control", @id = "txtnumDays" })*@
+                                    @Html.EditorFor(x => x.nuM_DAYS, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @id = "txtnumDays" } })
+                                </div>
+                            </div>
+                        }
+
+
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Weekly Off :</label>
+                                @Html.TextBoxFor(x => x.weeK_OFF, new { @class = "form-control", @id = "weekoff" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Paid Holidays :</label>
+                                @Html.TextBoxFor(x => x.paiD_HOLIDAY, new { @class = "form-control", @id = "paidholidy" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div id="divMsg" class="text-danger"> </div>
+            <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("M_Month","M_Month")'" id="btnclose" data-dismiss="modal">Close</a>
+            <button name="submit" type="submit" id="nextButton1" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+        </div>
+    }
+
+</div>
+
+@*<script src="~/libraries/assets/js/jquery3_3_1.min.js"></script>*@
+@*<script src="~/libraries/js/jsmomentDate.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var pholidy = $("#paidholidy").val();
+        /* var ph = Convert.ToInt32(pholidy);*/
+
+        var decimalValue = parseFloat($("#paidholidy").text());
+        var intValue = parseInt(decimalValue);
+
+        $("#paidholidy").text(intValue);
+        var w_off = $("#weekoff").val();
+        var decimal = parseFloat($("#weekoff").text());
+        var intVal = parseInt(decimal);
+        $("#weekoff").text(intVal);
+    });
+
+    $("#MONTH_MODE").change(function () {
+        debugger;
+        var weekday = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+        /*var IdYear = $("#IdYear").val();*/
+        var IdYear ='@ViewBag.Year';
+        var IdMon = $(this).val();
+        var IdMonth = IdMon.slice(4, 6);
+        /* var IdOfday1 = $("#IdWeek").val();*/
+        /*var IdOfday2 = $("#IdWekk").val();*/
+        var IdOfday1 = '@ViewBag.OFD';
+        var IdOfday2 = '@ViewBag.OFD2';
+        var weekendDays = 0;
+        var daysInMonth = new Date(IdYear, IdMonth, 0).getDate();
+        for (var day = 1; day <= daysInMonth; day++) {
+            var date = new Date(IdYear, IdMonth - 1, day);
+            var dayOfWeek = weekday[date.getDay()]; // 0 for Sunday, 1 for Monday, ...
+
+            if (dayOfWeek.toLocaleUpperCase() == IdOfday1.toLocaleUpperCase() || dayOfWeek.toLocaleUpperCase() == IdOfday2.toLocaleUpperCase()) {
+                weekendDays++;
+            }
+        }
+        var current_month = IdMonth + " " + IdYear;
+        var arrMonth = current_month.split(" ");
+        var first_day = new Date(arrMonth[0] + " 1 " + arrMonth[1]);
+
+        //even though I already have the values, I'm using date functions to get year and month
+        //because month is zero-based
+        var last_day = new Date(first_day.getFullYear(), first_day.getMonth() + 1, 0, 23, 59, 59);
+
+        //use moment,js to format
+        var start = moment(first_day).format("YYYY-MM-DD");
+        var end = moment(last_day).format("YYYY-MM-DD");
+
+        $("#beginDate").val(start);
+        $("#endDate").val(end);
+        var TDays = last_day.getDate();
+        $("#txtnumDays").val(TDays);
+       /* $('#weekoff').val(weekendDays);*/
+
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+

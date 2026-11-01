@@ -1,0 +1,29 @@
+﻿
+<div class="spinner">
+    <div class="center-div">
+        <div class="inner-div">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ajaxSend(function (event, xhr, options) {
+
+        $('.spinner').css('display', 'block');
+
+    }).ajaxComplete(function (event, xhr, options) {
+
+        $('.spinner').css('display', 'none');
+
+    }).ajaxError(function (event, jqxhr, settings, exception) {
+
+        $('.spinner').css('display', 'none');
+
+    });
+
+    $(window).on('load', function () {
+        $('.spinner').css('display', 'none');
+    });
+</script>

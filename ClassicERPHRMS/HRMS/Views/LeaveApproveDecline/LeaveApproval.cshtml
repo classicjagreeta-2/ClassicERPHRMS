@@ -1,0 +1,311 @@
+﻿
+@model PagedList.StaticPagedList<HRMS.Models.TRN.T_LEAVE_APPLICATION>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "LeaveApproval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+
+
+
+    <style type="text/css">
+        /* Chart.js */
+        /*  -webkit-keyframes chartjs-render-animation {
+            from
+
+        {
+            opacity: 0.99
+        }
+
+        to {
+            opacity: 1
+        }
+
+        }*/
+
+        /*   keyframes chartjs-render-animation {
+            from
+
+        {
+            opacity: 0.99
+        }*/
+
+        to {
+            opacity: 1
+        }
+
+
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+
+        .select2-container .select2-selection {
+            height: 80px;
+            overflow: scroll;
+        }
+
+        .select2-results__group {
+            cursor: pointer !important;
+        }
+
+        .select3-container .select3-selection {
+            height: 80px;
+            overflow: scroll;
+        }
+
+        .select3-results__group {
+            cursor: pointer !important;
+        }
+    </style>
+
+</head>
+
+<div class="card-header pull-right">
+    <div class="form-group row col-sm-12">
+
+        <div class="col-sm-6">
+            @*<input type="text" id="unitlist" name="unitlist" />*@
+            <label for="unit">Unit:</label>
+
+            <select multiple id='select-unit' data-placeholder="Please choose unit" data-allow-clear="true" data-close-on-select="false">
+                <optgroup label="select all">
+
+                    <option> </option>
+
+
+                </optgroup>
+            </select>
+
+            <input type="hidden" id="myTextBox" value="This is a text box">
+
+        </div>
+        <div class="col-sm-6">
+            <label for="Employee">Employee:</label>
+            <select multiple id='select-employee' data-placeholder="Please choose Employee" data-allow-clear="true" data-close-on-select="false">
+                <optgroup id="SELECTALL" label="select all">
+
+                    <option></option>
+
+                </optgroup>
+            </select>
+            <input type="hidden" id="hiddenemployee" value="This is a text box">
+        </div>
+
+        <button id="click">Search</button>
+
+    </div>
+
+
+</div>
+
+<div class="card">
+    <div class="card-block">
+        <section class="component-section" id="employee">
+            <table class="table pmd-table table-hover pmd-table-card">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Leave Type</th>
+                        <th>Half Day</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Reason</th>
+                        <th>No of Leave</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td data-title="Employee">@item.EmpName</td>
+                                <td data-title="Leave Type">Earned Leave</td>
+                                <td data-title="Half Day"> @(item.NO_OF_DAYS == 0.5m ? "Yes" : "No")</td>
+                                <td data-title="Start Date"> @Html.Raw(FormatDate(item.FROM_DATE))</td>
+                                <td data-title="End Date"> @Html.Raw(FormatDate(item.TO_DATE))</td>
+                                <td data-title="Reason">@item.Reason</td>
+                                <td data-title="No of Leave">@item.NO_OF_DAYS</td>
+                                <td data-title="Status">
+                                    @(item.APPROVED == "P" ? "Pending" : item.APPROVED == "A" ? "Approved" : item.APPROVED == "R" ? "Rejected":"unknown")
+                                </td>
+                                @if (item.APPROVED == "P")
+                                {
+                                    <td data-title="">
+                                        @*<form action="/LeaveApproveDecline/LeaveApproval" method="post">*@
+                                        @using (Html.BeginForm("LeaveApproval", "LeaveApproveDecline", FormMethod.Post))
+                                        {
+                                            <input type="hidden" name="Name" value="@item.FK_EMPCODE" />
+                                            <input type="hidden" name="startDate" value="@item.FROM_DATE.ToString("yyyy-MM-dd")" />
+                                            <input type="hidden" name="endDate" value="@item.TO_DATE.ToString("yyyy-MM-dd")" />
+                                            <button type="submit" name="Status" value="A" class="btn btn-success">Approve</button>
+                                            <button type="submit" name="Status" value="R" class="btn btn-danger">Reject</button>
+                                            @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>*@
+                                            @*</form>*@
+                                        }
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td data-title="">
+                                        <button type="button" name="Status" value="A" disabled class="btn btn-secondary">Approve</button>
+                                        <button type="button" name="Status" value="R" disabled class="btn btn-secondary">Reject</button>
+                                        @*<button type="button" class="btn btn-secondary" disabled data-dismiss="modal">Cancel</button>*@
+                                    </td>
+                                }
+                            </tr>
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+@functions {
+    public string FormatDate(DateTime date)
+    {
+        string dayWithSuffix = AddOrdinalSuffix(date.Day);
+        return dayWithSuffix + " " + date.ToString("MMMM, yyyy");
+    }
+
+    private string AddOrdinalSuffix(int day)
+    {
+        if (day % 100 / 10 == 1)
+            return day + "th";
+        switch (day % 10)
+        {
+            case 1: return day + "st";
+            case 2: return day + "nd";
+            case 3: return day + "rd";
+            default: return day + "th";
+        }
+    }
+}
+
+
+
+
+
+
+
+<script>
+
+    $('#select-unit').change(function () {
+        debugger
+       var x = $(this).val();
+        $('#myTextBox').val(x);
+
+    });
+
+    $('#select-employee').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#hiddenemployee').val(x);
+
+    });
+
+    debugger
+    $('#select-employee').select2({
+
+           ajax: {
+       url:  "@Url.Action("GetEmployee", "LeaveApproveDecline")",
+       data: function (params) {
+           var query ={
+               searchString: params.term,
+               page: params.page || 1,
+               pageSize: 25,
+               UNIT: $('#myTextBox').val(),
+           }
+           return query;
+
+       },
+            processResults: function (res, params) {
+                debugger;
+                var list = res.Data.value.results; // The data returned from the API
+
+
+
+           // Map the data into the Select2 expected format
+           return {
+               results: $.map(list, function (x) {
+                   return {
+                       text: x.pK_EMPCODE + "-" + x.fname, // The text to display in the dropdown
+                       id: x.pK_EMPCODE
+                   };
+               }),
+               pagination: {
+                   more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+               }
+           };
+       },
+
+       cache: true
+      }
+    });
+
+
+
+    $('#select-unit').select2({
+
+        ajax: {
+    url:  "@Url.Action("GetUnitDropdown", "LeaveApproveDecline")",
+    data: function (params) {
+        var query ={
+            searchString: params.term,
+            page: params.page || 1,
+            pageSize: 5,
+           /* UNIT: $("#select-unit").val(),*/
+        }
+        return query;
+
+    },
+    processResults: function (res, params) {
+
+        var list = res.Data.value.results; // The data returned from the API
+
+
+        // Map the data into the Select2 expected format
+        return {
+            results: $.map(list, function (x) {
+                return {
+                    text: x.code + "-" + x.name, // The text to display in the dropdown
+                    id: x.code // The value to store for the option
+                };
+            }),
+            pagination: {
+                more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+            }
+        };
+    },
+
+    cache: true
+   }
+    });
+
+
+    $("#click").click(function () {
+            debugger;
+        var selectUNIT = $('#myTextBox').val();
+        var selectemployee = $('#hiddenemployee').val();
+
+
+
+        window.location.href = "@Url.Action("LeaveApproval", "LeaveApproveDecline")?Employee=" + selectemployee  + "&UNIT=" + selectUNIT;
+
+
+        });
+
+</script>
+
+
+
+

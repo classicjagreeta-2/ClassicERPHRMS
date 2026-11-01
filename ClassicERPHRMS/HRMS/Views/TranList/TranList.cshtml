@@ -1,0 +1,228 @@
+﻿@model IEnumerable<WEB_VIEWMODEL17.TD_Model.SP_PI_LIST_Result>
+@using WEB_PRO17.Common
+@{
+    /**/
+
+    ViewBag.Title = @ViewBag.PageName;
+}
+
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/data-table/css/buttons.dataTables.min.css">
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/TableRowDesign.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.css">
+<script src="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>
+
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <div class="label-main">
+            @*<label class="label label-inverse-noLine"><h4>PROVISIONAL LIST</h4></label>*@
+        </div>
+        @*<button id="IdaddNewRecord" type="button" class="btn btn-grd-info  btn-md float-right" data-toggle="modal" data-target="#IdModal">Add New</button>*@
+
+        <a href=@Url.Action("FormType","FormType", new {MenuId =ViewBag.MenuId }) class="btn btn-danger text-right" style="text-align:right">
+            <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Add New
+        </a>
+        <div class="text-center"> <h4>@ViewBag.PageName</h4></div>
+
+        
+       
+    </div>
+
+    <div class="card-block">
+
+        <div class="dt-responsive table-responsive">
+            <table id="ajax-table" class="table table-striped table-bordered nowrap" style="width:100%">
+
+                <thead class="classHaeder">
+                    
+                <tr>
+                    <th> </th>
+                    <th>SL</th>
+                    <th>Order Type</th>
+                    <th>Status</th>
+
+
+                    <th> @ViewBag.HeaderName  </th>
+                    <th>@ViewBag.HeaderDate</th>
+
+
+
+                    <th>Party Order No</th>
+                    <th>Party Order Date</th>
+                    <th>Customer Account</th>
+                    <th>Customer Name</th>
+                    <th>Customer Bank Details</th>
+                    <th>Discharge Port</th>
+                    <th>Discharge Port Country</th>
+                    <th>Loading Port</th>
+                    <th>Loading Port Country</th>
+                    <th>Handled By FCO</th>
+                    <th>Packing Mode</th>
+                    <th>Packing Description</th>
+                    <th>Marking</th>
+                    <th>Tender No</th>
+                    <th>Tender Date</th>
+                    <th>Bid No</th>
+                    <th>Bid Date</th>
+                    <th>EMD Mode of Payment</th>
+                    <th>EMD Amount</th>
+                    <th>SD Mode of Payment</th>
+                    <th>SD Amount</th>
+                    <th>Customer Ship To</th>
+                    <th>Surveyor Loading Port</th>
+                    <th>Surveyor Discharge Port</th>
+                    <th>Commision Agent Name</th>
+                    <th>Commision Basis</th>
+                    <th>Commision Rate</th>
+                    <th>Assign-Sales Team Member</th>
+                    <th>Assign-Purchase Team Member</th>
+                    <th>Authority Name</th>
+
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <link rel="stylesheet" href="~/t2/css/fixedColumns.dataTables.min.css" />
+
+
+    <script src="~/libraries/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/jszip.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/vfs_fonts.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/libraries/js/jsmomentDate.js"></script>
+    <script>
+        var dataTable;
+        $(document).ready(function () {
+            $("#mobile-collapse").click();
+            var i = 1;
+            dataTable = $("#ajax-table").DataTable({
+               //scrollY: '320px',
+               // scrollX: true,
+             //  order: [], //Initial no order.
+
+                 dom: 'lBfrtip',
+                //columnDefs: [
+                //    { width: '200px' }
+                //],
+                lengthMenu: [
+                    [50, 100, 500, -1],
+                    ['50', '100', '500', 'Show all']
+                ],
+                ajax: {
+                    url: "../TranList/TranListData",
+                    type: "POST"
+                },
+                columns: [
+                    { data: "ID", "render": function (data) {
+
+
+                            //return "<a class='btn btn-sm btn-info' data-toggle='modal' data-target='#IdModal' onclick=PopupForm('" + data + "')><i class='icofont icofont-eye-alt'></i></a> <a class='btn btn-sm btn-danger'  onclick=Delete('" + data + "')><i class='icofont icofont-delete-alt'></i></a>";
+
+                        return '<a href="@Url.Action("Entry", "Entry", new {FormMode = "EDIT", MenuId =Encryption.Encrypt(ViewBag.MenuIdForm) })&Id=' + data +'" class="btn btn-sm btn-info"><i class="icofont icofont-ui-edit"></i></a>';
+
+
+                        },
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return i++;
+                        }
+                    },
+                    { data: "ORDER_TYPE" },
+                    { data: "TRAN_STATUS" },
+                    { data: "DOCNO" },
+                    { data: "DOCDT", "render": function (data) { return parseDate(data) } },
+                    { data: "ORDER_NO" },
+                    { data: "ORDER_DT" , "render": function (data) { return parseDate(data) } },
+                    { data: "FK_PCD" },
+                    { data: "CUSTOMER" },
+                    { data: "CUSTOMER_BANK" },
+                    { data: "DISCHG_PORT" },
+                    { data: "DISCHARGE_PORT_COUNTRY" },
+                    { data: "LOAD_PORT" },
+                    { data: "LOAD_PORT_COUNTRY" },
+                    { data: "HANDLED_BY" },
+                    { data: "PACKING_MODE" },
+                    { data: "PACKING" },
+                    { data: "MARKING" },
+                    { data: "TENDER_NO" },
+                    { data: "TENDER_DT" , "render": function (data) { return parseDate(data) } },
+                    { data: "BIDD_NO" },
+                    { data: "BIDD_DATE"  , "render": function (data) { return parseDate(data) } },
+                    { data: "EARNEST_PAY_MODE" },
+                    { data: "EARNEST_MONEY" },
+                    { data: "SECURITY_PAY_MODE" },
+                    { data: "SECURITY_AMOUNT" },
+                    { data: "CUSTOMER_SHIP_TO" },
+                    { data: "LOADING_SURVEYOR" },
+                    { data: "DISCHARGE_SURVEYOR" },
+                    { data: "COMMISION_AGENT" },
+                    { data: "COMMISSION_BASIS" },
+                    { data: "COMMISSION_RATE" },
+                    { data: "ASSOCIATE_SO" },
+                    { data: "ASSOCIATE_PO" },
+                    { data: "AUTHORITY" }
+
+                ],
+
+
+                buttons: [{
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                },
+                    // {
+                    //    extend: 'colvis',
+                    //    postfixButtons: ['colvisRestore'],
+                    //}
+                ],
+
+
+            });
+
+            function parseDate(data) {
+                if (data != null)
+                    return moment(data).format('DD/MM/YYYY');
+                return null;
+}
+        });
+    </script>
+}

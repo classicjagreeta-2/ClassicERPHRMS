@@ -1,0 +1,93 @@
+﻿
+@model HRMS.Models.Master.M_SUB_DEPT
+
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="modal-dialog modal-lg" role="document">
+    @using (Ajax.BeginForm("AddOrUpdate", "SubDepartment", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sub Department Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Sub Department Code :</label>
+                                    @Html.TextBoxFor(x => x.pK_SUB_DEPT, new { @class = "form-control mustfiled", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+                                @Html.HiddenFor(x => x.pK_SUB_DEPT)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Sub Department Code :</label>
+                                    @Html.TextBoxFor(x => x.pK_SUB_DEPT, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4" , @style = "text-transform:uppercase" })
+                                </div>
+
+                            </div>
+                        }
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Sub Department Description :</label>
+                                @Html.TextBoxFor(x => x.suB_DEPT_DESCN, new { @class = "form-control mustfiled", @required = "required", @maxlength = "20" })
+                            </div>
+                        </div>
+
+                        @if (Model != null)
+                        {
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Link with Department Code And Description :</label>
+                                    @Html.DropDownListFor(x => x.fK_DEPT_CODE, new SelectList(ViewBag.Dept, "Value", "Text"), "SELECT..",
+                                 new { @class = "js-example-disabled-results col-sm-12", @id = "unt" })
+                                </div>
+                                @Html.HiddenFor(x => x.fK_DEPT_CODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Link with Department Code And Description :</label>
+                                    @Html.DropDownListFor(x => x.fK_DEPT_CODE, new SelectList(ViewBag.Dept, "Value", "Text"), "SELECT..",
+                                 new { @class = "js-example-disabled-results col-sm-12", @required = "required", @id = "unt" })
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+

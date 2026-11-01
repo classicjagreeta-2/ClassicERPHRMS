@@ -1,0 +1,592 @@
+﻿
+
+@using HRMS.Models.Master
+@using HRMS.Models.TRN
+@model HRMS.Models.TRN.T_DAILY_ATTEND
+
+@using System.Globalization;
+
+
+<head>
+    <title> SELECT EMPLOYEEList</title>
+    <link href="~/src/selectstyle.css" rel="stylesheet">
+    <link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+    <!-- feather Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+    <!-- Select 2 css -->
+    <link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+    <!-- jpro forms css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/j-pro-modern.css">
+
+    <!-- Switch component css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/switchery/css/switchery.min.css">
+
+    <!-- Tags css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css">
+    <script src="~/JsProject/TD_Loder.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/data-table/css/buttons.dataTables.min.css">
+    <link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+    <link href="~/libraries/TableRowDesign.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="extensions/fixed-columns/bootstrap-table-fixed-columns.css">
+    <script src="extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>
+
+    @*<link rel="stylesheet" href="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.css">
+        <script src="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>*@
+    <link href="~/libraries/assets/css/CheckBoxStyle.css" rel="stylesheet" />
+
+    <style>
+        .modal-backdrop {
+            opacity: 0.5 !important;
+        }
+
+        .dataTables_length {
+            margin: 0px 0px -45px 6px;
+        }
+
+        div.dt-buttons {
+            margin: 0px 0px 0px 188px;
+        }
+
+
+        .select2-container .select2-selection--single {
+            height: 34px;
+        }
+    </style>
+    <style>
+        .select2-container--default .select2-selection--single {
+            color: #fff;
+            height: 41px;
+        }
+
+        .j-wrapperForm {
+            margin: 0 auto;
+            outline: none;
+            padding: 40px 15px;
+            /*-webkit-box-sizing: content-box;*/
+            -moz-box-sizing: content-box;
+            /*box-sizing: content-box;*/
+        }
+
+        input[type="checkbox"] {
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.15em;
+            transform: translateY(-0.075em);
+            border: 2px solid #01a9ac;
+        }
+
+        .shade {
+            -webkit-box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+            box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+        }
+    </style>
+</head>
+<div class="modal fade" id="AddEmp" role="dialog" data-backdrop="static" data-keyboard="false">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;">
+                    Erorr In Edit
+                </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;"> </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Emp != null)
+{
+    <div class="page-body">
+        <div class="col-sm-12">
+            <!-- Login card start -->
+            <div class="card">
+                @*@using (Html.BeginForm("StoreOrEdit", "Attendance", FormMethod.Post))
+                    {*@
+                @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+                {
+                    <div class="card-block" id="divcontainer">
+
+                        <div class="j-wrapperForm j-wrapper-640">
+                            @Html.HiddenFor(x => x.FK_MONTHCODE)
+                            <!-- end /.header -->
+                            <div class="j-content">
+                                <!-- start login -->
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="exampleInputName1">Employee List</label>
+                                    @{
+                                        var empList = ViewBag.Emp as List<M_EMPMAS>; // Assuming ViewBag.Emp is of type List<Employee>
+                                        var empSelectList = empList.Select(item => new SelectListItem { Text = item.pK_EMPCODE + "-" + item.fname + " " + item.lname, Value = item.pK_EMPCODE.ToString() }).ToList();
+                                        //var empSelectListId = empList.Select(item => new SelectListItem { Text = item.ID.ToString(), Value = item.PK_EMPCODE.ToString() }).ToList();
+                                        empSelectList.Insert(0, new SelectListItem { Text = "Select Option", Value = "" });
+                                    }
+                                    @Html.DropDownListFor(x => x.FK_EMPCODE, empSelectList, new { @class = "js-example-responsive col-sm-12", @id = "empName", @required = "required" })
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <div id="divMsg" class="text-danger"> </div>
+                                @*<button type="button"  href="/CommonDashBoard/CommonDashBoard"  class="btn btn-default waves-effect" aria-hidden="true"><i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close</button>*@
+                                <a href="/CommonDashBoard/CommonDashBoard" class="btn btn-default btn-info">
+                                    <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+                                </a>
+                                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right" disabled><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Login card end -->
+                }
+            </div>
+        </div>
+    </div>
+
+}
+@section scripts{
+    <script src="~/libraries/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/jszip.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/vfs_fonts.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script src="~/JsProject/commanJs.js"></script>
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <link href="~/libraries/js/loader/easy-loading.css" rel="stylesheet" />
+
+    <script src="~/libraries/Loader/waiting/bootstrap-waitingfor.js"></script>
+
+
+    <script src="~/libraries/assets/js/select2.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+
+
+
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Editable-table js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/edit-table/jquery.tabledit.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/pages/edit-table/editable.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/pages/ace-editor/ace-editor-custom.js"></script>
+
+    <!-- Select 2 js -->
+    <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/sweetalert/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modal.js"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+
+    <!-- Accordion js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/accordion/accordion.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>
+
+    <script src="~/JsProject/TD_Loder.js"></script>
+    <script src="~/libraries/js/jsmomentDate.js"></script>
+
+    <script src="~/libraries/Multi-column-Dropdown-Plugin-jQuery-Inputpicker/jquery.inputpicker.js"></script>
+    <link href="~/libraries/Multi-column-Dropdown-Plugin-jQuery-Inputpicker/jquery.inputpicker.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            datatable();
+        })
+        function datatable() {
+            $(function () {
+                table = $("#ajax-table").DataTable({
+                    scrollY: '320px',
+                    scrollX: true,
+                    "processing": true, // for show progress bar,
+                    retrieve: true,
+                    "language": {
+                        'processing': '<i class="icofont icofont-spinner-alt-2 icofont-3x"></i>'
+                    },
+
+                    lengthMenu: [
+                        [50, 100, 500, -1],
+                        ['50', '100', '500', 'Show all']
+                    ],
+                    dom: 'lBfrtip',
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                        }
+                    ],
+                });
+            });
+        }
+        function PopupForm(Id) {
+            var data = { Id: Id };
+            var returnUrl = '@Url.Action("EmployeesList", "Attendance")'
+        debugger
+            $.ajax({
+                type: "GET",
+               
+                url: returnUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    $("#AddEmp").empty().append(data);
+                    waitingDialog.hide();
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $('.btnClose').click();
+                    $.notify("Error In Edit", {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        }
+        $("#IdaddNewRecord").click(function () {
+            debugger
+            var Id = $(this).data('id');
+            var data = { monthcode: Id };
+            //var x = httpGetWithObj("/MastEmp/AddEditModel", data);
+            //$("#IdModal").empty().append(x.data);
+            var directUrl = '@Url.Action("EmployeesList", "Attendance")';
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: directUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    debugger;
+                    $("#AddEmp").empty().append(data);
+                },
+                error: function (errorjqXHR, exception) {
+                    $("#divMsg").empty();
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        });
+        function SubmitForm(form) {
+
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $("#divMsg").empty().append("Please Wait......");
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    async: false,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        $("#divMsg").empty();
+                        if (data.success) {
+
+                            $('#AddEmp').modal('toggle');
+
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                        else {
+                            $("#IdDivMsg").empty().append(data.message);
+                            $("#IdDivDeatils").empty().append(data.details);
+                            // $("#divMsg").empty().append(data.details);
+                            $("#myModal2").modal('show');
+                        }
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+            }
+            return false;
+        }
+        function Delete(id) {
+            $.confirm({
+                title: "Confirmation required",
+                content: "Are you sure you want to delete?",
+                buttons: {
+                    YES: function () {
+
+                        DeleteRecord(id);
+                    },
+                    NO: function () {
+
+                    },
+                }
+            });
+        }
+
+        function DeleteRecord(id) {
+            var redirectUrl = '@Url.Action("Delete", "TD_OtherMaster")';
+            $.ajax({
+
+                type: "POST",
+                url: redirectUrl,
+                data: { Id: id },
+                success: function (data) {
+
+                    if (data.success) {
+
+                        dataTable.ajax.reload();
+
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                    }
+                    else {
+                        $("#IdDivMsg").empty().append(data.message);
+                        $("#IdDivDeatils").empty().append(data.details);
+                        // $("#divMsg").empty().append(data.details);
+                        $("#myModal2").modal('show');
+                    }
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            debugger
+            $("#empName").change(function () {
+                debugger
+                var empCode = $(this).val();
+                var directUrl = '@Url.Action("GetEmpDetails", "Attendance")';
+                if (empCode != null && empCode !="") {
+                    $.ajax({
+                        url: directUrl,
+                        type: "POST",
+                        data: { empCode: empCode },
+                        success: function (response) {
+                            debugger;
+                            if (response != "[]") {
+                                
+                                $("#btnSubmit").prop("disabled", false);
+                                
+                            }
+                            else {
+
+                                alert("Sorry, the selected employee does not appear in Link Master.Please add Employee to the Link Details first.");
+                                $("#btnSubmit").prop("disabled", true); 
+                               /* $("#empName").val('').trigger("change");*/
+
+                            }
+
+
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                }
+
+            });
+
+        });
+    </script>
+    <script>
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+            var IstoVlidate = 'form';
+            debugger;
+            if ($(IstoVlidate).smkValidate()) {
+                debugger;
+                var dataString = new FormData($("#myForm").get(0));
+                var directUrl = '@Url.Action("AddEditEmployeeDailyAttendance", "Attendance")';
+                blockUIStart();
+                // "StoreOrEdit", "Master_Customer"
+                $.ajax({
+
+                    url: directUrl,
+                    data: dataString,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        OnSuccess(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        debugger;
+                        OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        });
+        function OnFailure() {
+            $.unblockUI();
+        }
+        function OnBegin() {
+            blockUIStart();
+        }
+
+        function OnSuccess(result) {
+
+            $.unblockUI();
+            if (result.success == false) {
+                debugger;
+                msgError(result.details);
+                //$.notify(result.message, {
+                //    globalPosition: "top center",
+                //    className: "Errror"
+                //})
+
+            } else {
+                //msgSuccess(result.message);
+                $('form').smkClear();
+                $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+
+                $.confirm({
+
+                    title: 'Confirmation !!',
+                    type: 'green',
+                    content: result.message,
+                    typeAnimated: true,
+                    icon: 'icon-smiley',
+                    buttons: {
+
+                        Okay: function () {
+                            debugger
+                            $("#btnclose").click();
+                             window.location.href = "/Attendance/DailyAttend?mcode=@ViewBag.MCode";
+                             @*window.location.href = "~/Attendance/DailyAttend?mcode=@ViewBag.MCode";*@
+                            @*location.reload = "/Attendance/DailyAttend?mcode=@ViewBag.MCode";*@
+                            @*window.location.href = "/Attendance/DailyAttend?mcode=@ViewBag.MCode";*@
+                            @*window.location.href = "/Attendance/AddEmployeeEntry?monthcode=@ViewBag.MCode";*@
+                           /* window.location.href = window.location.href;*/
+
+
+
+
+                        },
+                        //cancel: function () {
+
+                        //}
+                    }
+
+                });
+                //  debugger;
+                // $("#ddlaccounthead").empty().trigger('change')
+                // $("#ddlaccounthead option:selected").prop("selected", false);
+                // $("#ddlaccounthead").selectpicker("refresh");
+                //$.notify(result.message, {
+                //    globalPosition: "top center",
+                //    className: "success"
+                //})
+            }
+        }
+
+        function OnFailure(result) {
+            $.unblockUI();
+        }
+    </script>
+
+}

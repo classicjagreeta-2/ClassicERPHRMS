@@ -1,0 +1,177 @@
+﻿@using WEB_PRO17.Common
+
+
+
+
+<head>
+    
+
+    <link href="~/src/selectstyle.css" rel="stylesheet">
+    <link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+    <!-- feather Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+    <!-- Select 2 css -->
+    <link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+    <!-- jpro forms css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/j-pro-modern.css">
+
+    <!-- Switch component css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/switchery/css/switchery.min.css">
+
+    <!-- Tags css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css">
+
+    <style>
+        .select2-container--default .select2-selection--single {
+            color: #fff;
+            height: 41px;
+        }
+
+        .j-wrapperForm {
+            margin: 0 auto;
+            outline: none;
+            padding: 40px 15px;
+            /*-webkit-box-sizing: content-box;*/
+            -moz-box-sizing: content-box;
+            /*box-sizing: content-box;*/
+        }
+
+        input[type="checkbox"] {
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.15em;
+            transform: translateY(-0.075em);
+            border: 2px solid #01a9ac;
+        }
+
+        .shade {
+            -webkit-box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+            box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+        }
+    </style>
+</head>
+@{ 
+    var IdController = "";
+}
+<div class="page-body">
+
+
+
+    <div class="col-sm-12">
+
+        <!-- Login card start -->
+        <div class="card">
+
+            <div class="card-block">
+                <div class="j-wrapperForm j-wrapper-640">
+
+                    <!-- end /.header -->
+                    <div class="j-content">
+                        <!-- start login -->
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+
+
+                                <div class="col-md-6">
+                                    <div class="card order-card social-card bg-c-green cardglow shade">
+                                        <div class="card-block">
+                                            <p class="m-b-0">  <i class="feather icon-arrow-down m-l-10"></i></p>
+                                            <i class="card-icon feather icon-menu"></i>
+                                            <div class="row align-items-center">
+
+                                                <div class="col">
+                                                    <h3 class="uppercase"> @item.TEXT</h3>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <input type="hidden" id="IdController" />
+                                        <input type="hidden" id="IdActionMethod" />
+
+                                        <a href="@Url.Action("Entry","Entry",new {code =Encryption.Encrypt(item.TEXT),MenuId=ViewBag.MenuId})" class="download-icon"><i class="feather icon-arrow-down"></i></a>
+                                        <div class="card-footer bg-c-blue">
+                                            <h6 class="text-white m-b-0">@item.VALUE</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+                            @if (Encryption.Decrypt(ViewBag.MenuId) == "S")
+                            {
+                                <div class="col-md-12">
+                                    <div class="card order-card social-card bg-c-green cardglow shade">
+                                        <div class="card-block">
+                                            <p class="m-b-0">  <i class="feather icon-arrow-down m-l-10"></i></p>
+                                            <i class="card-icon feather icon-menu"></i>
+                                            <div class="row align-items-center">
+
+                                                <div class="col">
+                                                    <h3 class="uppercase"> PROVISIONAL ORDER</h3>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <input type="hidden" id="IdController" />
+                                        <input type="hidden" id="IdActionMethod" />
+
+                                        <a href="@Url.Action("TD_ProvisionSelection","TD_ProvisionSelection",new {code =Encryption.Encrypt("D"),MenuId=ViewBag.MenuId})" class="download-icon"><i class="feather icon-arrow-down"></i></a>
+                                        <div class="card-footer bg-c-blue">
+                                            <h6 class="text-white m-b-0">HAVING PROVISIONAL ORDER</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- Login card end -->
+        </div>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous">
+</script>
+<script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+
+<script>
+    $('#takenBefore').change(function () {
+        alert('Checkbox checked!');
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,317 @@
+﻿@model WEB_VIEWMODEL17.Model_BH21_ADDONFILEDS
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/src/selectstyle.css" rel="stylesheet">
+<link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+<!-- Google font-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+<!-- themify-icons line icon -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+<!-- feather Awesome -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+
+<style>
+    input[type="checkbox"] {
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.5em;
+        height: 1.5em;
+        border: 0.15em solid currentColor;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+        border: 2px solid #01a9ac;
+    }
+</style>
+
+
+<style>
+    .select2-container--default .select2-selection--single:focus {
+        outline: none !important;
+        border-color: #719ECE;
+        box-shadow: 0 0 10px #719ECE;
+    }
+
+    .table td, .table th {
+        padding: .15rem;
+    }
+</style>
+
+<div class="page-header">
+    <div class="row align-items-end">
+        <div class="col-lg-8">
+            <div class="page-header-title">
+                <div class="d-inline">
+                    <h4>Account Master</h4>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+@using (Ajax.BeginForm("", "", new AjaxOptions
+{
+    //OnSuccess = "OnSuccess",
+    //OnFailure = "OnFailure",
+    //LoadingElementId = "OnLoading",
+    //OnBegin = "OnBegin"
+}, new { @Id = "myForm" }))
+
+{
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <label class="control-label">Text</label>
+                    @*<input type="text" class="form-control" placeholder="Enter text" required>*@
+                    @Html.TextBoxFor(x=>x.BANK_NAME ,new { @class= "form-control",@required= "required" })
+                </div>
+
+                @*<div class="form-group">
+                        <label class="control-label">Disabled input (not validate)</label>
+                        <input type="text" class="form-control" disabled required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Select</label>
+                        <select class="form-control" required>
+                            <option value="">Select</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Email</label>
+                        <input type="email" class="form-control" placeholder="alfredobarronc@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Alphanumeric</label>
+                        <input type="text" class="form-control" data-smk-type="alphanumeric" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Number (type number)</label>
+                        <input type="number" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Number (not required)</label>
+                        <input type="text" class="form-control" data-smk-type="number">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Number (2015-2020)</label>
+                        <input type="text" class="form-control" data-smk-type="number" data-smk-min="2015" data-smk-max="2020" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Decimal</label>
+                        <input type="text" class="form-control" placeholder="10.00" data-smk-type="decimal" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Currency</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" class="form-control" placeholder="1,000.00" data-smk-type="currency" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Number Character (8)</label>
+                        <input type="text" class="form-control" minlength="8" maxlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Range Character (4-8)</label>
+                        <input type="text" class="form-control" minlength="4" maxlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" data-smk-strongPass="medium" id="pass1" required>
+                            <span class="input-group-addon">medium</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="pass2">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">URL</label>
+                        <input type="url" class="form-control" placeholder="http://alfredobarron.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Tel</label>
+                        <input type="tel" class="form-control" placeholder="0123456789" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Color</label>
+                        <input type="color" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Date</label>
+                        <input type="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Datetime</label>
+                        <input type="datetime" class="form-control" placeholder="1996-12-19T16:39:57-08:00" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Time</label>
+                        <input type="time" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Month</label>
+                        <input type="month" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Week</label>
+                        <input type="week" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Textarea</label>
+                        <textarea class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="check" value="1" required>
+                                Checkbox
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="rad" value="option1" required>
+                                Option 1
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="rad" value="option2" required>
+                                Option 2
+                            </label>
+                        </div>
+                    </div>*@
+                <button type="button" class="btn btn-default" id="btnClear">Clear</button>
+                <button type="submit" class="btn btn-default" id="btnSubmit">Submit</button>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@*<button id="btn" onclick="PopupForm();">Model</button>*@
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;"> </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+
+
+    <script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Select 2 js -->
+    <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/sweetalert/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modal.js"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+    <script src="~/JsProject/commanJs.js"></script>
+
+    <script>
+
+        $("#btnClear").click(function () {
+             msgSuccess('CL');
+            //msgError('NO');
+            $('form').smkClear();
+        })
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+            if ($('form').smkValidate()) {
+
+                var dataString = new FormData($("#myForm").get(0));
+                
+              
+                $.ajax({
+
+                    url: "../Blank/Tools",
+                    data: dataString,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                       
+                    }
+                });
+
+                 
+            }
+        });
+
+         
+    </script>
+}

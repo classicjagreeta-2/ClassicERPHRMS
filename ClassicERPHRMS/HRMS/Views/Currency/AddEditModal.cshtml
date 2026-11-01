@@ -1,0 +1,76 @@
+﻿@model HRMS.Models.Master.M_CURRENCY
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal-dialog modal-lg" role="document">
+    @using (Html.BeginForm("AddOrUpdate", "Currency", FormMethod.Post, new { id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.ID)
+        <div class="modal-content" style="width:70%">
+            <div class="modal-header">
+                <h4 class="modal-title">Currency Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model.ID != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Code :</label>
+                                    @Html.TextBoxFor(x => x.PK_CURR_CODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "3",@maxlength = "4", @disabled = "disabled", @id = "CODE" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.PK_CURR_CODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Code :</label>
+                                    @Html.TextBoxFor(x => x.PK_CURR_CODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "3",@maxlength = "4", @id = "CODE", @style = "text-transform:uppercase" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+
+                            </div>
+                        }
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="exampleInputName1"> Description :</label>
+                                @Html.TextBoxFor(x => x.DESCRIPTION, new { @class = "form-control mustfiled", @maxlength = "25", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1"> Symbol :</label>
+                                @Html.TextBoxFor(x => x.SYMBOL, new { @class = "form-control mustfiled", @maxlength = "1", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1"> International Format :</label>
+                                @Html.TextBoxFor(x => x.INTERNATIONAL_FMT, new { @class = "form-control mustfiled", @maxlength = "1", @required = "required" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("Currency","Currency")'" id="btnclose" data-dismiss="modal">Close</a>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+

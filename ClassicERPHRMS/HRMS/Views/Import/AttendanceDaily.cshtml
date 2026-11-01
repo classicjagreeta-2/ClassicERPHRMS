@@ -1,0 +1,94 @@
+﻿
+
+@model HRMS.Models.TRN.T_DAILY_ATTEND
+
+@{
+    ViewBag.Title = "AttendanceDailyImport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .top-buffer {
+        margin-top: 20px;
+    }
+</style>
+
+
+<div style="text-align:center "><b> Daily Attendance Upload</b></div>
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-block">
+                    @using (Html.BeginForm("AttendanceDaily", "Import", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row">
+                            <div>
+                                <label class="col-form-label">Date</label>
+                            </div>
+                            <div class="col-sm-2">
+                                @*<input type="date" class="form-control date2">*@
+                                @Html.EditorFor(x => x.EDATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required" } })
+                                @Html.ValidationMessage("Date", "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <label class="col-form-label">Unit</label>
+                            </div>
+                            <div class="col-sm-4">
+                                @Html.DropDownList("UNIT", new SelectList(ViewBag.Unit ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                            new { @class = "form-control js-example-data-array", @required = "required" })
+                                @Html.ValidationMessage("Unit", "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-sm-4">
+                                @Html.RadioButton("Option", "", new { @class = "form-check-input", @required = "required" })
+                                <label for="html">OptionI</label><br>
+                                @Html.RadioButton("Option", "", new { @class = "form-check-input", @required = "required" })
+                                <label for="html">OptionII</label><br>
+                                @Html.RadioButton("Option", "", new { @class = "form-check-input", @required = "required" })
+                                <label for="html">OptionIII</label><br>
+                                @Html.ValidationMessage("option", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row top-buffer ">
+                            <div class="col-sm-3">
+                                <input type="file" id="fileUpload" name="fileUpload" class="" accept=".xlsx, .xls, .csv" />
+                                @Html.ValidationMessage("fileUpload", "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-3">
+
+                                <button type="submit" class="btn btn-primary">Upload</button>
+
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary">Cancel</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="card">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12">
+                                <table id="dom-jqry" class="table table-striped table-bordered nowrap dataTable" style="width: 100%;" role="grid" aria-describedby="dom-jqry_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th width="1%"></th>
+                                            <th width="10%">Shift</th>
+                                            <th width="10%">Last Retrieval Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                @Html.Partial("_UploadTable")
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,189 @@
+﻿@model PagedList.StaticPagedList<HRMS.Models.Master.M_WEEKLY_OFF>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+
+    ViewBag.Title = "Weekly Off Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-body">
+    <div class="card">
+        <div class="card-header pull-right">
+            @using (Html.BeginForm("AddEditModal", "M_Weekly_Off", FormMethod.Post, new { style = "display:inline" }))
+            {
+                <button type="submit" class="btn btn-sm btn-info aLoader" data-toggle="modal">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+                </button>
+            }
+            <a href=@Url.Action("Index","Menu") class="btn btn-sm btn-info">
+                <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+            </a>
+            <div class="text-center" style="margin-top: -29px;"><h4>Weekly Off Master</h4></div>
+        </div>
+        <div class="card-block">
+            <div class="table-responsive dt-responsive">
+                <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="dom-jqry_length">
+                                @using (Html.BeginForm("M_Weekly_Off", "M_Weekly_Off", FormMethod.Get))
+                                {
+                                    <label>
+                                        Show
+                                        <select name="pageSize" id="pageSize" onchange="document.forms[0].submit();" aria-controls="dom-jqry" class="form-control input-sm" fdprocessedid="794bn7">
+                                            <option value=25>25</option>
+                                            <option value=50>50</option>
+                                            <option value=100>100</option>
+                                        </select>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6">
+                            <div id="dom-jqry_filter" class="dataTables_filter">
+                                @using (Html.BeginForm("M_Weekly_Off", "M_Weekly_Off", FormMethod.Get))
+                                {
+                                    <label> Search:@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control input-sm" })</label>
+                                    <button type="submit" class="btn btn-sm btn-info aLoader"> Search</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <table id="weklyoff" class="table table-striped table-bordered nowrap dataTable" style="width: 100%;" role="grid" aria-describedby="dom-jqry_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th>Action</th>                                      
+                                        <th>Attendance Code And Description:</th>
+                                        <th>Unit Code And Description:</th>
+                                        <th>Off Day 1:</th>
+                                        <th>Off Day 2:</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="sorting_1">
+                                                    @using (Html.BeginForm("AddEditModal", "M_Weekly_Off", FormMethod.Post, new { style = "display:inline" }))
+                                                    {
+                                                        @Html.Hidden("Id", item.id)
+                                                        <button type="submit" class="btn btn-mini btn-info"><i class="fa fa-home"></i></button>
+                                                    }
+                                                    <a class="btn btn-mini btn-danger" onclick="FnDelete('2')">
+                                                        <i class="fa fa-trash-o fa-lg">
+                                                        </i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.fK_ATTEND_CODE)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.unit)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ofF_DAY1)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ofF_DAY2)
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                        <div class="col-xs-12 col-sm-12 col-md-5">
+                            <div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers" id="dom-jqry_paginate">
+                                @Html.PagedListPager(Model, page => Url.Action("M_Weekly_Off", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="IdModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;">
+                    Erorr In Edit
+                </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;"> </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

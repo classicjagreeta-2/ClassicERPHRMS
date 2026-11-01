@@ -1,0 +1,151 @@
+﻿@model PagedList.StaticPagedList<HRMS.Models.Master.M_EMP_LINK_DET>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Employee Link Details Master";
+    var dd = TempData["toastrError"];
+    //var emp = ViewBag.FK_ID;
+    var empName = Model.Select(x => x.FK_EMPCODE).FirstOrDefault();
+    var unitCode = Model.Select(x => x.UNIT).FirstOrDefault();
+}
+<div class="page-body">
+    <div class="card">
+        <div class="card-header pull-right">
+            @using (Html.BeginForm("AddEditModal", "MastEmpLinkDel", FormMethod.Get, new { style = "display:inline" }))
+            {
+                @Html.Hidden("Unit", @unitCode)
+                @Html.Hidden("EmpId", @empName)
+                <button type="submit" class="btn btn-sm btn-info aLoader" data-toggle="modal">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+                </button>
+            }
+            <a href=@Url.Action("Index","Menu") class="btn btn-sm btn-info">
+                <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+            </a>
+            <div class="text-center" style="margin-top: -29px;"><h4>Employee Link Details</h4></div>
+            @*<input type="hidden" value="@empName" id="IdEmpId" />
+                <input type="hidden" value="@unitCode" id="IdUcodee" />*@
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="form-group">
+                        @*<div class="text-accent-2"><h5>Employee Name and Code :- <strong id="lblname">@empName</strong></h5></div>
+                            <div class="text-accent-3"><h5>Unit Name:- <strong id="lblunt">@unitCode</strong></h5></div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-block">
+            <div class="table-responsive dt-responsive">
+                <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="dom-jqry_length">
+                                @using (Html.BeginForm("MastEmpLinkDel", "MastEmpLinkDel", FormMethod.Get))
+                                {
+                                    <label>
+                                        Show
+                                        <select name="pageSize" id="pageSize" onchange="document.forms[0].submit();" aria-controls="dom-jqry" class="form-control input-sm" fdprocessedid="794bn7">
+                                            <option value=25>25</option>
+                                            <option value=50>50</option>
+                                            <option value=100>100</option>
+                                        </select>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6">
+                            <div id="dom-jqry_filter" class="dataTables_filter">
+                                @using (Html.BeginForm("MastEmpLinkDel", "MastEmpLinkDel", FormMethod.Get))
+                                {
+                                    <label> Search:@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control input-sm" })</label>
+                                    <button type="submit" class="btn btn-sm btn-info aLoader"> Search</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <table id="mastemplinkdel" class="table table-striped table-bordered nowrap dataTable" style="width: 100%;" role="grid" aria-describedby="dom-jqry_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th width="1%">Action</th>
+                                        <th width="30%">Effective Date</th>
+                                        @*<th width="30%">EmpId</th>*@
+                                        <th width="9%"> Unit Code</th>
+                                        <th width="30%">Category</th>
+                                        <th width="30%">Employee Type</th>
+                                        <th width="30%">Designation</th>
+                                        <th width="30%">Bonus</th>
+                                        <th width="30%">Gratuity</th>
+                                        <th width="30%">Department</th>
+                                        <th width="30%">Sub Dept</th>
+                                        <th width="30%">Grade</th>
+                                        @*<th width="30%">Designation</th>*@
+                                        <th width="30%">Cost Centre</th>
+
+                                    </tr>
+                                </thead>
+                                @if (Model != null)
+                                {
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="sorting_1">
+                                                    @using (Html.BeginForm("AddEditModal", "MastEmpLinkDel", FormMethod.Get, new { style = "display:inline" }))
+                                                    {
+                                                        @Html.Hidden("Id", item.ID)
+                                                        @Html.Hidden("Unit", item.UNIT)
+                                                        @Html.Hidden("EmpId", item.FK_EMPCODE)
+                                                        <button type="submit" class="btn btn-mini btn-info"><i class="fa fa-home"></i></button>
+                                                    }
+                                                    <a class="btn btn-mini btn-danger" onclick="FnDelete('2')"><i class="fa fa-trash-o fa-lg"> </i></a>
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => item.EFF_DATE)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.FK_UNIT_CODE)</td>
+                                                <td> @Html.DisplayFor(modelItem => item.FK_CAT_CODE) </td>
+                                                <td> @Html.DisplayFor(modelItem => item.FK_EMP_TYPE) </td>
+                                                <td> @Html.DisplayFor(modelItem => item.FK_DESG_CODE) </td>
+                                                <td> @Html.DisplayFor(modelItem => item.APPLY_BONUS) </td>
+                                                <td> @Html.DisplayFor(modelItem => item.APPLY_GRATUITY) </td>
+                                                <td> @Html.DisplayFor(modelItem => item.FK_DEPT_CODE) </td>
+                                                <td> @Html.DisplayFor(modelItem => item.FK_SUB_DEPT_CODE) </td>
+                                                <td> @Html.DisplayFor(modelItem => item.FK_GRADE_CODE) </td>
+                                                <td>  @Html.DisplayFor(modelItem => item.FK_COST_CODE)</td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                }
+                                else
+                                {
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="7"><center> No Data </center ></td >
+                                        </tr>
+                                    </tbody>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-xs-12 col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount</div>
+                                @*<div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.value.pageSize < Model.value.pageSize ? 0 : Model.value.pageSize) of @Model.value.rowCount </div>*@
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dom-jqry_paginate">
+                                    @Html.PagedListPager(Model, page => Url.Action("MastEmpLinkDel", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </div>
+                        }
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

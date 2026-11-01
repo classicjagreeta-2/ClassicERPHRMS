@@ -1,0 +1,152 @@
+﻿@model HRMS.Models.Master.M_SHIFT
+@using HRMS.Models.Master
+@using System.Globalization;
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddOrUpdate", "M_Shift", FormMethod.Post, new { id = "myForm" }))
+{
+    @Html.HiddenFor(x => x.id)
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Shift Master</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card-block">
+                <div class="row">
+                    @if (Model.id == 0)
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Shift Code :</label>
+                                @Html.TextBoxFor(x => x.pK_SHIFT_CODE, new { @class = "form-control ", @required = "required", @minlength = "3", @maxlength = "3", @id = "CODE", style = "height: 34px;" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Shift Code :</label>
+                        @Html.TextBoxFor(x => x.pK_SHIFT_CODE, new { @class = "form-control ", @readonly = "readonly", @minlength = "3", @maxlength = "3", @id = "CODE", style = "height: 34px;" })
+                    </div>
+                    @Html.HiddenFor(x => x.pK_SHIFT_CODE)
+                </div>
+                    }
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Shift Description :</label>
+                            @Html.TextBoxFor(x => x.description, new { @class = "form-control", @required = "required", style = "height: 34px;", @id = "descn", @maxlength = "25" })
+                        </div>
+                    </div>
+                   
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Unit Code :</label>
+                                @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..",
+                                new { @class = "form-control", @required = "required", @id = "unt" })
+                            </div>
+                        </div>
+                  
+                        @*<div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Unit Code :</label>
+                                @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..",
+                                new { @class = "form-control", @required = "required", @id = "unt" })
+                            </div>
+                            @Html.HiddenFor(x => x.unit)
+                        </div>*@
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Shift Start Time :</label>
+                            @Html.TextBoxFor(x => x.shifT_START_FROM, new { @class = "form-control", type = "text", style = "height: 34px;", @id = "strt_frm", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Shift End Time :</label>
+                            @Html.TextBoxFor(x => x.shifT_END_AT, new { @class = "form-control", @required = "required", type = "text", style = "height: 34px;", @id = "strt_end" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Shift Duration :</label>
+                            @Html.TextBoxFor(x => x.totaL_HOURS, new { @class = "form-control", @required = "required", style = "height: 34px;", @id = "tot_hr" })
+                        </div>
+                    </div>
+                    @*@if (Model == null)
+                    {*@
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">General Shift:</label>
+                                @Html.DropDownListFor(x => x.generaL_SHIFT, new List<SelectListItem>
+                                {
+                                new SelectListItem { Text = "General Shift - G", Value = "G" },
+                                new SelectListItem { Text = "Day Shift - D", Value = "D" },
+                                new SelectListItem { Text = "Night Shift - N" , Value = "N"}
+                                }, "SELECT..", new { @class = "form-control", @required = "required", @id = "gens" })
+                            </div>
+                        </div>
+                    @*}
+                    else
+                    {*@
+                        @*<div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">General Shift:</label>
+                                @Html.DropDownListFor(x => x.generaL_SHIFT, new List<SelectListItem>
+                                {
+                                new SelectListItem { Text = "General Shift - G", Value = "G" },
+                                new SelectListItem { Text = "Day Shift - D", Value = "D" },
+                                new SelectListItem { Text = "Night Shift - N" , Value = "N"}
+                                }, "SELECT..", new { @class = "form-control", @required = "required", @id = "gens" })
+                            </div>
+                            @Html.HiddenFor(x => x.generaL_SHIFT)
+                        </div>*@
+                    @*}*@
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Shift Grace Duration in minutes :</label>
+                            @Html.DropDownListFor(x => x.shifT_GRACE_PERIOD, (SelectList)ViewBag.MinutesList, new { @class = "form-control", style = "height: 34px;", @id = "shift_grace" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Lunch Start Time :</label>
+                            @Html.TextBoxFor(x => x.luncH_START_FROM, new { @class = "form-control", @maxlength = "10", @required = "required", type = "text", style = "height: 34px;", @id = "Lunch_start" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Lunch End Time :</label>
+                            @Html.TextBoxFor(x => x.luncH_END_AT, new { @class = "form-control", @required = "required", type = "text", style = "height: 34px;", @id = "Lunch_end" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Lunch Duration :</label>
+                            @Html.TextBoxFor(x => x.totaL_LUNCH_HOURS, new { @class = "form-control", @required = "required", style = "height: 34px;", @id = "Lunch_hrs" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Lunch Grace Duration in minutes :</label>
+                            @Html.DropDownListFor(x => x.luncH_GRACE_PERIOD, (SelectList)ViewBag.MinutesList, new { @class = "form-control", style = "height: 34px;", @id = "Lunch_grace" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div id="divMsg" class="text-danger"> </div>
+            <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("M_Shift","M_Shift")'" id="btnclose" data-dismiss="modal"
+               style="color: white;background-color: red;">Close</a>
+            <button name="submit" type="submit" id="nextButton1" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+        </div>
+    </div>
+}

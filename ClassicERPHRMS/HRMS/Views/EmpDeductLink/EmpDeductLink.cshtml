@@ -1,0 +1,322 @@
+﻿
+
+@model HRMS.Models.Master.M_EMP_DEDUCT_DET
+
+@using HRMS.Models.Master
+
+
+@{
+    ViewBag.Title = "EmpDeductLink";
+}
+
+
+
+<link href="~/libraries/assets/css/font-awesome.min.css" rel="stylesheet" />
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+<link href="~/libraries/assets/css/ag-style.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/accodin.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/ag-style.css" rel="stylesheet" />
+ 
+
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+
+
+
+@*<link href="~/libraries/assets/css/CheckBoxStyle.css" rel="stylesheet" />*@
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+
+    .form-group {
+        margin-bottom: 0.2em;
+    }
+
+    .col-form-label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700
+    }
+
+    /*.panels-wells .panel {
+        margin-bottom: 0px;
+    }*/
+    .card-block {
+        padding: 0.25rem
+    }
+
+    .main-body .page-wrapper {
+        padding: 0.1rem;
+    }
+
+    .accordion-msg {
+        padding: 1px 20px;
+    }
+
+    .fixedMenu {
+        -webkit-box-shadow: 0px 20px 11px 1px rgb(0 0 0 / 13%);
+    }
+
+
+    /*.Scroll {
+        height: 520px;
+        overflow-y: scroll;
+    }*/
+
+    /*body {
+        overflow-y: hidden;
+    }*/
+
+    #target {
+        background-color: white;
+        margin-bottom: 10px;
+    }
+
+    .header-navbar {
+        min-height: 1px;
+    }
+
+    .TableChild {
+        margin-top: 23px;
+        margin-bottom: 23px;
+        /*margin-right: 150px;
+        margin-left: 80px;*/
+    }
+
+    .select2-container--default .select2-selection--single:focus {
+        outline: none !important;
+        border-color: #719ECE;
+        box-shadow: 0 0 10px #719ECE;
+    }
+
+    .mustfiled {
+        border-color: red;
+    }
+
+    /*.select2{
+        border: 1px;
+        border-style: solid;
+        border-color: #ff4400;
+    }*/
+    .the-table {
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 15px;
+    }
+
+    .main-body .form-control {
+        height: 32px;
+    }
+
+    /*.input:disabled {
+        pointer-events: none;
+        color: #AAA;
+        background: #F5F5F5;
+    }*/
+
+    /*.input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+        opacity :0.5;
+    }*/
+
+</style>
+
+
+
+<div class="panel panel-default Scroll">
+
+    <div class="panel-body">
+        <div class="card-block panels-wells">
+
+            <div class="col-sm-12">
+                <!-- Ace-editor Card start -->
+                <div class="card">
+                    <div class="card-block">
+
+
+
+
+
+
+                        @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+                            { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+
+                        @*@using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))*@
+                        @using (Html.BeginForm("GetCode", "EmpDeductLink", FormMethod.Post))
+                        {
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="text-center" style="margin-left: 180px;">Employee Deduction Link Master</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card-block">
+                                        <div class="row">
+
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Employee Code And Name:</label>
+                                                    @*@Html.TextBoxFor(x => x.DESCRIPTION, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4", @disabled = "disabled" })*@
+
+                                                    @{
+                                                        var empList = ViewBag.Emp as List<M_EMPMAS>; // Assuming ViewBag.Emp is of type List<Employee>
+                                                        var empSelectList = empList.Select(item => new SelectListItem { Text = item.PK_EMPCODE + " " + " - " + item.TITLE + " " + item.FNAME + " " + item.MNAME + " " + item.LNAME + " ", Value = item.PK_EMPCODE.ToString() }).ToList();
+                                                        empSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                                    }
+
+                                                    @Html.DropDownListFor(x => x.FK_EMPCODE, empSelectList, new { @class = "js-example-disabled-results col-sm-12", @id = "ddlEmp", @required = "required" })
+                                                    @*@Html.DropDownListFor(x => x.FK_EMPCODE, new SelectList(ViewBag.DropdownListEmpMode, "PK_EMPCODE", "PK_EMPCODE"),
+                                                        "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @required = "required", @Id = "ddlEmp" })*@
+                                                </div>
+                                            </div>
+                                            @if (ViewBag.Loca != "AGR")
+                                            {
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Unit Code And Unit Description :</label>
+                                                        @*@Html.TextBoxFor(x => x.FK_EMPCODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4", @disabled = "disabled" })*@
+                                                        @*@Html.DropDownListFor(x => x.UNIT, new SelectList(ViewBag.DropdownListUnitMode, "CODE", "CODE"),
+                                                            "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @required = "required", @Id = "ddlUnit" })*@
+                                                        @{
+                                                            var unitList = ViewBag.Unit as List<M_UNIT>; // Assuming ViewBag.Emp is of type List<Employee>
+                                                            var unitSelectList = unitList.Select(item => new SelectListItem { Text = item.CODE + " " + " - " + item.NAME, Value = item.CODE.ToString() }).ToList();
+                                                            unitSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                                        }
+                                                        @Html.DropDownListFor(x => x.UNIT, unitSelectList, new { @class = "js-example-disabled-results col-sm-12", @id = "ddlUnit", @required = "required" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
+                                        
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div id="divMsg" class="text-danger"> </div>
+                                    <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+
+                                    <button type="submit" class="btn btn-primary pull-right" id="nextButton">NEXT</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+
+    @*<script src="~/libraries/assets/js/jquery3_3_1.min.js"></script>*@
+    <script src="~/libraries/assets/js/select2.js"></script>
+
+    <!-- Multiselect js 
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/sweetalert/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modal.js"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+
+    <!-- Accordion js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/accordion/accordion.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $('#btnclose').click(function () {
+                // Navigate back using JavaScript history
+                window.history.back();
+            });
+        });
+
+    $("#ddlEmp").change(function () {
+
+        var UrlData ='@Url.Action("GetEmplyData", "EmpDeductLink")';
+        var EmpCode = $(this).val();
+        var Obj = {};
+        Obj.Id = EmpCode;
+        var Rtn = httpPOST(UrlData, Obj, true)
+        debugger;
+
+        var FullName = Rtn.data.TITLE + ' ' + Rtn.data.FNAME + ' ' + Rtn.data.MNAME + ' ' + Rtn.data.LNAME;
+        $("#txt_FullName").val(FullName);
+
+       // alert(FullName);
+    });
+
+        $("#ddlUnit").change(function () {
+
+        var UrlData ='@Url.Action("GetUnitData", "EmpAllowLink")';
+        var Code = $(this).val();
+        var Obj = {};
+        Obj.Id = Code;
+        var Rtn = httpPOST(UrlData, Obj, true)
+        debugger;
+
+        var Name = Rtn.data.NAME + '';
+        $("#txt_UnitDescription").val(Name);
+
+       // alert(FullName);
+    });
+
+
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+
+
+    </script>
+}
+

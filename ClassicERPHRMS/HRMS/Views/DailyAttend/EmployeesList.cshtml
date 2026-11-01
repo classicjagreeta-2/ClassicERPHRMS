@@ -1,0 +1,611 @@
+﻿@model List<HRMS.Models.TRN.T_DAILY_ATTEND>
+@*@using PagedList.Mvc;
+    @using PagedList;*@
+
+
+@using System.Globalization
+
+
+@{
+    ViewBag.Title = "Employee Daily Attendance";
+    DateTime date = DateTime.ParseExact(ViewBag.MonthCodeId, "yyyyMM", CultureInfo.InvariantCulture);
+    ViewBag.MonthName = date.ToString("MMMM");
+    ViewBag.Year = date.ToString("yyyy");
+
+    var monthList = new SelectList(
+    new List<SelectListItem>
+    {
+            new SelectListItem { Selected = false, Text = "January", Value = "01"},
+            new SelectListItem { Selected = false, Text = "February", Value = "02"},
+            new SelectListItem { Selected = false, Text = "March", Value = "03"},
+            new SelectListItem { Selected = false, Text = "April", Value = "04"},
+            new SelectListItem { Selected = false, Text = "May", Value = "05"},
+            new SelectListItem { Selected = false, Text = "June", Value = "06"},
+            new SelectListItem { Selected = false, Text = "July", Value = "07"},
+            new SelectListItem { Selected = false, Text = "August", Value = "08"},
+            new SelectListItem { Selected = false, Text = "September", Value = "09"},
+            new SelectListItem { Selected = false, Text = "October", Value = "10"},
+            new SelectListItem { Selected = false, Text = "November", Value = "11"},
+            new SelectListItem { Selected = false, Text = "December", Value = "12"}
+                                            }, "Value", "Text", 1);
+
+    var yearList = new SelectList(
+        new List<SelectListItem>
+        {
+            new SelectListItem { Selected = false, Text = "2025", Value = "2025"},
+            new SelectListItem { Selected = false, Text = "2024", Value = "2024"},
+            new SelectListItem { Selected = false, Text = "2023", Value = "2023"},
+                                                }, "Value", "Text", 1);
+}
+
+
+
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/data-table/css/buttons.dataTables.min.css">
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/TableRowDesign.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/CheckBoxStyle.css" rel="stylesheet" />
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+
+
+    .select2-container .select2-selection--single {
+        height: 34px;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header pull-right">
+        <div class="float-left form-group">
+            @using (Html.BeginForm("EmployeesList", "DailyAttend", FormMethod.Post))
+            {
+                <input type="hidden" id="EmpId" name="EmpId" value="@ViewBag.EmpId" id="hdnFlag" />
+                @Html.DropDownList("year", new SelectList(yearList, "Value", "Text", ViewBag.YearDigit),
+                                            new { @class = "btn btn-sm btn-inverse btn-outline-inverse", @onchange = "document.forms[0].submit();" })
+
+                @Html.DropDownList("month", new SelectList(monthList, "Value", "Text", ViewBag.MonthDigit),
+                     new { @class = "btn btn-sm btn-inverse btn-outline-inverse", onchange = "document.forms[0].submit();" })
+            }
+
+        </div>
+        <a id="backBtn" href="@Url.Action("DailyAttend","DailyAttend")" class="btn btn-sm btn-info float-right">
+            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i> Back
+        </a>
+        <div class="text-center"><h4>Attendance Details (@ViewBag.MonthName @ViewBag.Year)</h4></div>
+        <div class="text-center"><h5>@ViewBag.DisplayName </h5></div>
+    </div>
+
+    <div class="card-block">
+        <div class="dt-responsive table-responsive">
+            <div id="TblEmp">
+                @*@Html.Partial("~/Views/Attendance/_EmpList.cshtml", Model)*@
+
+
+                @using (Html.BeginForm("BulkStoreOrEditEmployeesList", "DailyAttend", FormMethod.Post))
+                {
+
+                    @Html.AntiForgeryToken();
+
+                    <table class="table table-bordered nowrap" style="width:100%">
+
+                        <thead>
+                            <tr>
+                                <th width="5%">Date</th>
+                                <th width="10%">Shift</th>
+                                <th width="10%">In Time</th>
+                                <th width="10%">Out Time</th>
+                                <th width="10%">Late Time</th>
+                                <th width="15%">Attendance Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Count() > 0)
+                            {
+                                for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    <tr class="RowTable">
+
+                                        <td>@Model[i].EDATE.Value.ToString("dd/MM/yyyy")</td>
+                                        <td>@Model[i].FK_SHIFT_CODE</td>
+                                        <td>@Model[i].IN_TIME</td>
+                                        <td>@Html.DisplayFor(modelItem => @Model[i].OUT_TIME)</td>
+                                        <td>
+                                            @if (new string[6] { "W", "A", "L", "M", "S", "F" }.Contains(Model[i].FK_ATTEND_CODE))
+                                            {
+                                                @Html.TextBoxFor(x => Model[i].LATE_TIME, new { @class = "form-control col-8", @disabled = "disabled", @id = "LATE_TIME_" + Model[i].ID })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(x => Model[i].LATE_TIME, new { @class = "form-control col-8", @id = "LATE_TIME_" + Model[i].ID })
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(modelItem => @Model[i].ID)
+                                            @Html.HiddenFor(modelItem => @Model[i].UNIT)
+                                            @Html.HiddenFor(modelItem => @Model[i].TOT_HOURS_WORKED)
+                                            @Html.HiddenFor(modelItem => @Model[i].REMARKS)
+
+                                            @Html.HiddenFor(modelItem => @Model[i].PTYPE)
+                                            @Html.HiddenFor(modelItem => @Model[i].DTAG)
+
+                                            @Html.HiddenFor(modelItem => @Model[i].EDATE)
+                                            @Html.HiddenFor(modelItem => @Model[i].USER_NAME)
+                                            @Html.HiddenFor(modelItem => @Model[i].FK_EMPCODE)
+                                            @Html.HiddenFor(modelItem => @Model[i].LOCA)
+                                            @Html.HiddenFor(modelItem => @Model[i].USER_ENTDT)
+                                            @Html.HiddenFor(modelItem => @Model[i].OS_USER)
+                                            @Html.HiddenFor(modelItem => @Model[i].TERMINAL_ID)
+                                            @Html.HiddenFor(modelItem => @Model[i].UNIT)
+                                            @Html.HiddenFor(modelItem => @Model[i].ATTEND)
+                                            @Html.HiddenFor(modelItem => @Model[i].LEAVE)
+                                            @Html.HiddenFor(modelItem => @Model[i].WEEKLY_OFF)
+                                            @Html.HiddenFor(modelItem => @Model[i].ABSENT)
+                                            @Html.HiddenFor(modelItem => @Model[i].LATE_TIME)
+                                            @Html.HiddenFor(modelItem => @Model[i].HOLIDAY)
+
+                                            @Html.HiddenFor(modelItem => @Model[i].IN_TIME)
+                                            @Html.HiddenFor(modelItem => @Model[i].OUT_TIME)
+
+                                            @Html.HiddenFor(modelItem => @Model[i].FK_SHIFT_CODE)
+                                            @Html.HiddenFor(modelItem => @Model[i].FK_MONTHCODE)
+                                            <input type="hidden" id="Leave" value="@ViewBag.LeaveRemaining" />
+                                            @if (new string[1] { "F" }.Contains(Model[i].FK_ATTEND_CODE))
+                                            {
+                                                @Html.DropDownListFor(x => Model[i].FK_ATTEND_CODE,
+                                               new SelectList(ViewBag.AttendType, "PK_ATTEND_CODE", "DESCRIPTION", Model[i].FK_ATTEND_CODE),
+                                               new
+                                                    {
+                                                        @class = "js-example-responsive col-sm-12 ddlattend",
+                                                        @id = "FK_ATTEND_CODE_" + "F_" + Model[i].ID,
+                                                        @name = "FK_ATTEND_CODE",
+                                                        @disabled = "disabled"
+                                                    })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(x => Model[i].FK_ATTEND_CODE,
+                                               new SelectList(ViewBag.AttendType, "PK_ATTEND_CODE", "DESCRIPTION", Model[i].FK_ATTEND_CODE),
+                                               new
+                                                    {
+                                                        @class = "js-example-responsive col-sm-12 ddlattend",
+                                                        @id = " b" + Model[i].FK_ATTEND_CODE + "_" + Model[i].ID,
+                                                        @name = "FK_ATTEND_CODE",
+                                                        @onchange = "jsFunction(this.value, '" + Model[i].EDATE.Value.ToString("yyyy-MM-dd") + "')"
+                                                    })
+                                            }
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2"><center> No Data </center></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @*<button type="submit" class="btn btn-primary" onclick=" ()">Submit</button>*@
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                }
+
+
+
+
+                @*@section scripts{
+                        <script src="~/libraries/js/jquery-1.11.3.min.js"></script>
+                        <script>
+                            function submitForm() {
+                                debugger
+                                $('#loader').show();
+                                $('#myForm').submit(function () {
+                                    $('#loader').hide();
+                                });
+                            }
+                        </script>
+                    }*@
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            debugger;
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var year = d.getFullYear();
+            var data = year.toString() + month.toString();
+            //$("#month").val(month);
+            //$("#years").val(year);
+        });
+
+        function submitForm() {
+            $('#loader').show();
+            $('#myForm').submit(function () {
+                $('#loader').hide();
+            });
+        }
+
+        var table;
+        $(document).ready(function () {
+            datatable();
+        });
+
+        $(document).ready(function () {
+            $('.ddlattend').change(function () {
+                debugger
+                var selectedValue = $(this).val();
+                var lateTimeInput = $(this).closest('tr').find('.form-control');
+
+                if (selectedValue == 'S' || selectedValue == 'M' || selectedValue == 'PH' || selectedValue == 'L' || selectedValue == 'W' || selectedValue == 'A') {
+                    lateTimeInput.prop('disabled', true);
+                } else {
+                    lateTimeInput.prop('disabled', false);
+                }
+                // Close the dropdown
+                $(this).select2('close');
+            });
+        });
+
+        function datatable() {
+            $(function () {
+                table = $("#ajax-table").DataTable({
+                    scrollY: '320px',
+                    scrollX: true,
+                    "processing": true, // for show progress bar,
+                    retrieve: true,
+                    "language": {
+                        'processing': '<i class="icofont icofont-spinner-alt-2 icofont-3x"></i>'
+                    },
+
+                    lengthMenu: [
+                        [50, 100, 500, -1],
+                        ['50', '100', '500', 'Show all']
+                    ],
+                    dom: 'lBfrtip',
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                        }
+                    ],
+                });
+            });
+        }
+
+        setTimeout(function () { $('.alert').alert('close'); }, 5000);
+
+        $('#btnSubmit').click(function (e) {
+            e.preventDefault();
+            var IstoVlidate = 'form';
+            debugger;
+            if ($(IstoVlidate).smkValidate()) {
+                debugger;
+                var dataString = new FormData($("#myForm").get(0));
+                var returnUrl = '@Url.Action("StoreOrEdit", "Attendance")'
+                blockUIStart();
+                // "StoreOrEdit", "Master_Customer"
+                $.ajax({
+                    url: returnUrl,
+                    data: dataString,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        OnSuccess(data);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        debugger;
+                        OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        });
+
+        function PopupForm(Id, empcode,moncode) {
+            debugger
+
+            let attendtypeid = "FK_ATTEND_CODE" + Id;
+            let attendtype2 = document.getElementById(attendtypeid).value;//id+ID=idID
+            let lateValue = document.getElementById("txt_" + Id).value;
+            let data = { Id: Id, EmpCode: empcode, MonthCode: moncode, LateId: lateValue, AttendType: attendtype2 };
+            var returnUrl = '@Url.Action("StoreOrEditEmployeesList", "Attendance")'
+            if (!["P", "E", "W", "A", "M", "F"].includes(attendtype2))
+            {
+                //var leaveType = document.getElementById(attendtypeid);
+                var dropdown = document.getElementById(attendtypeid);
+                var selectedOptionText = dropdown.options[dropdown.selectedIndex].text;
+                //var leaveType = $("#attendtypeid option:selected").text();
+                //var remainingCasualLeave = $("#Leave").val();
+
+
+                 $.ajax({
+                     type: "POST",
+                    /* url: "/MastEmpLinkDel/AddEditModel",*/
+                     url: returnUrl,
+                     async: false,
+                     data: data,
+                     success: function (data) {
+                         debugger;
+
+                             @*var remainingCasualLeave = @ViewBag.LeaveRemaining;*@
+
+                             let dropdown = document.getElementById(attendtypeid);
+                             let originalValue = dropdown.getAttribute("data-original-value");
+                             dropdown.value = originalValue;
+                             /* $('.btnClose').click();*/
+                                     $("#TblEmp").empty().html(data);
+                                     datatable();
+                                     var remainingCasualLeave = $("#Leave").val();
+                                     if (remainingCasualLeave == 0) {
+
+                                         $.notify(" No Remaining " + selectedOptionText + " left, Contact ADMINISTRATION", {
+                                        globalPosition: "top center",
+                                        className: "Error"
+                                    })
+                                }
+                                     else {
+                                         $("#TblEmp").empty().html(data);
+                                         datatable();
+                                    //$.notify("Remaining " + leaveType + " " + " Leave: " + remainingCasualLeave + ", Contact ADMINISTRATION", {
+                                    //    globalPosition: "top center",
+                                    //    className: "Error"
+                                    $.notify("Successfully Save. " + "Remaining " + selectedOptionText + " " + remainingCasualLeave , {
+                                        globalPosition: "top center",
+                                        className: "success"
+                                    })
+                                }
+                     },
+                     error: function (errorjqXHR, exception) {
+
+                         $('.btnClose').click();
+                         $.notify("Error In Edit", {
+                             globalPosition: "right center",
+                             className: "Errror"
+                         })
+                     }
+                 });
+            }
+
+            else
+            {
+                 @*let data = { Id: Id, EmpCode: empcode, MonthCode: moncode, LateId: lateValue, AttendType: attendtype2 };
+                  var returnUrl = '@Url.Action("StoreOrEditEmployeesList", "Attendance")'*@
+                 $.ajax({
+                     type: "POST",
+                    /* url: "/MastEmpLinkDel/AddEditModel",*/
+                     url: returnUrl,
+                     async: false,
+                     data: data,
+                     success: function (data) {
+                         debugger;
+
+                         $.notify("Successfully Save", {
+                             globalPosition: "top center",
+                             className: "success"
+                         })
+                         $("#TblEmp").empty().html(data);
+                         datatable();
+
+
+
+
+                     },
+                     error: function (errorjqXHR, exception) {
+
+                         $('.btnClose').click();
+                         $.notify("Error In Edit", {
+                             globalPosition: "right center",
+                             className: "Errror"
+                         })
+                     }
+                 });
+            }
+        }
+
+        function BackPageForm(moncode) {
+            debugger
+            let data = { mcode: moncode };
+            var returnUrl = '@Url.Action("DailyAttend", "Attendance")'
+            $.ajax({
+                type: "GET",
+                url: returnUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+                    //$("#BackIdModal").empty().append(data);
+                    //waitingDialog.hide();
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $('.btnClose').click();
+                    $.notify("Error In Edit", {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        };
+
+        document.getElementById("backBtn").addEventListener("click", openNewWindow);
+
+         function openNewWindow() {
+             var url = '../DailyAttend?MONTHCODE=@ViewBag.MonthCodeId';
+            window.open(url, '_self');
+        }
+
+        $("#IdaddNewRecord").click(function () {
+            debugger
+            var Id = $(this).data('id');
+            var data = { monthcode: Id };
+            var returnUrl = '@Url.Action("EmployeesList", "Attendance")'
+            //var x = httpGetWithObj("/MastEmp/AddEditModel", data);
+            //$("#IdModal").empty().append(x.data);
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: returnUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    debugger;
+                    $("#IdModal").empty().append(data);
+                },
+                error: function (errorjqXHR, exception) {
+                    $("#divMsg").empty();
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        });
+
+        function SubmitForm(form) {
+            debugger
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $("#divMsg").empty().append("Please Wait......");
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    async: false,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        $("#divMsg").empty();
+                        if (data.success) {
+
+                            $('#IdModal').modal('toggle');
+
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                        else {
+                            $("#IdDivMsg").empty().append(data.message);
+                            $("#IdDivDeatils").empty().append(data.details);
+                            // $("#divMsg").empty().append(data.details);
+                            $("#myModal2").modal('show');
+                        }
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+            }
+            return false;
+        }
+
+        $("#FK_ATTEND_CODE").change(function () {
+            debugger
+            var attendCode = $(this).val();
+            @*var remainingCasualLeave = @ViewBag.LeaveRemaining;*@
+            var remainingCasualLeave = LeaveCount;
+            if (attendCode == "C" && remainingCasualLeave == 0)
+            {
+               /* $("#errorMsg").text("Casual Leave: 0, Contact Administration");*/
+                $("#IdDivMsg").empty().append("Casual Leave: 0, Contact Administration");
+                // Show error message
+            }
+            else
+            {
+                $("#IdDivMsg").empty().append("Reamaining Casual Leave: "+remainingCasualLeave);
+                    // Clear error message
+            }
+        });
+
+        function Delete(id) {
+            $.confirm({
+                title: "Confirmation required",
+                content: "Are you sure you want to delete?",
+                buttons: {
+                    YES: function () {
+
+                        DeleteRecord(id);
+                    },
+                    NO: function () {
+
+                    },
+                }
+            });
+        }
+
+        function DeleteRecord(id) {
+            $.ajax({
+
+                type: "POST",
+                url: "../TD_OtherMaster/Delete",
+                data: { Id: id },
+                success: function (data) {
+
+                    if (data.success) {
+
+                        dataTable.ajax.reload();
+
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                    }
+                    else {
+                        $("#IdDivMsg").empty().append(data.message);
+                        $("#IdDivDeatils").empty().append(data.details);
+                        // $("#divMsg").empty().append(data.details);
+                        $("#myModal2").modal('show');
+                    }
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        }
+
+        function submitForm() {
+            debugger
+            $('#loader').show();
+            $('#myForm').submit(function () {
+                $('#loader').hide();
+            });
+        }
+
+    </script>
+}
+
+

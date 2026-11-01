@@ -1,0 +1,423 @@
+﻿
+@model HRMS.Models.Master.M_MONTH
+
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+    <style>
+
+        .financial-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f5f5;
+            text-decoration-color: #3434eb;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+
+        .financial-year {
+            margin: 0 20px;
+            font-size: 18px;
+        }
+    </style>
+
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+
+    @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.ID)
+
+        @Html.HiddenFor(x => x.Yyear, new { @id = "IdYearx" })
+        <input type="hidden" value="@ViewBag.Year" id="IdYear" />
+        <input type="hidden" value="@ViewBag.OFD" id="IdWeek" />
+        <input type="hidden" value="@ViewBag.OFD2" id="IdWekk" />
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Month Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="financial-info">
+                <div class="financial-year">
+                    <h5>Financial Year : @ViewBag.CurrentYear</h5>
+
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Month Code :</label>
+                                    @*@Html.TextBoxFor(x => x.PK_MONTHCODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "6" })*@
+                                    @Html.DropDownListFor(x => x.PK_MONTHCODE, new SelectList(ViewBag.DropdownListCalculationMode, "DESCN", "DESCN1"),
+                                    "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "MONTH_MODE", @required = "required", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.PK_MONTHCODE)
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Month Code :</label>
+                                    @*@Html.TextBoxFor(x => x.PK_MONTHCODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "6" })*@
+                                    @Html.DropDownListFor(x => x.PK_MONTHCODE, new SelectList(ViewBag.DropdownListCalculationMode, "DESCN", "DESCN1"),
+                                    "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "MONTH_MODE", @required = "required" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                            </div>
+                        }
+
+                        @if (Model != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">From Date :</label>
+
+                                    @Html.EditorFor(x => x.FROM_PERIOD, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @id = "beginDate", @readonly = true, @type = "text" } })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">From Date :</label>
+
+                                    @Html.EditorFor(x => x.FROM_PERIOD, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @id = "beginDate", @type = "text" } })
+                                </div>
+                            </div>
+
+                        }
+
+                        @if (Model != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">To Date :</label>
+
+                                    @Html.EditorFor(x => x.TO_PERIOD, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @id = "endDate", @readonly = true, @type = "text" } })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">To Date :</label>
+
+                                    @Html.EditorFor(x => x.TO_PERIOD, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @id = "endDate", @type = "text" } })
+                                </div>
+                            </div>
+                        }
+
+
+
+
+                        @if (Model != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Number Of Days :</label>
+                                    @*@Html.TextBoxFor(x => x.NUM_DAYS, new { @class = "form-control", @id = "txtnumDays", @disabled = "disabled" })*@
+                                    @Html.EditorFor(x => x.NUM_DAYS, new { htmlAttributes = new { @class = "form-control", @id = "txtnumDays", @readonly = true } })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Number Of Days :</label>
+                                    @*@Html.TextBoxFor(x => x.NUM_DAYS, new { @class = "form-control", @id = "txtnumDays" })*@
+                                    @Html.EditorFor(x => x.NUM_DAYS, new { htmlAttributes = new { @class = "form-control", @id = "txtnumDays" } })
+                                </div>
+                            </div>
+                        }
+
+
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Weekly Off :</label>
+                                @Html.TextBoxFor(x => x.WEEK_OFF, "{0:f0}", new { @class = "form-control", @id = "weekoff"  })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Paid Holidays :</label>
+                                @Html.TextBoxFor(x => x.PAID_HOLIDAY, "{0:f0}", new { @class = "form-control" , @id = "paidholidy"})
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+@*<script src="~/libraries/js/jsmomentDate.js"></script>*@
+
+<script>
+
+    $(document).ready(function () {
+
+        debugger;
+
+        var pholidy = $("#paidholidy").val();
+
+        /* var ph = Convert.ToInt32(pholidy);*/
+
+        var decimalValue = parseFloat($("#paidholidy").text());
+        var intValue = parseInt(decimalValue);
+
+        $("#paidholidy").text(intValue);
+
+        var w_off = $("#weekoff").val();
+
+        var decimal = parseFloat($("#weekoff").text());
+
+        var intVal = parseInt(decimal);
+
+        $("#weekoff").text(intVal);
+
+ 
+    });
+
+
+
+
+    $("#MONTH_MODE").change(function () {
+        debugger;
+        var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var IdYear = $("#IdYear").val();
+
+        var IdMonth = $(this).val();
+
+        var IdOfday1 = $("#IdWeek").val();
+
+        var IdOfday2 = $("#IdWekk").val();
+        var weekendDays = 0;
+
+        var daysInMonth = new Date(IdYear, IdMonth, 0).getDate();
+
+        for (var day = 1; day <= daysInMonth; day++) {
+            var date = new Date(IdYear, IdMonth - 1, day);
+            var dayOfWeek = weekday[date.getDay()]; // 0 for Sunday, 1 for Monday, ...
+
+            if (dayOfWeek.toLocaleUpperCase() == IdOfday1.toLocaleUpperCase() || dayOfWeek.toLocaleUpperCase() == IdOfday2.toLocaleUpperCase()) {
+                weekendDays++;
+            }
+        }
+    
+
+        var current_month = IdMonth + " " + IdYear;
+        var arrMonth = current_month.split(" ");
+        var first_day = new Date(arrMonth[0] + " 1 " + arrMonth[1]);
+
+        //even though I already have the values, I'm using date functions to get year and month
+        //because month is zero-based
+        var last_day = new Date(first_day.getFullYear(), first_day.getMonth() + 1, 0, 23, 59, 59);
+
+        //use moment,js to format
+        var start = moment(first_day).format("DD-MM-YYYY");
+        var end = moment(last_day).format("DD-MM-YYYY");
+
+        
+          
+
+        $("#beginDate").val(start);
+        $("#endDate").val(end);
+        var TDays = last_day.getDate();
+        $("#txtnumDays").val(TDays);
+        $('#weekoff').val(weekendDays);
+
+    });
+
+
+
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        var directUrl = '@Url.Action("StoreOrEdit", "M_Month")';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: directUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+                    //cancel: function () {
+
+                    //}
+                }
+
+            });
+
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>
+
+}
+
+
+  @*//$(document).ready(function () {
+
+  //    GetDescName($("#MONTH_MODE").val())
+  //});
+  //function parseDate() {
+  //    var startOfMonth = new DateTime(myDate.Year, myDate.Month, 1);
+  //    var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+  //    return moment(startOfMonth).format('DD/MMM/YYYY');
+  //    return moment(endOfMonth).format('DD/MMM/YYYY');
+  //    $("#beginDate").val(startOfMonth);
+  //    $("#endDate").val(endOfMonth);
+  //  /*  return null;*/
+  //}
+
+
+//  function getFirstAndLastDate(month, year) {
+//      // Month is 0-indexed in JavaScript, so we subtract 1
+//      var firstDate = new Date(year, month - 1, 1);
+//      var lastDate = new Date(year, month, 0);
+
+//      // Formatting the dates in "yyyy-mm-dd" format
+//      var firstDateString = firstDate.toISOString().slice(0, 10);
+//      var lastDateString = lastDate.toISOString().slice(0, 10);
+
+//      // Setting the values in the input fields or displaying them
+//      $("#beginDate").val(firstDateString);
+//      $("#endDate").val(lastDateString);
+//  }
+
+//  // Event handler for the button click
+//  $("#MONTH_MODE").change(function () {
+////      // Get the selected month and year
+////      var selectedMonth = $("#select2-MONTH_MODE-container").val();
+/////*      var selectedYear = $("#years").val();*/
+
+////      // Call the function to get and set the first and last date
+//      getFirstAndLastDate();
+  //  });
+
+  //function parseDate(data) {
+  //   if (data != null)
+  //        var startOfMonth = new DateTime(myDate.Year, myDate.Month, 1);
+  //        var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+  //        return moment(data).format('DD/MMM/YYYY');
+  //    return null;
+  //}
+
+ //   $("#MONTH_MODE").change(function () {
+
+ //       var date = new Date();
+ //     /*  var firstDay = new Date(date.getMonth(), 1); */
+ //     //  var startOfMonth = new DateTime(myDate.Year, myDate.Month, 1);
+ //     // var lastDay = startOfMonth.AddMonths(1).AddDays(-1);
+ //       /*  resultDate = lastDay.getDate() - firstDay.getDate();*/
+ //       /*     var ld = date.today().clearTime().moveToLastDayOfMonth();*/
+ //       var lastDay = new Date(date.getFullYear(), date.getMonth() + 1 , date.moveToLastDayOfMonth(), 0);
+ //       var lastDateString = lastDay.toISOString().slice(0, 10);
+ //   /*    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).toDateString('DD/MMM/YYYY');*/
+ //       //var startOfMonth = new DateTime(myDate.Year, myDate.Month, 1);
+ //       //var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+ //    /*   var lastDateString = ld.toISOString().slice(0, 10);*/
+ //      /* debugger;*/
+ //     /*  var ld = lastDay.toString("MM/dd/yyyy");*/
+ ///*       alert(ld);*/
+
+
+ //       //$("#endDate").val(lastDateString);
+ //   });*@
+
+

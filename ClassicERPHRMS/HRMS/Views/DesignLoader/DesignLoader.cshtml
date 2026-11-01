@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Loader";
+}
+
+<h2>Loader</h2>
+<link href="~/libraries/js/loader/easy-loading.css" rel="stylesheet" />
+
+
+<button id="btn">Model</button>
+<h2>DesignModelPopup</h2>
+ 
+     
+    <div   id="domMessage" class="preloader3">
+        <div class="circ1"></div>
+        <div class="circ2"></div>
+        <div class="circ3"></div>
+        <div class="circ4"></div>
+    </div>
+ 
+<div class="modal fade" id="myModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+                <button id="btnshow">Show</button>
+                <div id="IdDivMsg" style="font-size:22px;color:red;"> </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+                <button id="btnclose">close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            $("#btnshow").click(function () {
+              
+               
+                blockUI();
+                //$.blockUI({ message: $('#domMessage') }); 
+            });
+
+            $("#btnclose").click(function () {
+                $.unblockUI();
+            });
+
+            $("#btn").click(function () {
+                $('#myModal2').modal('show');
+            })
+
+        });
+
+        function blockUI() {
+            $.blockUI({
+                css: {
+                    backgroundColor: 'transparent',
+                    border: 'none'
+                },
+                message: '<div class="preloader3">  <div class="circ1"></div>  <div class="circ2"></div> <div class="circ3"></div><div class="circ4"></div> </div>',
+                baseZ: 1500,
+                overlayCSS: {
+                    backgroundColor: '#FFFFFF',
+                    opacity: 0.7,
+                    cursor: 'wait'
+                }
+            });
+            $('.blockUI.blockMsg').center();
+        }
+    </script>
+}

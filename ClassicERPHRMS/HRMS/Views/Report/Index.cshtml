@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using HRMS.Models.Master
+@using System.Globalization
+<div class="col-sm-12">
+    <!-- Login card start -->
+    <div class="card">
+        <div class="card-block" id="divcontainer">
+            <div class="j-wrapperForm j-wrapper-640">
+                <!-- end /.header -->
+                <div class="j-content">
+                    <!-- start login -->
+                </div>
+                @*@using (Html.BeginForm("Index", "Report", FormMethod.Get, new { id = "myForm" }))
+                    {
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="exampleInputName1"><b>SELECT UNIT</b></label>
+                                @Html.DropDownList("unit", new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required", @id = "ddlUnit" })
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="exampleInputName1"><b>SELECT MONTH</b></label>
+
+                                @if (ViewBag.Month != null)
+                                {
+                                    var empList = ViewBag.Month as List<M_MONTH>;
+                                    var empSelectList = empList.Select(item => new SelectListItem
+                                    {
+                                        // Convert the `pK_MONTHCODE` (assumed to be in "yyyyMM" format) to a readable month-year string
+                                        Text = DateTime.ParseExact(item.pK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture)
+                                                    .ToString("MMM yyyy"),
+                                        Value = item.pK_MONTHCODE.ToString()
+                                    }).ToList();
+
+                                    @Html.DropDownList("MonthCode", empSelectList, new
+                                    {
+                                        @class = "js-example-responsive col-sm-12",
+                                        @id = "ddlMonth",
+                                        @required = "required"
+                                    })
+                                }
+                                else
+                                {
+                                    // Empty dropdown with a disabled placeholder option if ViewBag.Month is null
+                                    @Html.DropDownList("MonthCode", new SelectList(new[]
+                                    {
+                                        new SelectListItem { Text = "", Value = "", Disabled = true }
+                                    }, "Value", "Text"))
+                                }
+
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnSubmit" type="submit" class="btn btn-sm btn-primary pull-right">ViewReport</button>
+                        </div>
+                    }
+
+                    <iframe src="https://localhost:44348/Report/Payslip?MonthCode=202404" name="myFrame" width="900" height="1000"></iframe>*@
+
+                @using (Html.BeginForm("Index", "Report", FormMethod.Get, new { id = "myForm" }))
+                {
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label for="exampleInputName1"><b>SELECT UNIT</b></label>
+                            @Html.DropDownList("unit", new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required", @id = "ddlUnit" })
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="exampleInputName1"><b>SELECT MONTH</b></label>
+
+                            @if (ViewBag.Month != null)
+                            {
+                                var empList = ViewBag.Month as List<M_MONTH>;
+                                var empSelectList = empList.Select(item => new SelectListItem
+                                {
+                                    Text = DateTime.ParseExact(item.pK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture).ToString("MMM yyyy"),
+                                    Value = item.pK_MONTHCODE.ToString()
+                                }).ToList();
+
+                                @Html.DropDownList("MonthCode", empSelectList, new
+                                {
+                                    @class = "js-example-responsive col-sm-12",
+                                    @id = "ddlMonth",
+                                    @required = "required"
+                                })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("MonthCode", new SelectList(new[] { new SelectListItem { Text = "", Value = "", Disabled = true } }, "Value", "Text"))
+                            }
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnSubmit" type="submit" class="btn btn-sm btn-primary pull-right">ViewReport</button>
+                    </div>
+                }
+
+                <iframe id="reportIframe" src="" name="myFrame" width="900" height="1000"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+
+    <script src="~/libraries/assets/js/select2.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+        $("#ddlUnit").change(function () {
+       /* alert('');*/
+        debugger;
+        /*MCode = $("#ddlMonth").val() ;*/
+        MUnit = $("#ddlUnit").val();
+        //MDpartCode = $("#ddlDeptCode").val();
+
+        //var DirectUrl = 'Url.Action("ExportCustomers", "Report")' + '?MonthCode=' + MCode + '&Unit=' + MUnit + '&DpartCode=' + MDpartCode;
+        //var DirectUrl = 'Url.Action("Payslip", "Report")' + '?MonthCode=' + MCode;
+        var DirectUrl = '@Url.Action("Index", "Report")' + '?unit=' + MUnit;
+        var link = document.createElement('a');
+        link.href = DirectUrl;
+       /* link.target = "_blank";*/
+        document.body.appendChild(link);
+        link.click();
+    })
+
+    $("#myForm").submit(function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Get the selected values from the dropdowns
+    var MUnit = $("#ddlUnit").val();
+    var MMonth = $("#ddlMonth").val();
+
+    // Create the URL for the report based on selected values
+    var DirectUrl = '@Url.Action("Payslip", "Report")' + '?unit=' + MUnit + '&MonthCode=' + MMonth;
+
+    // Update the iframe source dynamically
+    $("#reportIframe").attr("src", DirectUrl);
+
+    // Optionally, you can hide or show the iframe based on some logic
+    // $('#reportIframe').show();
+        });
+    });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+﻿<!-- Views/Your/Index.cshtml -->
+@*@model List<HRMS.Controllers.Person>*@
+@model HRMS.Controllers.Person
+
+@using (Html.BeginForm("ProcessPeople", "Default1", FormMethod.Post))
+{
+    <div>
+        <label>Parent Name:</label>
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    for (int i = 0; i < Model.Children.Count; i++)
+    {
+        @Html.HiddenFor(model => model.Children[i].Id)
+        <div>
+            <label>Name:</label>
+            @Html.DisplayFor(model => model.Children[i].Name)
+        </div>
+        <div>
+            <label>Age:</label>
+            @Html.DisplayFor(model => model.Children[i].Age)
+        </div>
+        <br />
+    }
+
+    
+    for (int i = 0; i < Model.GrandChild.Count; i++)
+    {
+        @Html.HiddenFor(model => model.GrandChild[i].Id)
+        <div>
+            <label>Grand Name:</label>
+            @Html.DisplayFor(model => model.GrandChild[i].Name)
+        </div>
+        <div>
+            <label>Grand Age:</label>
+            @Html.DisplayFor(model => model.GrandChild[i].Age)
+        </div>
+        <br />
+    }
+    <input type="submit" value="Submit" />
+}
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+

@@ -1,0 +1,294 @@
+﻿
+@{
+
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Redesign</title>
+    @*Add your CSS framework (e.g., Bootstrap, Font Awesome)*@
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+
+    .form-check-inline .form-check-input {
+        position: static;
+        margin-top: 0px;
+        margin-right: -0.6875rem;
+        margin-left: 0;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 11px;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: 28px;
+    }
+</style>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><strong>Bank Wages Payment</strong></h4>
+            </div>
+
+            @using (Html.BeginForm("BankWagesPayment", "Report", FormMethod.Post, new { id = "myForm" }))
+            { 
+                <div class="card-body">
+                    <!-- Unit Selection -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <input type="hidden" id="dailyUnit" name="dailyUnit" value="This is a text box">
+                            <label for="unitSelect" class="form-label"><strong>Select Unit</strong></label>
+                            <select id='select-dailyUnit' data-placeholder="Please choose unit" data-allow-clear="true" class="form-control" data-close-on-select="true">
+                                <optgroup label="select all">
+                                    <option> </option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <!-- Month Year Selection -->
+                        <div class="col-md-3">
+                            <input type="hidden" id="dailyMonth" name="dailyMonth" value="This is a text box">
+                            <label for="monthYearSelect" class="form-label"><strong>Select Month & Year</strong></label>
+                            <select id='select-dailyMonth' data-placeholder="please choose Month Year" class="form-control" data-allow-clear="false" data-close-on-select="true">
+                                <optgroup id="SELECTALL" label="select all">
+                                    <option></option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <!-- Employee Type Selection -->
+                        <div class="col-md-3">
+                            <label for="employeeTypeSelect" class="form-label"><strong>Select Employee Type</strong></label>
+                            @Html.DropDownList("EmpType", new SelectList(ViewBag.EmpType ?? new List<SelectListItem>(), "Value", "Text"), "please choose Emp Type",
+                                                          new { @class = "form-control", id = "select-empType" })
+                            @Html.ValidationMessage("EmpType", "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <!-- Department Selection -->
+                        <div class="col-md-3">
+                            <label for="departmentSelect" class="form-label"><strong>Select Department</strong></label>
+                            @Html.DropDownList("Dept", new SelectList(ViewBag.Department ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                  new { @class = "form-control" })
+                            @Html.ValidationMessage("Dept", "", new { @class = "text-danger" })
+
+                        </div>
+
+                    </div>
+                    <div class="row mb-4">
+                        <!-- Month Employee Selection -->
+                        <div class="col-md-3">
+                            <input type="hidden" id="dailyEmployee" name="dailyEmployee" value="This is a text box">
+                            <label for="unitSelect" class="form-label"><strong>Select Employee</strong></label>
+                            <select id="id_SelectElement" class="form-control" multiple data-placeholder="Please choose one or more" data-allow-clear="true" data-close-on-select="false">
+                            </select>
+                        </div>
+
+                        <!-- Bank Details Selection -->
+                        <div class="col-md-3">
+                            <label for="bankDetSelect" class="form-label"><strong>Select Bank Details</strong></label>
+                            @Html.DropDownList("BankDet", new SelectList(ViewBag.BankDet ?? new List<SelectListItem>(), "Value", "Text"), "please choose Emp Type",
+                                                          new { @class = "form-control", id = "select-BankDet" })
+                            @Html.ValidationMessage("BankDet", "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <!-- Cost Center Selection -->
+                        <div class="col-md-3">
+                            <label for="costCenterSelect" class="form-label"><strong>Select Cost Centre</strong></label>
+                            @Html.DropDownList("CostCentre", new SelectList(ViewBag.CostCentre ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                  new { @class = "form-control" })
+                            @Html.ValidationMessage("CostCentre", "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <!-- Radio Buttons for PF No / UAN Wise -->
+                    <fieldset class="mb-4">
+                        @*<legend class="col-form-label">Select PF or UAN Wise</legend>*@
+                        <legend class="col-form-label"><strong>Select Pay Type</strong></legend>
+
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="radio" id="Salary" value="Salary" checked>
+                            <label class="form-check-label" for="Salary">Salary</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="radio" id="OverTime" value="OverTime">
+                            <label class="form-check-label" for="OverTime">Over Time</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="radio" id="Incentive" value="Incentive">
+                            <label class="form-check-label" for="Incentive">Incentive</label>
+                        </div>
+                    </fieldset>
+
+                    <!-- Data Import Options -->
+                    <fieldset class="mb-4">
+                        <legend class="col-form-label"><strong>Select Format Type</strong></legend>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="dataImport" id="monthlyDataImport" value="Graphics" checked>
+                            <label class="form-check-label" for="monthlyDataImport">Graphics</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="dataImport" id="employeeUpload" value="Excel">
+                            <label class="form-check-label" for="employeeUpload">Excel</label>
+                        </div>
+                        @*<div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="dataImport" id="form2Upload" value="Form2">
+                            <label class="form-check-label" for="form2Upload">Text Print</label>
+                        </div>*@
+
+                    </fieldset>
+
+
+                    <!-- File Upload Section -->
+                    @*<div class="mb-4">
+                    <label for="fileUpload" class="form-label"><strong>Select Excel File Import</strong></label>
+                    <input type="file" class="form-control-file" id="fileUpload" name="files[]">
+                </div>*@
+
+                    <!-- Submit Button -->
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="/Menu/Index" class="btn btn-secondary">
+                            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Cancel
+                        </a>
+
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+
+    <script>
+        //$(document).ready(function () {
+        //    $('.select2').select2({
+        //        width: '100%',
+        //        //theme: 'bootstrap4' // Optional if you want Bootstrap-styled dropdowns
+        //    });
+        //});
+    $('#select-dailyUnit').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#dailyUnit').val(x);
+    });
+
+    $('#select-dailyMonth').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#dailyMonth').val(x);
+    });
+
+     $('#select-dailyUnit').select2({
+        ajax: {
+        url:  "@Url.Action("GetUnitDropdown", "DailyAttend")",
+        data: function (params) {
+            var query ={
+                searchString: params.term, // The search term
+                page: params.page || 1, // Page number for pagination
+                pageSize: 5, // Number of results per page
+                /*UNIT: $("#select-unit").val(), // The value of the UNIT dropdown*/
+            }
+            return query;
+        },
+            processResults: function (res, params) {
+
+                var list = res.Data.value.results; // The data returned from the API
+                return {
+                    results: $.map(list, function (x) {
+                        return {
+                            text: x.code + "-" + x.name, // The text to display in the dropdown
+                            id: x.code // The value to store for the option
+                        };
+                    }),
+                    pagination: {
+                        more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+                    }
+                };
+            },
+            cache: true
+        }
+     });
+
+     $('#select-dailyMonth').select2({
+        ajax: {
+        url:  "@Url.Action("GetMonthCodeDropDown", "DailyAttend")",
+            data: function (params) {
+                var query ={
+                    searchString: params.term,
+                    page: params.page || 1,
+                    pageSize: 25,
+                    UNIT: $('#dailyUnit').val(),
+                }
+                return query;
+            },
+             processResults: function (res, params) {
+                 debugger;
+                 var list = res.Data.value.results; // The data returned from the API
+            // Map the data into the Select2 expected format
+                return {
+                    results: $.map(list, function (x) {
+                        return {
+                            text: x.MONTHNAME,
+                            id: x.PK_MONTHCODE
+                        };
+                    }),
+                    pagination: {
+                        more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+                    }
+                };
+             },
+
+            cache: true
+        }
+     });
+
+    let optionSelect2 = {
+
+    closeOnSelect: false,
+    width: '100%',
+    ajax: {
+         url: "@Url.Action("GetEmployee", "Setting")",
+         data: function (params) {
+             var UNIT = $('#dailyUnit').val();
+            
+         var query = {
+             searchString: params.term,
+             page: params.page || 1,
+             pageSize: 10,
+             UNIT: UNIT,
+         }
+         return query;
+ },
+         processResults: function (res) {
+     var list = res.Data.value.results;
+     var dataList =  $.map(list, function (x) {
+         return {
+             text: x.pK_EMPCODE + "-" + x.fname,
+             id: x.pK_EMPCODE
+         };
+     })
+     return {
+         results: dataList,
+         pagination: {
+             more: res.Data.value.currentPage < res.Data.value.pageCount
+         }
+     };
+ }
+    }
+};
+  $("#id_SelectElement").select2(optionSelect2);
+    </script>
+</body>
+
+</html>
+
+
+
+

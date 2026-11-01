@@ -1,0 +1,161 @@
+﻿@model HRMS.Models.Master.M_EMP_LINK_DET
+@using HRMS.Models.Master
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("StoreOrEdit", "MastEmpLinkDel", FormMethod.Post, new { id = "myForm" }))
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Employee Link Master: @ViewBag.DisplayName</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Effective Date</label>
+                            @Html.EditorFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @Id = "StartFrom3" } })
+                            @Html.HiddenFor(x => x.ID)
+                            @Html.HiddenFor(x => x.UNIT)
+                            @Html.HiddenFor(x => x.FK_EMPCODE)
+                            @*@Html.HiddenFor(x => x.FK_DEPT_CODE)*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Unit</label>
+                            @Html.DropDownList("FK_UNIT_CODE", new SelectList(ViewBag.Unit, "CODE", "NAME"), "SELECT..", new { @class = "form-control", @required = "required", @id = "ddlcompany3" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Category</label>
+                            @Html.DropDownList("FK_CAT_CODE", new SelectList(ViewBag.Cat, "PK_CATE_CODE", "CATE_DESCN"), "SELECT..", new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Employee Type</label>
+                            @Html.DropDownList("FK_EMP_TYPE", new SelectList(ViewBag.EmpType, "PK_CODE", "DESCRIPTION"), "SELECT..", new { @class = "form-control", @id = "ddlcompany1", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Designation</label>
+                            @Html.DropDownList("FK_DESG_CODE", new SelectList(ViewBag.Desig, "PK_DESG_CODE", "DESG_DESCN"), "SELECT..", new { @class = "form-control", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Bonus Apply:</label>
+                            @Html.DropDownListFor(x => x.APPLY_BONUS, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Gratuity Apply:</label>
+                            @Html.DropDownListFor(x => x.APPLY_GRATUITY, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    @if (ViewBag.Loca != "AGR")
+                    {
+                        <div class="@(ViewBag.Loca=="AGR"?"hidden-lg":"col-md-12")">
+                            @*<div class="hidden-lg">*@
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Department</label>
+                                        @Html.DropDownList("FK_DEPT_CODE", new SelectList(ViewBag.Dept, "PK_DEPT_CODE", "DESCRIPTION"), "SELECT..", new { @class = "form-control", @id = "ddlcompany4" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Sub Dept</label>
+                                        @Html.DropDownList("FK_SUB_DEPT_CODE", new SelectList(ViewBag.SubDept, "PK_SUB_DEPT", "SUB_DEPT_DESCN"), "SELECT..", new { @class = "form-control", @id = "ddlcompany9" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Grade</label>
+                                        @Html.DropDownList("FK_GRADE_CODE", new SelectList(ViewBag.Grade, "PK_GRADE_CODE", "DESCRIPTION"), "SELECT..", new { @class = "form-control", @id = "ddlcompany5" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Cost Centre</label>
+                                        @Html.DropDownList("FK_COST_CODE", new SelectList(ViewBag.Cost, "pK_CODE", "descn"), "SELECT..", new { @class = "form-control", @id = "costcentre" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">PF Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_PF, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">ESI Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_ESI, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Incentive Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_INCENTIVE, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">ITAX Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_ITAX, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">PTAX Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_PTAX, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">FC Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_FC, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">FC ON OT Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_FC_ON_OT, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">VPF Apply:</label>
+                                        @Html.DropDownListFor(x => x.APPLY_VPF, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div id="divMsg" class="text-danger"> </div>
+            <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("Index","MastEmp")'" id="btnclose" data-dismiss="modal"
+               style="color: white;background-color: red;">Close</a>
+            <button name="submit" type="submit" id="btnSubmit123" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+        </div>
+    </div>
+}
+
+
+
+
+
+

@@ -1,0 +1,56 @@
+﻿
+@model HRMS.Models.Master.MONTHLY_ATTENDANCE_ENTRY
+
+@{
+    ViewBag.Title = "AttendanceMonthly";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-12 col-xl-12">
+    <div class="card">
+        <div class="card-header">
+            <h5>Upload Monthly Attendence</h5>
+        </div>
+        <div class="card-block">
+            @using (Html.BeginForm("AttendanceMonthly", "Import", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="row form-group col-sm-12">
+                    <div>
+                        <label class="col-form-label">Unit</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(m => m.UNIT, new SelectList(ViewBag.Unit ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                            new { @class = "form-control js-example-data-array", @id = "UNIT" })
+                        @Html.ValidationMessage("Unit", "", new { @class = "text-danger" })
+                    </div>
+
+                    <div>
+                        <label class="col-form-label">Month</label>
+                    </div>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(m => m.MONTHCODE, new SelectList(ViewBag.Month ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                            new { @class = "form-control js-example-data-array", @id = "MONTHCODE" })
+                        @Html.ValidationMessage("Monthcode", "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+                <div class="row form-group col-sm-12">
+                    <div class="col-sm-7">
+                        <input class="form-control " type="file" id="FileUpload" name="FileUpload">
+                    </div>
+                    <div class="col-sm-5">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="submit" class="btn btn-primary">Cancel</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            @Html.Partial("_UploadTable")
+        </div>
+    </div>
+</div>
+
+
+

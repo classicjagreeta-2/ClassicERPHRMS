@@ -1,0 +1,377 @@
+﻿
+@model HRMS.Models.Master.M_ATTEND_DAYS_TYPE
+
+@using HRMS.Models.Master
+
+
+
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+    @*<style>
+            .radio-group label {
+                display: inline-block;
+                margin-right: 10px;
+            }
+
+            .custom-radio {
+                width: 15px; /* Set the desired width for the radio button */
+                height: 15px; /* Set the desired height for the radio button */
+                border-radius: 50%; /* Make the radio button circular */
+                margin-right: 5px; /* Add some space between the radio button and label */
+            }
+        </style>*@
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+
+    @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+        @*@Html.HiddenFor(x => x.ORDER_TAG)*@
+        @*@Html.HiddenFor(x => x.DEFAULT_CODE)*@
+        @*@Html.HiddenFor(x => x.ONLY_DAYS)*@
+        @Html.HiddenFor(x => x.ID)
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Attendance Days Type Master</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Attendance Code:</label>
+                                    @Html.TextBoxFor(x => x.PK_ATTEND_CODE, new { @class = "form-control", @maxlength = "4", @required = "required", @id = "attendcode", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.PK_ATTEND_CODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Attendance Code:</label>
+                                    @Html.TextBoxFor(x => x.PK_ATTEND_CODE, new { @class = "form-control", @maxlength = "4", @required = "required", @id = "attendcode" })
+                                </div>
+                            </div>
+                        }
+
+
+                        @if (Model != null)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Attendance Description:</label>
+                                    @Html.TextBoxFor(x => x.DESCRIPTION, new { @class = "form-control", @maxlength = "25", @required = "required", @id = "descn", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.DESCRIPTION)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Attendance Description:</label>
+                                    @Html.TextBoxFor(x => x.DESCRIPTION, new { @class = "form-control", @maxlength = "25", @required = "required", @id = "descn" })
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Short Name:</label>
+                                @Html.TextBoxFor(x => x.SHORT_NAME, new { @class = "form-control", @maxlength = "12", @required = "required", @id = "sname" })
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Print Ordertag:</label>
+                                @Html.TextBoxFor(x => x.ORDER_TAG, new { @class = "form-control", @id = "otag" , @maxlength = "2" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-12"  id="chkbox">
+                            <div class="form-group">
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.Bool_WITHOUT_PAY, new { @id = "withoutpay", @class = "single-checkbox" })
+                                        <span>Without Pay</span>
+                                    </div>
+                                </div>
+
+                                @if (ViewBag.LOca == "AGR")
+                                {
+                                    <div class="form-group hidden-lg">
+                                        <div>
+                                            @Html.CheckBoxFor(x => x.Bool_EXTRA_DAYS, new { @id = "extraday", @class = "single-checkbox" })
+                                            <span>Extra Days</span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                 <div class="checkbox-fade fade-in-primary">
+                                      <div>
+                                       @Html.CheckBoxFor(x => x.Bool_EXTRA_DAYS, new { @id = "extraday", @class = "single-checkbox" })
+                                      <span>Extra Days</span>
+                                 </div>
+                                 </div>
+                                }
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.Bool_LEAVE, new { @id = "leave", @class = "single-checkbox" })
+                                        <span>Leave</span>
+                                    </div>
+                                </div>
+
+                                @if (ViewBag.LOca == "AGR")
+                                {
+                                    <div class="form-group hidden-lg">
+                                        <div>
+                                            @Html.CheckBoxFor(x => x.Bool_OVERTIME, new { @id = "overtime", @class = "single-checkbox" })
+                                            <span>Overtime</span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="checkbox-fade fade-in-primary">
+                                        <div>
+                                            @Html.CheckBoxFor(x => x.Bool_OVERTIME, new { @id = "overtime", @class = "single-checkbox" })
+                                            <span>Overtime</span>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.Bool_WEEKLY_OFF, new { @id = "weeklyoff", @class = "single-checkbox" })
+                                        <span>Weekly Off</span>
+                                    </div>
+                                </div>
+
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.Bool_HOLIDAY, new { @id = "holiday", @class = "single-checkbox" })
+                                        <span>Holiday</span>
+                                    </div>
+                                </div>
+
+
+                                @*<div class="checkbox-fade fade-in-primary">
+           @Html.RadioButtonFor(x => x.WEEKLY_OFF, "Y", new { @class = "custom-radio", @style = "display:inline" })
+            <span>Weekly Off</span>
+        </div>
+
+        <div class="checkbox-fade fade-in-primary">
+            @Html.RadioButtonFor(x => x.HOLIDAY, "Y", new { @class = "custom-radio", @style = "display:inline" })
+            <span>Holiday</span>
+        </div>*@
+
+
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        function attencd() {
+
+            debugger;
+            // Get the initial value of the textbox
+            var initialValue = $("#attendcode").val();
+
+            // Check if the initial value is not empty
+            if (initialValue !== "") {
+                // If it has initial data, disable the textbox
+                $("#attendcode").prop("disabled", true);
+            }
+        }
+   
+
+        attencd();
+       
+    /*    ordertd();*/
+
+
+    });
+
+
+    $('.single-checkbox').click(function () {
+
+        debugger;
+
+        // Uncheck all checkboxes except the one clicked
+        $('.single-checkbox').not(this).prop('checked', false);
+
+    });
+
+    //$('.checkbox-group').on('change', function () {
+    //    $('.checkbox-group').not(this).prop('checked', false); // Uncheck other checkboxes
+    //});
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        var directUrl = '@Url.Action("StoreOrEdit", "Attend_Days_Type")';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: directUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+                    //cancel: function () {
+
+                    //}
+                }
+
+            });
+
+            //  debugger;
+            // $("#ddlaccounthead").empty().trigger('change')
+            // $("#ddlaccounthead option:selected").prop("selected", false);
+            // $("#ddlaccounthead").selectpicker("refresh");
+            // $.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "success"
+            //})
+
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>
+
+<script>
+    $(function () {
+        $('#datepicker').datepicker({
+            autoclose: true
+        })
+    })
+
+    //function ordertd() {
+    //    debugger;
+    //    $("#otag").validate({
+
+    //        rules: {
+    //            decimalField: {
+
+    //               /* min: 0.00,*/
+    //                max: 2.00,
+    //            }
+    //        },
+    //        messages: {
+    //            decimalField: {
+
+    //              /*  min: "Value must be greater than or equal to 0.0",*/
+    //                max: "Value must be less than or equal to 2 digits"
+    //            }
+    //        }
+    //    });
+    //}
+
+</script>
+
+
+}
+

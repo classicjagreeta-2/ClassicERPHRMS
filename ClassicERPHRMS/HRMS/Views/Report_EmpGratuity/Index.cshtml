@@ -1,0 +1,249 @@
+﻿@model HRMS.Models.TRN.T_GRATUITY
+@using System.Globalization
+@{
+    Layout = null;
+}
+<head>
+    <title> Report View</title>
+    <link href="~/src/selectstyle.css" rel="stylesheet">
+    <link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+    <!-- feather Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+    <!-- Select 2 css -->
+    <link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+    <!-- jpro forms css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/j-pro-modern.css">
+
+    <!-- Switch component css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/switchery/css/switchery.min.css">
+
+    <!-- Tags css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css">
+    <script src="~/JsProject/TD_Loder.js"></script>
+
+
+    <style>
+        .select2-container--default .select2-selection--single {
+            color: #fff;
+            height: 41px;
+        }
+
+        .j-wrapperForm {
+            margin: 0 auto;
+            outline: none;
+            padding: 40px 15px;
+            /*-webkit-box-sizing: content-box;*/
+            -moz-box-sizing: content-box;
+            /*box-sizing: content-box;*/
+        }
+
+        input[type="checkbox"] {
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.15em;
+            transform: translateY(-0.075em);
+            border: 2px solid #01a9ac;
+        }
+
+        .shade {
+            -webkit-box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+            box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+        }
+    </style>
+</head>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["SuccessMessage"]</strong>
+        @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>@TempData["ErrorMessage"]</strong>
+    </div>
+}
+<div class="page-body">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header pull-right">
+                <div class="text-center"><h4>Gratuity Report</h4></div>
+            </div>
+            <div class="card-block" id="divcontainer">
+
+                <div class="row">
+                    <div class="col-sm-1">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="exampleInputName1"><b>SELECT MONTH</b></label>
+                        @Html.DropDownListFor(x => x.FK_MONTHCODE, new SelectList(ViewBag.GratuityMonth, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required", @type = "text", @id = "ddlMonth" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="exampleInputName1"><b>SELECT Employee</b></label>
+                        <select id="ddlEmp" multiple="multiple" class="js-example-responsive col-sm-12" disabled="true">
+                            @foreach (var emp in ViewBag.EmpList)
+                            {
+                                <option value="@emp.Value">@emp.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSubmit" class="btn btn-sm btn-primary pull-right">VIEW REPORT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <link href="~/libraries/MultiSelectDropDown/Boostrap.css" rel="stylesheet" />
+    <link href="~/libraries/MultiSelectDropDown/bootstrap-select.css" rel="stylesheet" />
+    <script src="~/libraries/MultiSelectDropDown/bootstrap-select.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+    <!-- Include Select2 JS -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>-->
+
+    <script src="~/libraries/assets/js/select2.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Include Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script>
+        $("#btnSubmit").click(function () {
+    //alert('');
+    debugger;
+    MCode = $("#ddlMonth").val() ;
+    MEmp = $('#ddlEmp').val() || "";
+    var DirectUrl = '@Url.Action("GetGratuityReport", "Report_EmpGratuity")' + '?MonthCode=' + MCode  +'&EmpCode='+MEmp;
+    var link = document.createElement('a');
+    link.href = DirectUrl;
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+})
+    @*$(document).ready(function() {
+        $('#ddlMonth').change(function () {
+            debugger
+
+            var selectedMonth = $(this).val();
+            if (selectedMonth) {
+                $.ajax({
+                    url: '@Url.Action("GetEmployeesByMonth", "Report_EmpGratuity")', // Your action method
+                    type: 'GET',
+                    data: { monthCode: selectedMonth },
+                    success: function(data) {
+                        var empDropdown = $('#ddlEmp');
+
+                        empDropdown.empty();
+                        if (data.length > 0) {
+                            $.each(data, function(index, item) {
+                                empDropdown.append($('<option>', {
+                                    value: item.PK_EMPCODE,
+                                    text: item.PK_EMPCODE + "-" + item.FNAME + " " + item.LNAME
+                                }));
+                            });
+                        } else {
+                            empDropdown.append($('<option>', {
+                                value: '',
+                                text: 'No employees found'
+                            }));
+                        }
+                    }
+
+                });
+            } else {
+                $('#ddlEmp').empty(); // Clear employee dropdown if no month is selected
+            }
+
+        });
+    });*@
+      $(document).ready(function() {
+    $('#ddlMonth').change(function () {
+        debugger;
+
+        var selectedMonth = $(this).val();
+        var empDropdown = $('#ddlEmp');
+        empDropdown.attr('disabled', 'true');
+        if (selectedMonth) {
+            $.ajax({
+                url: '@Url.Action("GetEmployeesByMonth", "Report_EmpGratuity")', // Your action method
+                type: 'GET',
+                data: { monthCode: selectedMonth },
+                success: function(data) {
+                    empDropdown.empty(); // Clear existing options
+
+                    if (data.length > 0) {
+                        $.each(data, function(index, item) {
+                            empDropdown.append($('<option>', {
+                                value: item.PK_EMPCODE,
+                                text: item.PK_EMPCODE + "-" + item.FNAME + " " + item.LNAME
+                            }));
+                        });
+
+                        // Remove the 'disabled' attribute to enable the dropdown
+                        empDropdown.removeAttr('disabled');
+                    } else {
+                        empDropdown.append($('<option>', {
+                            value: '',
+                            text: 'No employees found'
+                        }));
+
+                        // Ensure the dropdown is enabled even if no employees are found
+                        empDropdown.removeAttr('disabled');
+                    }
+                },
+                error: function() {
+                    // Handle any errors
+                    empDropdown.empty();
+                    empDropdown.append($('<option>', {
+                        value: '',
+                        text: 'Error retrieving data'
+                    }));
+                    empDropdown.removeAttr('disabled');
+                }
+            });
+        } else {
+            empDropdown.empty(); // Clear employee dropdown if no month is selected
+
+            // Optionally, reapply the disabled state if no month is selected
+            // empDropdown.attr('disabled', 'true');
+        }
+    });
+});
+    </script>
+
+}
+

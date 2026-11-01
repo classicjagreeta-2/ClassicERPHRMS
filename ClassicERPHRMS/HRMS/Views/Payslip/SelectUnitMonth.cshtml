@@ -1,0 +1,198 @@
+﻿
+@{
+
+}
+
+<div class="page-body">
+    <div class="card">
+        <div class="card-body">
+            <label for="dataType">Select Add Type:</label>
+            <div class="container-fluid">
+                <div class="row">
+                    <label for="id_SelectElement" class="col-sm-2">Employee: </label>
+                    <div class="col-sm-12">
+
+                        <input type="hidden" id="dailyUnit" value="This is a text box">
+                        <select id='select-dailyUnit' data-placeholder="Please choose unit" data-allow-clear="true" data-close-on-select="false">
+                            <optgroup label="select all">
+                                <option> </option>
+                            </optgroup>
+                        </select>
+                        <input type="hidden" id="dailyMonth" value="This is a text box">
+                        <select id='select-dailyMonth' data-placeholder="Month Year" data-allow-clear="true" data-close-on-select="false">
+                            <optgroup id="SELECTALL" label="select all">
+                                <option></option>
+                            </optgroup>
+                        </select>
+                        <select id="id_SelectElement" placeholder="Select Text" multiple data-placeholder="Please choose one or more" data-allow-clear="true" data-close-on-select="false">
+                        </select>
+                    </div>
+                </div>
+
+
+            </div>
+            @*<select class="form-control" id="dataType">
+                    <option value="single">Add New (Single Emp)</option>
+                    <option value="multiple">Add New (All Active Emp)</option>
+                </select>*@
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="generateBtn">Okay</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        debugger
+      let optionSelect2 = {
+
+      closeOnSelect: false,
+      width: '100%',
+      ajax: {
+           url: "@Url.Action("GetEmployee", "Setting")",
+           data: function (params) {
+               var UNIT = $('#dailyUnit').val();
+               //var _UNIT = $('#unitValue').val();
+               //var _Unit = $('#Unit').val();
+               //var _unit = $('#unit').val();
+               //if (typeof (_UNIT) !== "undefined") {
+               //    UNIT = _UNIT;
+               //}
+               //else if (typeof (_Unit) !== "undefined") {
+               //    UNIT = _Unit;
+               //}
+               //else {
+               //    UNIT = _unit;
+               //}
+           var query = {
+               searchString: params.term,
+               page: params.page || 1,
+               pageSize: 10,
+               UNIT: UNIT,
+           }
+           return query;
+   },
+           processResults: function (res) {
+       var list = res.Data.value.results;
+       var dataList =  $.map(list, function (x) {
+           return {
+               text: x.pK_EMPCODE + "-" + x.fname,
+               id: x.pK_EMPCODE
+           };
+       })
+       return {
+           results: dataList,
+           pagination: {
+               more: res.Data.value.currentPage < res.Data.value.pageCount
+           }
+       };
+   }
+      }
+  };
+    $("#id_SelectElement").select2(optionSelect2);
+
+    $("#checkbox").click(function () {
+        if ($("#checkbox").is(':checked')) {
+            $("#id_SelectElement > option").prop("selected", "selected");
+            $("#id_SelectElement").trigger("change");
+        } else {
+            $("#id_SelectElement > option").removeAttr("selected");
+            $("#id_SelectElement").trigger("change");
+        }
+    });
+
+        $("#generateBtn").click(function () {
+            debugger
+            /*alert($("#id_SelectElement").val());*/
+            var selectemployee=  $("#id_SelectElement").val();
+            var mcode = $("#dailyMonth").val();
+            var unit = $("#dailyUnit").val();
+            //var yrcode = $("#yearcode").val();
+            //var monthcode = yrcode.concat(mcode);
+            window.location.href = "@Url.Action("Payslip", "Payslip")?EMPCODE=" + selectemployee + "&MonthCode=" + mcode + "&Unit=" + unit;
+    });
+    });
+</script>
+<script>
+
+    $('#select-dailyUnit').change(function () {
+        debugger
+       var x = $(this).val();
+        $('#dailyUnit').val(x);
+    });
+
+    $('#select-dailyMonth').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#dailyMonth').val(x);
+    });
+
+    debugger
+    $('#select-dailyMonth').select2({
+       ajax: {
+       url:  "@Url.Action("GetMonthCodeDropDown", "DailyAttend")",
+       data: function (params) {
+           var query ={
+               searchString: params.term,
+               page: params.page || 1,
+               pageSize: 25,
+               UNIT: $('#dailyUnit').val(),
+           }
+           return query;
+       },
+            processResults: function (res, params) {
+                debugger;
+                var list = res.Data.value.results; // The data returned from the API
+           // Map the data into the Select2 expected format
+           return {
+               results: $.map(list, function (x) {
+                   return {
+                       text: x.MonthName, // The text to display in the dropdown
+                       id: x.pK_MONTHCODE
+                   };
+               }),
+               pagination: {
+                   more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+               }
+           };
+       },
+
+       cache: true
+      }
+    });
+
+    $('#select-dailyUnit').select2({
+    ajax: {
+    url:  "@Url.Action("GetUnitDropdown", "DailyAttend")",
+    data: function (params) {
+        var query ={
+            searchString: params.term, // The search term
+            page: params.page || 1, // Page number for pagination
+            pageSize: 5, // Number of results per page
+            /*UNIT: $("#select-unit").val(), // The value of the UNIT dropdown*/
+        }
+        return query;
+    },
+    processResults: function (res, params) {
+
+        var list = res.Data.value.results; // The data returned from the API
+        return {
+            results: $.map(list, function (x) {
+                return {
+                    text: x.code + "-" + x.name, // The text to display in the dropdown
+                    id: x.code // The value to store for the option
+                };
+            }),
+            pagination: {
+                more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+            }
+        };
+    },
+
+    cache: true
+   }
+    });
+</script>

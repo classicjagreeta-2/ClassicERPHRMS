@@ -1,0 +1,92 @@
+﻿@model HRMS.Models.Master.M_GRADE
+@{
+    ViewBag.Title = "AddEditModel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+    @using (Html.BeginForm("AddOrUpdate", "M_Grade", FormMethod.Post, new { id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content" style="width:70%">
+            <div class="modal-header">
+                <h4 class="modal-title">Grade Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Grade Code:</label>
+                                    @Html.TextBoxFor(x => x.pK_GRADE_CODE, new {@class = "form-control mustfiled", @required = "required", @minlength = "3", @maxlength = "4", @disabled = "disabled", @id = "CODE" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+                                @Html.HiddenFor(x => x.pK_GRADE_CODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Grade Code:</label>
+                                    @Html.TextBoxFor(x => x.pK_GRADE_CODE, new {@class = "form-control mustfiled", @required = "required", @minlength = "3", @maxlength = "4", @id = "CODE" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+
+                            </div>
+                        }
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Grade Description :</label>
+                                @Html.TextBoxFor(x => x.description, new { @class = "form-control mustfiled", @maxlength = "25", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Start Basic:</label>
+                                @Html.TextBoxFor(x => x.starT_BASIC, new { @class = "form-control", @maxlength = "10" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">End Basic:</label>
+                                @Html.TextBoxFor(x => x.enD_BASIC, new { @class = "form-control", @maxlength = "10" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Increment Rate:</label>
+                                @Html.TextBoxFor(x => x.incR_RATE, new { @class = "form-control", @maxlength = "8" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">No of Years:</label>
+                                @Html.TextBoxFor(x => x.nO_OF_YEAR, new { @class = "form-control", @maxlength = "6" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("M_Grade","M_Grade")'" id="btnclose" data-dismiss="modal">Close</a>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+            </div>
+        </div>
+    }
+
+
+
+
+
+
+
+
+

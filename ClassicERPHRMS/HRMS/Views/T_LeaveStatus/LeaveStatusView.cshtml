@@ -1,0 +1,314 @@
+﻿@model List<HRMS.Models.TRN.T_LEAVE_APPLICATION>
+@using HRMS.Models.Master
+
+@{
+    ViewBag.Title = "LEAVE STATUS";
+}
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/data-table/css/buttons.dataTables.min.css">
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/TableRowDesign.css" rel="stylesheet" />
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+
+
+@*<link rel="stylesheet" href="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.css">
+    <script src="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>*@
+
+
+<!-- Data Table Css -->
+
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css">
+
+
+
+<style>
+
+
+   /* .select2-container--default
+    .select2-selection--single {
+        background-color: #fff;
+        border: 1px solid red;
+    }
+    .select3-selection--single {
+        background-color: #fff;
+        border: 1px solid green;
+    }
+    .select4-selection--single {
+        background-color: #fff;
+        border: 1px solid yellow;
+    }
+    .select5-selection--single {
+        background-color: #fff;
+        border: 1px solid blue;
+    }*/
+    .select2-container--default .select2-selection--single {
+        background-color: #fff;
+        border: 1px solid red;
+    }
+
+    .select3-selection--single {
+        background-color: #fff;
+        border: 1px solid green;
+    }
+
+    .select4-selection--single {
+        background-color: #ff0000;
+        border: 1px solid blue;
+    }
+
+    .select5-selection--single {
+        background-color: #fff;
+        border: 1px solid blue;
+    }
+</style>
+
+@if (TempData["toastrSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+       <strong>@TempData["toastrSuccess"]</strong>
+        @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
+    </div>
+}
+@if (TempData["toastrError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+       <strong>@TempData["toastrError"]</strong>
+    </div>
+}
+<div class="card">
+    <div class="card-header pull-right">
+        @*<button id="IdaddNewRecord" type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#IdModal" data-id="@ViewBag.FK_ID">
+                <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+            </button>*@
+        <a href=@Url.Action("Index","Menu") class="btn btn-sm btn-info">
+            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+        </a>
+        @*<a id="backBtn" href="javascript:void(0)" class="btn btn-sm btn-outline-info float-right">
+                <i class="fa fa-arrow-circle-o-left fa-lg" aria-hidden="true"></i> Back
+            </a>*@
+        <div class="text-center" style="margin-top: -36px;"><h4>Leave Status View</h4></div>
+        @*<div class="text-center"><h5>@ViewBag.EmpName.PK_EMPCODE - @ViewBag.EmpName.FNAME  @ViewBag.EmpName.LNAME</h5></div>*@
+        @*<div class="text-center"><h5>@ViewBag.DisplayName</h5></div>*@
+    </div>
+    <div class="card-block" id="divcontainer">
+        <div class="dt-responsive table-responsive">
+            <form method="post" action="/T_LeaveStatus/StoreOrEditLeaveApprovalList">
+                <table id="ajax-table" class="table table-striped table-bordered nowrap" style="width:100%">
+
+                    <thead>
+                        <tr>
+                            @*<th width="1%">Action</th>*@
+                            <th width="50%"> Employee Name </th>
+                            <th width="5%">Apply Date</th>
+                            <th width="5%">Leave Date</th>
+                            <th width="10%">Leave Type</th>
+                            @*<th width="30%">Leave Balance</th>*@
+                            <th width="10%">Reason</th>
+
+                            <th width="20%">Status</th>
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                      
+                        @if (Model != null && Model.Count() > 0)
+                        {
+                            for (int i = 0; i < Model.Count(); i++)
+                            {
+
+                                <tr>
+                                    <td>@Model[i].EmpName </td>
+
+                                    <td>@Model[i].FROM_DATE.ToString("dd-MM-yyyy") - @Model[i].TO_DATE.ToString("dd-MM-yyyy") </td>
+                                    <td>@Model[i].LEAVE_DATE.ToString("dd-MM-yyyy") </td>
+
+                                    <td>@Model[i].Attend </td>
+                                    <td>@Model[i].Reason</td>
+
+                                    <td>
+                                        @Html.HiddenFor(modelItem => @Model[i].ID)
+                                        @Html.HiddenFor(modelItem => @Model[i].DOCNO)
+                                        @Html.HiddenFor(modelItem => @Model[i].APPLY_DATE)
+                                        @Html.HiddenFor(modelItem => @Model[i].FK_EMPCODE)
+                                        @Html.HiddenFor(modelItem => @Model[i].FROM_DATE)
+                                        @Html.HiddenFor(modelItem => @Model[i].TO_DATE)
+                                        @Html.HiddenFor(modelItem => @Model[i].LEAVE_DATE)
+                                        @Html.HiddenFor(modelItem => @Model[i].REMARKS)
+                                        @Html.HiddenFor(modelItem => @Model[i].FK_ATTEND_CODE)
+                                        @Html.HiddenFor(modelItem => @Model[i].FK_REASON_CODE)
+                                        @Html.HiddenFor(modelItem => @Model[i].SESSION)
+                                        @Html.HiddenFor(modelItem => @Model[i].NO_OF_DAYS)
+                                        @if (Model[i].APPROVED == "A")
+                                        {
+                                            @Html.DropDownListFor(x => Model[i].APPROVED,
+                                           new SelectList(ViewBag.ApproveStatus, "DESCN1", "DESCN2", @Model[i].APPROVED),
+                                           new
+                                                {
+                                                    @class = "js-example-responsive select3-selection--single",
+                                                    @id = "APPROVED_" + @Model[i].ID
+                                           })
+                                        }
+                                        @if (Model[i].APPROVED == "P")
+                                        {
+                                            @Html.DropDownListFor(x => Model[i].APPROVED,
+                                                new SelectList(ViewBag.ApproveStatus, "DESCN1", "DESCN2", @Model[i].APPROVED),
+                                                new
+                                                     {
+                                                         @class = "js-example-responsive select4-selection--single",
+                                                         @id = "APPROVED_" + @Model[i].ID
+                                                ,
+
+                                                    @style = "background-color: #ff0000; border: 1px solid blue;"
+                                                })
+                                        }
+                                        @if (Model[i].APPROVED == "R")
+                                        {
+                                            @Html.DropDownListFor(x => Model[i].APPROVED,
+                                                new SelectList(ViewBag.ApproveStatus, "DESCN1", "DESCN2", @Model[i].APPROVED),
+                                                new { @class = "js-example-responsive select2-selection--single", @id = "APPROVED_" + @Model[i].ID })
+                                        }
+                                        @if (Model[i].APPROVED == "C")
+                                        {
+                                            @Html.DropDownListFor(x => Model[i].APPROVED,
+                                                new SelectList(ViewBag.ApproveStatus, "DESCN1", "DESCN2", @Model[i].APPROVED),
+                                                new { @class = "js-example-responsive select5-selection--single", @id = "APPROVED_" + @Model[i].ID })
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="2"><center> No Data </center></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/libraries/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/jszip.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/vfs_fonts.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script src="~/JsProject/commanJs.js"></script>
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+    <script src="~/JsProject/TD_Loder.js"></script>
+    <link href="~/libraries/js/loader/easy-loading.css" rel="stylesheet" />
+
+    <script src="~/libraries/Loader/waiting/bootstrap-waitingfor.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            datatable();
+            $(".ddlresponsive").select2();
+        })
+        function datatable() {
+            $(function () {
+                table = $("#ajax-table").DataTable({
+                    scrollY: '320px',
+                    scrollX: true,
+                    "processing": true, // for show progress bar,
+                    retrieve: true,
+                    "language": {
+                        'processing': '<i class="icofont icofont-spinner-alt-2 icofont-3x"></i>'
+                    },
+
+                    lengthMenu: [
+                        [50, 100, 500, -1],
+                        ['50', '100', '500', 'Show all']
+                    ],
+
+
+                    dom: 'lBfrtip',
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                        }
+                    ],
+                });
+            });
+        }
+        function Delete(id) {
+            $.confirm({
+                title: "Confirmation required",
+                content: "Are you sure you want to delete?",
+                buttons: {
+                    YES: function () {
+
+                        DeleteRecord(id);
+                    },
+                    NO: function () {
+
+                    },
+                }
+            });
+        }
+
+        function DeleteRecord(id) {
+            $.ajax({
+
+                type: "POST",
+                url: "/TD_OtherMaster/Delete",
+                data: { Id: id },
+                success: function (data) {
+
+                    if (data.success) {
+
+                        dataTable.ajax.reload();
+
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                    }
+                    else {
+                        $("#IdDivMsg").empty().append(data.message);
+                        $("#IdDivDeatils").empty().append(data.details);
+                        // $("#divMsg").empty().append(data.details);
+                        $("#myModal2").modal('show');
+                    }
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        }
+    </script>
+}
+

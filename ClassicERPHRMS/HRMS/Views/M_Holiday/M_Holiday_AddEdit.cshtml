@@ -1,0 +1,510 @@
+﻿@using System.Globalization;
+@model HRMS.Models.Master.M_HOLIDAY
+@using HRMS.Models.Master
+
+
+
+
+@{
+    ViewBag.Title = "Holiday";
+    DateTime nullDate = DateTime.ParseExact("01/01/0001", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+    ViewBag.NullDate = nullDate;
+}
+<link href="~/libraries/assets/css/font-awesome.min.css" rel="stylesheet" />
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+<link href="~/libraries/assets/css/ag-style.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/accodin.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/ag-style.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+
+    .form-group {
+        margin-bottom: 0.2em;
+    }
+
+    .col-form-label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700
+    }
+
+    /*.panels-wells .panel {
+    margin-bottom: 0px;
+    }*/
+    .card-block {
+        padding: 0.25rem
+    }
+
+    .main-body .page-wrapper {
+        padding: 0.1rem;
+    }
+
+    .accordion-msg {
+        padding: 1px 20px;
+    }
+
+    .fixedMenu {
+        -webkit-box-shadow: 0px 20px 11px 1px rgb(0 0 0 / 13%);
+    }
+
+
+    /*.Scroll {
+    height: 520px;
+    overflow-y: scroll;
+    }*/
+
+    /*body {
+    overflow-y: hidden;
+    }*/
+
+    #target {
+        background-color: white;
+        margin-bottom: 10px;
+    }
+
+    .header-navbar {
+        min-height: 1px;
+    }
+
+    .TableChild {
+        margin-top: 23px;
+        margin-bottom: 23px;
+        /*margin-right: 150px;
+    margin-left: 80px;*/
+    }
+
+    .select2-container--default .select2-selection--single:focus {
+        outline: none !important;
+        border-color: #719ECE;
+        box-shadow: 0 0 10px #719ECE;
+    }
+
+    .mustfiled {
+        border-color: red;
+    }
+
+    /*.select2{
+    border: 1px;
+    border-style: solid;
+    border-color: #ff4400;
+    }*/
+    .the-table {
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+        height: 15px;
+    }
+
+    .main-body .form-control {
+        height: 32px;
+    }
+
+    /*.input:disabled {
+    pointer-events: none;
+    color: #AAA;
+    background: #F5F5F5;
+    }*/
+
+    /*.input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+    opacity :0.5;
+    }*/
+
+</style>
+
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="page-body">
+            <div class="col-sm-12">
+                <!-- Login card start -->
+                <div class="card">
+                    @using (Html.BeginForm("HolidayList", "M_Holiday", FormMethod.Post))
+                    {
+
+                        @*<div class="modal-content">
+                        *@
+                        <div class="modal-header">
+
+                            <div class="text-center" style="margin-left: 160px;"><h4>HOLIDAY LIST</h4></div>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="j-wrapperForm j-wrapper-640">
+
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">From Date :</label>
+                                                @if (Model.FROM_DATE == ViewBag.NullDate)
+                                                {
+                                                    @Html.EditorFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "frm_dt" } })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "frm_dt" })
+                                                }
+                                                @*@Html.HiddenFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}")*@
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">To Date :</label>
+                                                @if (Model.TO_DATE == ViewBag.NullDate)
+                                                {
+                                                    @Html.EditorFor(x => x.TO_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "to_dt" } })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(x => x.TO_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "to_dt" })
+                                                }
+
+                                                @*@Html.HiddenFor(x => x.TO_DATE, "{0:yyyy-MM-dd}")*@
+                                            </div>
+                                            <div id="errorMessage" style="color: red;"></div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Previous Date :</label>
+                                                @if (Model.FROM_DATE == ViewBag.NullDate)
+                                                {
+                                                    @Html.EditorFor(x => x.PREV_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "prev_dt" } })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(x => x.PREV_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "prev_dt" })
+                                                }
+                                                @*@Html.HiddenFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}")*@
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Next Date :</label>
+                                                @if (Model.TO_DATE == ViewBag.NullDate)
+                                                {
+                                                    @Html.EditorFor(x => x.NEXT_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "nxt_dt" } })
+                                                }
+                                                else
+                                                {
+                                                    @Html.TextBoxFor(x => x.NEXT_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "nxt_dt" })
+                                                }
+
+                                                @*@Html.HiddenFor(x => x.TO_DATE, "{0:yyyy-MM-dd}")*@
+                                            </div>
+                                            <div id="errorMessage" style="color: red;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label for="exampleInputName1">Attendance Code & Description :</label>
+                                            @Html.DropDownListFor(x => x.FK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                                            new { @class = "js-example-disabled-results col-sm-12", @required = "required" })
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <label for="exampleInputName1">Holiday Description :</label>
+                                            @Html.TextBoxFor(x => x.DESCRIPTION, new { @type = "text", @class = "form-control col-sm-12", @maxlength = "30" })
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn-primary pull-right aLoader" id="nextButton" type="submit" onclick="showLoading()">
+                                Get <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+        @if (ViewBag.HolidayList != null)
+
+        {
+            <div class="modal-body">
+                <div class="card" id="divcontainer">
+                    <div class="dt-responsive table-responsive">
+
+                        <form method="post" action="/T_Lev_App/AppliedLeave">
+                            <table id="ajax-table" class="table table-striped table-bordered nowrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Holiday Type</th>
+                                        <th width="10%">Holiday Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (ViewBag.HolidayList != null)
+                                    {
+
+                                        //var leaveList = ViewBag.LeaveList;
+
+                                        for (int i = 0; i < ViewBag.HolidayList.Count; i++)
+                                        {
+                                            <tr class="RowTable">
+
+                                                @if (ViewBag.HolidayList[i].LOCA == "AGR")
+                                                {
+                                                    <td>
+                                                        @Html.DropDownListFor(x => x.FK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text", ViewBag.HolidayList[i].FK_ATTEND_CODE),
+                                                            new { @class = "js-example-disabled-results col-sm-12", @id = "holi" + ViewBag.HolidayList[i].HOL_DATE, @disabled = "disabled" })
+                                                    </td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @Html.DropDownListFor(x => x.FK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text", ViewBag.HolidayList[i].FK_ATTEND_CODE),
+                                                            new { @class = "js-example-disabled-results col-sm-12", @id = "holi" + ViewBag.HolidayList[i].HOL_DATE })
+                                                    </td>
+
+                                                }
+
+                                                <td> @ViewBag.HolidayList[i].HOL_DATE </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="2"><center> No Data </center></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @*<button type="submit" class="btn btn-primary">Submit</button>*@
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-primary pull-right aLoader" id="nextButton" type="submit" onclick="showLoading()">
+                                    Submit <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+    });
+
+    $('#frm_dt').change(function () {
+        debugger;
+        var inputDate = $('#frm_dt').val();
+
+
+        var date = new Date(inputDate);
+
+        var nextDate = new Date(date.getTime() - (24 * 60 * 60 * 1000));
+
+        var formattedNextDate = nextDate.getDate() + '/' + (nextDate.getMonth() + 1) + '/' + nextDate.getFullYear();
+
+        var parts = formattedNextDate.split('/');
+
+        var day = parts[0];
+
+        var month = parts[1];
+
+        // Check if day or month is single digit, add leading zero if needed
+        if (day.length === 1) {
+            day = '0' + day;
+        }
+        if (month.length === 1) {
+            month = '0' + month;
+        }
+
+        $('#prev_dt').val(day + '/' + month + '/' + parts[2]);
+    });
+
+
+    $('#to_dt').change(function () {
+        debugger;
+        var inputDate = $('#to_dt').val();
+
+        // Convert inputDate to JavaScript Date object
+        var date = new Date(inputDate);
+
+        // Calculate next date
+        var nextDate = new Date(date.getTime() + (24 * 60 * 60 * 1000)); // Adding 1 day
+
+        var formattedNextDate = nextDate.getDate() + '/' + (nextDate.getMonth() + 1) + '/' + nextDate.getFullYear();
+
+        var parts = formattedNextDate.split('/');
+
+        var day = parts[0];
+
+        var month = parts[1];
+
+        // Check if day or month is single digit, add leading zero if needed
+        if (day.length === 1) {
+            day = '0' + day;
+        }
+        if (month.length === 1) {
+            month = '0' + month;
+        }
+
+
+        // Display next date
+        $('#nxt_dt').val(day + '/' + month + '/' + parts[2]);
+    });
+
+    $('#frm_dt, #to_dt').change(function () {
+
+        debugger;
+        var fromDate = new Date($('#frm_dt').val());
+        var toDate = new Date($('#to_dt').val());
+
+        if (fromDate > toDate) {
+            msgError('From Date cannot exceed To Date!');
+        } else {
+
+        }
+    });
+
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        var directUrl = '@Url.Action("StoreOrEdit", "M_Holiday")';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: directUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+                    //cancel: function () {
+
+                    //}
+                }
+
+            });
+
+            //  debugger;
+            // $("#ddlaccounthead").empty().trigger('change')
+            // $("#ddlaccounthead option:selected").prop("selected", false);
+            // $("#ddlaccounthead").selectpicker("refresh");
+            // $.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "success"
+            //})
+
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>
+
+<script>
+    $(function () {
+        $('#datepicker').datepicker({
+            autoclose: true
+        })
+    })
+</script>
+
+    }
+
+

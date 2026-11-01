@@ -1,0 +1,128 @@
+﻿
+
+@model PagedList.StaticPagedList<HRMS.Models.Master.M_EMPRATE>
+@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    var firstItem = Model.FirstOrDefault();
+    var id = (firstItem != null) ? firstItem.ID : 0;
+    var empCode = ViewBag.EmployeeCode;
+    var unitCode = ViewBag.unit;
+    var url = Url.Action("AddEditModal", "MastEmpRate") + "?Id=" + id+"&EmpCode="+ empCode + "&Unit="+ unitCode;
+}
+<div class="card">
+    <div class="card-header pull-right">
+
+
+        <button id="IdaddNewRecord" type="button" class="btn btn-sm btn-info" onclick="location.href='@url'">
+            <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+        </button>
+
+
+        <a href=@Url.Action("Index","Menu") class="btn btn-sm btn-info">
+            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+        </a>
+        <a id="backBtn" href="javascript:void(0)" class="btn btn-sm btn-outline-info float-right">
+            <i class="fa fa-arrow-circle-o-left fa-lg" aria-hidden="true"></i> Back
+        </a>
+        <div class="text-center" style="margin-top: -36px;"><h4>Employee Rate Master</h4></div>
+
+        <div class="text-center"><h5>@ViewBag.DisplayName </h5></div>
+    </div>
+    <div class="card-block" id="divcontainer">
+        <div class="dt-responsive table-responsive">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="dom-jqry_length">
+                        @using (Html.BeginForm("MastEmpRate", "MastEmpRate", FormMethod.Get))
+                        {
+                            <label>
+                                Show
+                                <select name="pageSize" id="pageSize" onchange="document.forms[0].submit();" aria-controls="dom-jqry" class="form-control input-sm" fdprocessedid="794bn7">
+                                    <option value=25>25</option>
+                                    <option value=50>50</option>
+                                    <option value=100>100</option>
+                                </select>
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12">
+                    <div id="dom-jqry_filter" class="dataTables_filter">
+                        @using (Html.BeginForm("MastEmpRate", "MastEmpRate", FormMethod.Get))
+                        {
+                            <label> Search:@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control input-sm" })</label>
+                            <button type="submit" class="btn btn-sm btn-info aLoader"> Search</button>
+                        }
+                    </div>
+
+
+                    <table class="table table-bordered nowrap" style="width:100%">
+
+                        <thead>
+                            <tr>
+                                @*<th width="1%">Action</th>*@
+                                <th width="30%">Effective Date</th>
+                                <th width="30%">BASIC</th>
+                                <th width="30%">DA</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @*<td class="sorting_1">
+                                                @using (Html.BeginForm("AddEditModal", "MastEmpRate", FormMethod.Post, new { style = "display:inline" }))
+                                                {
+                                                    @Html.Hidden("Id", item.ID)
+                                                    <button type="submit" class="btn btn-mini btn-info"><i class="fa fa-home"></i></button>
+                                                }
+                                                <a class="btn btn-mini btn-danger" onclick="FnDelete('2')">
+                                                    <i class="fa fa-trash-o fa-lg">
+                                                    </i>
+                                                </a>
+                                            </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EDATE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BASIC)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DA_RS)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                @if (Model != null)
+                {
+                    <div class="col-xs-12 col-sm-12 col-md-5">
+                        <div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dom-jqry_paginate">
+                            @Html.PagedListPager(Model, page => Url.Action("MastEmpRate", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

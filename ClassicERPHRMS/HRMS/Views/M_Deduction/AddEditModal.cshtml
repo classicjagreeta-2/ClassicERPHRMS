@@ -1,0 +1,141 @@
+﻿
+
+@model HRMS.Models.Master.M_DEDUCTION
+@using HRMS.Models.Master
+@using System.Globalization;
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddOrUpdate", "M_Deduction", FormMethod.Post, new { id = "myForm" }))
+{
+    @Html.HiddenFor(x => x.id)
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Deduction Master</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card-block">
+                <div class="row">
+                    @if (Model.id != 0)
+                    {
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Deduction Code :</label>
+                                @Html.TextBoxFor(x => x.pK_DEDUCT_CODE, new { @class = "form-control mustfiled", @minlength = "4", @maxlength = "4", @readonly = true })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Deduction Code :</label>
+                                @Html.TextBoxFor(x => x.pK_DEDUCT_CODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "4", @maxlength = "4" })
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Deduction Description :</label>
+                            @Html.TextBoxFor(x => x.description, new { @class = "form-control", @maxlength = "20", @required = "required",  @id = "Descn" })
+                        </div>
+                    </div>
+                    @if (Model.id == 0)
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Unit :</label>
+                                @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..",
+                                new { @class = "form-control", @id = "Unt" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Unit :</label>
+                                @Html.TextBoxFor(x => x.unit, new { @class = "form-control mustfiled", @maxlength = "4", @readonly = true })
+                                @Html.HiddenFor(x => x.unit)
+                            </div>
+                        </div>
+                    }
+                    @if (Model.id == 0)
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Calculation Mode :</label>
+                                @Html.DropDownListFor(x => x.fK_CALC_MODE, new SelectList(ViewBag.calM, "Value", "Text"),
+                                "SELECT..", new { @class = "form-control", @id = "CALCULATION_MODE" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Calculation Mode :</label>
+                                @Html.TextBoxFor(x => x.fK_CALC_MODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4", @readonly = true })
+                               
+                                @Html.HiddenFor(x => x.fK_CALC_MODE)
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Short Name :</label>
+                            @Html.TextBoxFor(x => x.shorT_NAME, new { @class = "form-control", @maxlength = "12" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Voucher Head Code:</label>
+                            @Html.TextBoxFor(x => x.voucheR_HEAD, new { @class = "form-control", @maxlength = "3" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group hidden-lg">
+                            <div class="checkbox-fade fade-in-primary">
+                                <div>
+                                    @Html.CheckBoxFor(x => x.incL_PF)
+                                    <span>PF:</span>
+                                </div>
+                            </div>
+                            <div class="checkbox-fade fade-in-primary">
+                                <div>
+                                    @Html.CheckBoxFor(x => x.incL_ESI)
+                                    <span>ESI</span>
+                                </div>
+                            </div>
+                            <div class="checkbox-fade fade-in-primary">
+                                <div>
+                                    @Html.CheckBoxFor(x => x.incL_PTAX)
+                                    <span>PTAX</span>
+                                </div>
+                            </div>
+                            <div class="checkbox-fade fade-in-primary">
+                                <div>
+                                    @Html.CheckBoxFor(x => x.incL_TAXABLE)
+                                    <span>Income Tax</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div id="divMsg" class="text-danger"> </div>
+            <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("M_Deduction","M_Deduction")'" id="btnclose" data-dismiss="modal">Close</a>
+            <button name="submit" type="submit" id="nextButton1" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+        </div>
+
+    </div>
+}

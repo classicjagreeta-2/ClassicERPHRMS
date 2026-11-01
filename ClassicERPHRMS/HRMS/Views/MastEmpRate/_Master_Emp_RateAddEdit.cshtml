@@ -1,0 +1,321 @@
+﻿
+@using HRMS.Models.Master
+@*@model HRMS.Models.ModelView.PayMaster_ModelView*@
+@model HRMS.Models.Master.M_EMPRATE
+
+
+
+<!-- Select 2 css -->
+<!--<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />-->
+
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+
+    @using (Ajax.BeginForm("AddOrUpdate", "MastEmpRate", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+       
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Rate Master:</h4> <h5>@ViewBag.DisplayName</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        
+                        @*@if (Model.ID == 0 && Model.FK_EMPCODE == null)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Employee Code*</label>
+
+                                    @Html.DropDownListFor(x => x.FK_EMPCODE, new SelectList(ViewBag.Emp2, "Value", "Text"), "SELECT..",
+                                            new { @class = "js-example-disabled-results col-sm-12", @required = "required" })
+
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Employee Code*</label>
+                                    @Html.DropDownListFor(x => x.FK_EMPCODE, new SelectList(ViewBag.EmpLst, "Value", "Text"),
+                                           new { @class = "js-example-disabled-results col-sm-12", @required = "required", @Disabled = "disabled" })
+                                    @Html.HiddenFor(x => x.FK_EMPCODE)
+                                </div>
+
+                            </div>
+                        }*@
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Date</label>
+                                @Html.EditorFor(x => x.EDATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required" } })
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.FK_EMPCODE)
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Basic</label>
+                                @Html.TextBoxFor(x => x.BASIC, new { @class = "form-control", @maxlength = "17", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">DA Amount</label>
+                                @Html.TextBoxFor(x => x.DA_RS, new { @class = "form-control ", @maxlength = "17", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">DA %</label>
+                                @Html.TextBoxFor(x => x.DA_PERCENT, new { @class = "form-control  ", @maxlength = "8" })
+                            </div>
+                        </div>
+                        @*<div class="col-md-4">
+            <div class="form-group">
+                <label for="exampleInputName1">Currency Code :</label>
+
+                @Html.DropDownListFor(x => x.FK_CURR_CODE, new SelectList(ViewBag.curr, "Value", "Text"), "SELECT..",
+                new { @class = "js-example-disabled-results col-sm-12", @required = "required", @id = "curr_cd" })
+
+            </div>
+
+        </div>*@
+                        @if (ViewBag.Loca != "AGR")
+                        {
+                            <div class="@(ViewBag.Loca == "AGR" ? "hidden-lg" : "col-md-12")">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">ADA/HRA %</label>
+                                            @Html.TextBoxFor(x => x.HRA_PERCENT, new { @class = "form-control ", @maxlength = "7" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">HRA Rs</label>
+                                            @Html.TextBoxFor(x => x.HRA_RS, new { @class = "form-control ", @maxlength = "17" })
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">% On</label>
+                            @Html.TextBoxFor(x => x.HRA_FORMULA, new { @class = "form-control ", @maxlength = "20" })
+                        </div>
+                    </div>*@
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">VDA %</label>
+                                            @Html.TextBoxFor(x => x.VDA_PERCENT, new { @class = "form-control ", @maxlength = "7" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">VDA Rs</label>
+                                            @Html.TextBoxFor(x => x.VDA_RS, new { @class = "form-control ", @maxlength = "17" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Conveyance %</label>
+                                            @Html.TextBoxFor(x => x.CONVEYANCE_PERCENT, new { @class = "form-control ", @maxlength = "7" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Conveyance Rs</label>
+                                            @Html.TextBoxFor(x => x.CONVEYANCE_RS, new { @class = "form-control ", @maxlength = "17" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">PTax Debit Manually</label>
+                                            @Html.DropDownListFor(x => x.PTAX_MANUALLY, new SelectList(ViewBag.YesNo, "DESCN1", "DESCN", 0), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Yearly PTax Amount(Max)</label>
+                                            @Html.TextBoxFor(x => x.MAXPTAX, new { @class = "form-control ", @maxlength = "16" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">ESI %</label>
+                                            @Html.TextBoxFor(x => x.ESI_PERCENT, new { @class = "form-control ", @maxlength = "7" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">ESI Rs</label>
+                                            @Html.TextBoxFor(x => x.ESI_RS, new { @class = "form-control ", @maxlength = "17" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">ESI Limit</label>
+                                            @Html.TextBoxFor(x => x.ESI_LIMIT, new { @class = "form-control ", @maxlength = "17" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">PF</label>
+                                            @Html.TextBoxFor(x => x.PF, new { @class = "form-control ", @maxlength = "7" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">EPF</label>
+                                            @Html.TextBoxFor(x => x.EPF, new { @class = "form-control ", @maxlength = "10" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">FPF</label>
+                                            @Html.TextBoxFor(x => x.FPF, new { @class = "form-control ", @maxlength = "10" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Superannuation Fund %</label>
+                                            @Html.TextBoxFor(x => x.SA_FUND_PER, new { @class = "form-control ", @maxlength = "15" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Superannuation Fund Rs</label>
+                                            @Html.TextBoxFor(x => x.SA_FUND_AMT, new { @class = "form-control ", @maxlength = "13" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Allow Arrear</label>
+
+                                            @Html.DropDownListFor(x => x.ALLOW_ARR, new List<SelectListItem>()
+                                                {
+                                                new SelectListItem { Text = "Select Option" },
+                                                new SelectListItem { Text = "Yes", Value = "Yes" },
+                                                new SelectListItem { Text = "No", Value = "No" },
+                                                }, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+
+
+@*<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>*@
+
+@*<script>
+    $(document).ready(function () {
+
+        GetDescName($("#ddlAllow").val())
+    });
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        debugger;
+       /* if ($(IstoVlidate).smkValidate()) {*/
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            var returnUrl = '@Url.Action("StoreOrEdit", "MastEmpRate")'
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: returnUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+       /* }*/
+    });
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        /* dataTable.ajax.reload();*/
+                        window.location.href = window.location.href;
+                        location.reload();
+                    },
+                }
+            });
+        }
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>*@
+
+
+
+

@@ -1,0 +1,242 @@
+﻿
+@model HRMS.Models.Master.MONTHLY_ATTENDANCE_ENTRY
+@{
+    ViewBag.Title = "MonthlyAttendanceEntry";
+}
+
+<div class="page-body">
+    <div style="text-align:center "><b>Monthly Attendance Entry</b></div>
+    <div class="row">
+        <div class="col-lg-12 col-xl-5">
+            <div class="card">
+                <div class="card-block">
+
+                    @using (Html.BeginForm("MonthlyAttendanceEntry", "MonthlyAttendanceEntry", FormMethod.Get))
+                    {
+                        <div class="row form-group col-sm-12">
+                            <div class="col-sm-3">
+                                <label class="col-form-label">Unit</label>
+                            </div>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.UNIT, new SelectList(ViewBag.AllowCal2 ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                         new { @class = "form-control js-example-data-array", @id = "UNIT", onchange = "document.forms[0].submit();" })
+                            </div>
+                            <div class="row form-group col-sm-12">
+                                <div class="col-sm-3">
+                                    <label class="col-form-label">Employee</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    @Html.DropDownListFor(m => m.EMPCODE, new SelectList(ViewBag.emplist ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                             new { @class = "form-control js-example-data-array", @id = "EMPCODE", onchange = "document.forms[0].submit();" })
+                                </div>
+                            </div>
+                            <div class="row form-group col-sm-12">
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">Month</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    @Html.DropDownListFor(m => m.MONTHCODE, new SelectList(ViewBag.AllowCal4 ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                         new { @class = "form-control js-example-data-array", @id = "MONTHCODE", onchange = "document.forms[0].submit();" })
+                                </div>
+                            </div>
+                            <div class="row form-group col-sm-12">
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">From</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>@ViewBag.fromdate</label>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="col-form-label">To</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>@ViewBag.todate</label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @using (Html.BeginForm("InsertOrUpdate", "MonthlyAttendanceEntry", FormMethod.Post))
+        {
+
+            @Html.HiddenFor(k => k.UNIT)
+            @Html.HiddenFor(k => k.EMPCODE)
+            @Html.HiddenFor(k => k.MONTHCODE)
+
+            <div class="col-lg-12 col-xl-12">
+                @*@Html.Partial("_MonthlyShiftAttendanceEntry", Model.SHIFT_DET)*@
+                <div class="card">
+                    <div class="card-block" style="FONT-SIZE: smaller;">
+                        <ul class="nav nav-tabs  tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#overview" role="tab"><b>Shift Details</b></a>
+                            </li>
+                        </ul>
+
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="tab-pane active" id="overview" role="tabpanel">
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="example-1">
+                                        <thead>
+                                            <tr role="row">
+                                                <th width="60px">Code</th>
+                                                <th width="60px">Shift-Description</th>
+                                                <th width="60px">Days</th>
+                                                <th width="60px">Hour</th>
+                                                <th width="60px">Minute</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (ViewBag.RCP != null)
+                                            {
+                                                for (int i = 0; i < Model.SHIFT_DET.Count; i++)
+                                                {
+                                                    @Html.HiddenFor(m => m.SHIFT_DET[i].ID)
+                                                    @Html.HiddenFor(m => m.SHIFT_DET[i].PK_SHIFT_CODE)
+                                                    @Html.HiddenFor(m => m.SHIFT_DET[i].DESCRIPTION)
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(m => m.SHIFT_DET[i].PK_SHIFT_CODE)</td>
+                                                        <td>@Html.DisplayFor(m => m.SHIFT_DET[i].DESCRIPTION)</td>
+                                                        <td>@Html.TextBoxFor(m => m.SHIFT_DET[i].DAYS)</td>
+                                                        <td>@Html.TextBoxFor(m => m.SHIFT_DET[i].HOURS)</td>
+                                                        <td>@Html.TextBoxFor(m => m.SHIFT_DET[i].MINS)</td>
+                                                    </tr>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="7" style=" text-align: center;"> No Data Found</td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                @*@Html.Partial("_MonthlyAttendDetails", Model.ATTEND_DAYS_DET)*@
+                <div class="card">
+                    <div class="card-block" style="FONT-SIZE: smaller;">
+                        <ul class="nav nav-tabs  tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#overview" role="tab"><b>Attendance Days Type</b></a>
+                            </li>
+                        </ul>
+                        <div class="col-lg-12 col-xl-12">
+                            <div class="tab-pane active" id="overview" role="tabpanel">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="example-1">
+                                        <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Description</th>
+                                                <th width="6%">Days</th>
+                                                <th width="6%">Hour</th>
+                                                <th width="6%">Minute</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="STClass">
+                                            @if (Model != null)
+                                            {
+                                                for (int i = 0; i < Model.ATTEND_DAYS_DET.Count; i++)
+                                                {
+                                                    @Html.HiddenFor(m => m.ATTEND_DAYS_DET[i].ID)
+                                                    @Html.HiddenFor(m => m.ATTEND_DAYS_DET[i].PK_ATTEND_CODE)
+                                                    @Html.HiddenFor(m => m.ATTEND_DAYS_DET[i].DESCRIPTION)
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(m => m.ATTEND_DAYS_DET[i].PK_ATTEND_CODE)</td>
+                                                        <td>@Html.DisplayFor(m => m.ATTEND_DAYS_DET[i].DESCRIPTION)</td>
+                                                        <td>@Html.TextBoxFor(m => m.ATTEND_DAYS_DET[i].DAYS)</td>
+                                                        <td>@Html.TextBoxFor(m => m.ATTEND_DAYS_DET[i].HOURS)</td>
+                                                        <td>@Html.TextBoxFor(m => m.ATTEND_DAYS_DET[i].MINS)</td>
+                                                    </tr>
+                                                    @*<input type="hidden" name="@("item_name_" + i)" value="@Model[i]." />*@
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <input id="Submit" type="submit" value="submit" class="btn btn-grd-info pull-right" /><i class="fa fa-save" />
+                <button class="btn btn-grd-info pull-right"><i class="fa fa-save"></i>Back</button>
+            </div>
+        }
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        var $EMPCODE = $('#EMPCODE');
+        $EMPCODE.select2({
+            ajax: {
+                url: "@Url.Action("GetEmployee", "MonthlyAttendanceEntry")",
+                data: function (params) {
+                    var query = {
+                        searchString: params.term,
+                        page: params.page || 1,
+                        pageSize: 10,
+                        UNIT: $('#UNIT').val(),
+                    }
+                    return query;
+                },
+                processResults: function (res) {
+                    var list = res.Data.value.results;
+                    return {
+                        //results: list,
+                        results: $.map(list, function (x) {
+                            return {
+                                text: x.pK_EMPCODE + "-" + x.fname,
+                                id: x.pK_EMPCODE
+                            }
+                        }),
+                        pagination: {
+                            more: res.Data.value.currentPage < res.Data.value.pageCount
+                        }
+                    };
+                }
+            }
+        });
+
+
+
+       /* $("#EMPCODE").select2("val", "0");*/
+
+        //var option = new Option("TEA TRADING UGAI", 2, true, true,);
+        //$EMPCODE.append(option); //.trigger('change');
+
+        //$EMPCODE.val(1); //.trigger('change');
+
+        //$EMPCODE.trigger({
+        //    type: 'select2:select',
+        //    params: {
+        //        results: response
+        //    }
+        //});
+    });
+        //.on("change", function (e) {
+        //    //alert("");
+        //    //var key = $('#fieldListSelect option:selected').text();
+        //    //var value = $('#fieldListSelect').val();
+        //    //$('#result').html("key : " + key + ", value : " + value);
+        //});
+</script>
+
+

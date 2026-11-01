@@ -1,0 +1,47 @@
+﻿<link href="~/libraries/DropdownCheck/jquery.treeSelection.css" rel="stylesheet" />
+
+<div class="container">
+    <h1>jQuery treeSelection Plugin Examples</h1>
+    <h2>Works With Native Select Element</h2>
+
+    <select name="mySelect2" class="custom-select"></select>
+</div>
+
+
+ 
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="~/libraries/DropdownCheck/jquery.treeSelection.js"></script>
+<script>
+
+    $('select[name=mySelect2]').treeSelection({
+        multiple: 100,
+        // or define the options in a data array
+        data: [
+            //    {
+            //    name: 'Google',
+            //    items: [{
+            //        name: 'Search Tools',
+            //        items: ['Google Search', 'Google Alerts', 'Google Scholar']
+            //    }, {
+            //        name: 'Advertising Services',
+            //        items: ['Google Ads', 'AdMob', 'Google AdSense']
+            //    }]
+            //}, {
+            //    name: 'Apple',
+            //    items: [{
+            //        name: 'iPhone',
+            //        items: ['iPhone 13', 'iPhone 12', 'iPhone SE']
+            //    }, {
+            //        name: 'Apple Watch',
+            //        items: ['Watch 7', 'Watch SE']
+            //    }]
+            //    },
+
+            {
+                name: 'Amazon',
+                items: ['Amazon Prime', 'Amazon Web Services', 'Consumer Electronics', 'iPhone 13', 'iPhone 12', 'iPhone SE']
+            }]
+    });</script>

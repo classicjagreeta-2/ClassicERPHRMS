@@ -1,0 +1,81 @@
+﻿@model HRMS.Models.Master.M_AllOW_CALC_MODE
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal-dialog modal-lg" role="document">
+    @using (Ajax.BeginForm("AddOrUpdate", "Allow_Calc_Mode", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content" id="form_my">
+            <div class="modal-header">
+                <h4 class="modal-title">Allowance Calculation Mode Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Calcution Mode Code :</label>
+                                    @Html.TextBoxFor(x => x.pK_CALC_MODE, new { @class = "form-control mustfiled", @required = "required", @minlength="2", @maxlength = "2", @readonly = true })
+                                </div>
+                                @Html.HiddenFor(x => x.pK_CALC_MODE)
+                                @Html.HiddenFor(x => x.unit)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Calcution Mode Code:</label>
+                                    @Html.TextBoxFor(x => x.pK_CALC_MODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "2", @maxlength = "2", @style = "text-transform:uppercase" })
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Calculation Mode Description:</label>
+                                @Html.TextBoxFor(x => x.description, new { @class = "form-control", @maxlength = "20", @required = "required", @id = "DESCN" })
+                            </div>
+                        </div>
+
+                        @if (Model.id == 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit :</label>
+                                    @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..",
+                                        new { @class = "form-control", @required = "required", @id = "unt" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit :</label>
+                                    @Html.TextBoxFor(x => x.unit, new { @class = "form-control mustfiled", @required = "required", @disabled = "disabled", @id = "unt" })
+                                    @*@Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"), "SELECT..",
+                                        new { @class = "form-control", @required = "required", @id = "unt", @disabled = "disabled" })*@
+                                </div>
+                                @Html.HiddenFor(x => x.unit)
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <a href=@Url.Action("Index","Allow_Calc_Mode") class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</a>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>

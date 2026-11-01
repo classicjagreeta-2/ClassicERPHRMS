@@ -1,0 +1,118 @@
+﻿@model IList<HRMS.Models.TRN.T_DAILY_ATTEND>
+
+@using (Html.BeginForm("BulkStoreOrEditEmployeesList", "Attendance", FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+    <table id="ajax-table" class="table table-striped table-bordered nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th width="5%">Date</th>
+                <th width="10%">Shift</th>
+                <th width="10%">In Time</th>
+                <th width="10%">Out Time</th>
+                <th width="10%">Late Time</th>
+                <th width="15%">Attendance Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count() > 0)
+            {
+                for (int i = 0; i < Model.Count(); i++)
+                {
+                    <tr class="RowTable">
+
+                        <td>@Model[i].EDATE.Value.ToString("dd/MM/yyyy")</td>
+                        <td>@Model[i].FK_SHIFT_CODE</td>
+                        <td>@Model[i].IN_TIME</td>
+                        <td>@Html.DisplayFor(modelItem => @Model[i].OUT_TIME)</td>
+                        <td>
+                            @if (new string[6] { "W", "A", "L", "M", "S", "F" }.Contains(Model[i].FK_ATTEND_CODE))
+                            {
+                                @Html.TextBoxFor(x => Model[i].LATE_TIME, new { @class = "form-control col-8", @disabled = "disabled", @id = "LATE_TIME_" + Model[i].ID })
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => Model[i].LATE_TIME, new { @class = "form-control col-8", @id = "LATE_TIME_" + Model[i].ID })
+                            }
+                        </td>
+                        <td>
+                            @Html.HiddenFor(modelItem => @Model[i].ID)
+                            @Html.HiddenFor(modelItem => @Model[i].UNIT)
+                            @Html.HiddenFor(modelItem => @Model[i].TOT_HOURS_WORKED)
+                            @Html.HiddenFor(modelItem => @Model[i].REMARKS)
+                            @Html.HiddenFor(modelItem => @Model[i].ID)
+                            @Html.HiddenFor(modelItem => @Model[i].EDATE)
+                            @Html.HiddenFor(modelItem => @Model[i].USER_NAME)
+                            @Html.HiddenFor(modelItem => @Model[i].FK_EMPCODE)
+                            @Html.HiddenFor(modelItem => @Model[i].LOCA)
+                            @Html.HiddenFor(modelItem => @Model[i].USER_ENTDT)
+                            @Html.HiddenFor(modelItem => @Model[i].OS_USER)
+                            @Html.HiddenFor(modelItem => @Model[i].TERMINAL_ID)
+                            @Html.HiddenFor(modelItem => @Model[i].UNIT)
+                            @Html.HiddenFor(modelItem => @Model[i].ATTEND)
+                            @Html.HiddenFor(modelItem => @Model[i].LEAVE)
+                            @Html.HiddenFor(modelItem => @Model[i].WEEKLY_OFF)
+                            @Html.HiddenFor(modelItem => @Model[i].ABSENT)
+                            @Html.HiddenFor(modelItem => @Model[i].LATE_TIME)
+                            @Html.HiddenFor(modelItem => @Model[i].HOLIDAY)
+                            @Html.HiddenFor(modelItem => @Model[i].IN_TIME)
+                            @Html.HiddenFor(modelItem => @Model[i].OUT_TIME)
+                            @Html.HiddenFor(modelItem => @Model[i].FK_SHIFT_CODE)
+                            @Html.HiddenFor(modelItem => @Model[i].FK_MONTHCODE)
+                            <input type="hidden" id="Leave" value="@ViewBag.LeaveRemaining" />
+                            @if (new string[1] { "F" }.Contains(Model[i].FK_ATTEND_CODE))
+                            {
+                                @Html.DropDownListFor(x => Model[i].FK_ATTEND_CODE,
+                               new SelectList(ViewBag.AttendType, "PK_ATTEND_CODE", "DESCRIPTION", Model[i].FK_ATTEND_CODE),
+                               new
+                                    {
+                                        @class = "js-example-responsive col-sm-12 ddlattend",
+                                        @id = "FK_ATTEND_CODE_" + "F_" + Model[i].ID,
+                                        @name = "FK_ATTEND_CODE",
+                                        @disabled = "disabled"
+                                    })
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(x => Model[i].FK_ATTEND_CODE,
+                               new SelectList(ViewBag.AttendType, "PK_ATTEND_CODE", "DESCRIPTION", Model[i].FK_ATTEND_CODE),
+                               new
+                                    {
+                                        @class = "js-example-responsive col-sm-12 ddlattend",
+                                        @id = " b" + Model[i].FK_ATTEND_CODE + "_" + Model[i].ID,
+                                        @name = "FK_ATTEND_CODE",
+                                        @onchange = "jsFunction(this.value, '" + Model[i].EDATE.Value.ToString("yyyy-MM-dd") + "')"
+                                    })
+                            }
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2"><center> No Data </center></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @*<button type="submit" class="btn btn-primary" onclick=" ()">Submit</button>*@
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+
+
+
+
+@section scripts{
+    <script src="~/libraries/js/jquery-1.11.3.min.js"></script>
+    <script>
+        function submitForm() {
+            debugger
+            $('#loader').show();
+            $('#myForm').submit(function () {
+                $('#loader').hide();
+            });
+        }
+    </script>
+}

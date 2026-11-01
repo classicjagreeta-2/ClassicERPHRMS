@@ -1,0 +1,589 @@
+﻿@model WEB_VIEWMODEL17.TD_Model.TD_Model_ItemMaster
+
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+    @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Product Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Product ID</label>
+                                @Html.TextBoxFor(x => x.ItemHead.PK_ITCD, new { @class = "form-control mustfiled", @readonly = true })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Description*</label>
+                                @Html.TextBoxFor(x => x.ItemHead.ITEM_DESCN, new { @class = "form-control mustfiled", @required = "required", @maxlength = "60" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Short Description</label>
+                                @Html.TextBoxFor(x => x.ItemHead.SHT_DESCN, new { @class = "form-control", @maxlength = "20" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="uom">
+                                <label for="exampleInputName1">UOM*</label>
+                                @Html.DropDownListFor(x => x.ItemHead.FK_UNIT_CD, new SelectList(ViewBag.DropdownListMasterUnit, "PK_UNIT_CD", "UNIT_DESCN"),
+                                    "SELECT..", new { @class = "js-example-responsive", @id = "ddlUnit", @required = "required" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group" id="HSCode">
+                                <label for="exampleInputName1">HS Code</label>
+                                @Html.TextBoxFor(x => x.ItemHead.HS_CODE, new { @class = "form-control", @maxlength = "15" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="Grade">
+                                <label for="exampleInputName1">Grade</label>
+                                @Html.TextBoxFor(x => x.ItemHead.GRADE, new { @class = "form-control", @maxlength = "100" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="pkUnit">
+                                <label for="exampleInputName1">Packaging UOM*</label>
+                                @Html.DropDownListFor(x => x.ItemHead.FK_PACK_UNIT, new SelectList(ViewBag.DropdownListMasterUnit, "PK_UNIT_CD", "UNIT_DESCN"),
+                                    "SELECT..", new { @class = "js-example-responsive", @id = "ddlPkUnit", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="pkNetWt">
+                                <label for="exampleInputName1">Net Weight of Each Package</label>
+                                @Html.TextBoxFor(x => x.ItemHead.PACKAGE_NET_WT, new { @class = "form-control", @type = "Number" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group" id="pkTareWt">
+                                <label for="exampleInputName1">Tare Weight of Each Package</label>
+                                @Html.TextBoxFor(x => x.ItemHead.PACKAGE_TARE_WT, new { @class = "form-control", @type = "Number" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="bh">
+                                <label for="exampleInputName1">Broad Head*</label>
+                                @Html.DropDownListFor(x => x.ItemHead.FK_BH, new SelectList(ViewBag.DropdownListMasterBH, "PK_CODE", "DESCN"),
+                                    "SELECT..", new { @class = "js-example-responsive", @id = "ddlBH", @required = "required" })
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="sh">
+                                <label for="exampleInputName1">Sub Head*</label>
+                                @Html.DropDownListFor(x => x.ItemHead.FK_SH, new SelectList(ViewBag.DropdownListMasterSH, "PK_CODE", "DESCN"),
+                                    "SELECT..", new { @class = "js-example-responsive", @id = "ddlSH", @required = "required" })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+
+                                <div class="checkbox-fade fade-in-primary">
+
+                                    @Html.CheckBoxFor(x => x.ItemHead.ITEM_SPECN_BOOL)
+                                    <span>Maintain Item Specification</span>
+
+                                </div>
+                                <div class="checkbox-fade fade-in-primary">
+
+                                    @Html.CheckBoxFor(x => x.ItemHead.ACTIVE_TAG_BOOL)
+                                    <span>Active Item</span>
+                                </div>
+                                <div class="checkbox-fade fade-in-primary">
+                                    @Html.CheckBoxFor(x => x.ItemHead.P205_YESNO_BOOL)
+                                    <span>P205 Qty Applicable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="TableMaxRow" value=@ViewBag.MaxRowIndex />
+                <input type="hidden" id="AliasMaxRow" value=@ViewBag.AliasMaxRowIndex />
+                <div class="col-lg-12">
+                    <div class="row">
+                        @if (@ViewBag.Loca1 == "VEC")
+                        {
+                            <div class="col-lg-6">
+                                <input type="hidden" name="hiddentablei" id="hiddentablei" value=@ViewBag.MaxRowIndex>
+                                <div class="dataTables_scroll">
+                                    <div class="table-responsive text-nowrap" id="DivTble">
+                                        <div style="overflow:auto">
+                                            <table id="tblItemOrigin" class="table table-striped table-bordered nowrap dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="ajax-table_info">
+                                                <thead class="classHaeder">
+                                                    <tr>
+                                                        <th width="6%">
+                                                            <a type="button" class="button button-small ag-i-btn" onclick="addItemRow()"><i class="fa fa-plus"></i></a>
+                                                        </th>
+                                                        <th width="3%"><label class="col-form-label">  Sl No </label> </th>
+                                                        <th><label class="col-form-label">  code </label> </th>
+                                                        <th><label class="col-form-label">  Country of Origin </label> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @Html.Partial("_ItemOriginChild", Model)
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input type="hidden" name="hiddentablei1" id="hiddentablei1" value=@ViewBag.AliasMaxRowIndex>
+                                <div class="dataTables_scroll">
+                                    <div class="table-responsive text-nowrap" id="DivTble1" style="display:none">
+                                        <div style="overflow:auto">
+                                            <table id="tblItemAlias" class="table table-striped table-bordered nowrap dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="ajax-table_info">
+                                                <thead class="classHaeder">
+                                                    <tr>
+                                                        <th width="6%">
+                                                            <a type="button" class="button button-small ag-i-btn" onclick="addAliasRow()"><i class="fa fa-plus"></i></a>
+                                                        </th>
+                                                        <th width="4%"><label class="col-form-label">  Alias ID </label> </th>
+                                                        <th width="50%"><label class="col-form-label">  Product Alias Description* </label> </th>
+                                                        <th width="15%"><label class="col-form-label">  UOM* </label> </th>
+                                                        <th width="15%"><label class="col-form-label">  Packaging UOM* </label> </th>
+                                                        <th width="10%"><label class="col-form-label">  Net Weight </label> </th>
+                                                        <th width="10%"><label class="col-form-label">  Tare Weight </label> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @*@Html.Partial("_ItemAliasChild", Model)*@
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-12">
+                                <input type="hidden" name="hiddentablei1" id="hiddentablei1" value=@ViewBag.AliasMaxRowIndex>
+                                <div class="dataTables_scroll">
+                                    <div class="table-responsive text-nowrap" id="DivTble1">
+                                        <div style="overflow:auto">
+                                            <table id="tblItemAlias" class="table table-striped table-bordered nowrap dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="ajax-table_info">
+                                                <thead class="classHaeder">
+                                                    <tr>
+                                                        <th width="6%">
+                                                            <a type="button" class="button button-small ag-i-btn" onclick="addAliasRow()"><i class="fa fa-plus"></i></a>
+                                                        </th>
+                                                        <th width="4%"><label class="col-form-label">  Alias ID </label> </th>
+                                                        <th width="50%"><label class="col-form-label">  Product Alias Description* </label> </th>
+                                                        <th width="15%"><label class="col-form-label">  UOM* </label> </th>
+                                                        <th width="15%"><label class="col-form-label">  Packaging UOM* </label> </th>
+                                                        <th width="10%"><label class="col-form-label">  Net Weight </label> </th>
+                                                        <th width="10%"><label class="col-form-label">  Tare Weight </label> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @Html.Partial("_ItemAliasChild", Model)
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<!-- Multiselect js -->
+<!-- Custom js -->
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+
+
+
+@*<script src="~/Scripts/notify.min.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>*@
+
+
+<script>
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            ResetTableControlNames();
+            ResetTableControlNamesAlias();
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: "../Master_Item/StoreOrEdit",
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+    function ResetTableControlNames() {
+        debugger;
+        var tableRows = $("#tblItemOrigin tbody .RowTable");
+
+        if (tableRows.length > 0) {
+            var index = 0;
+            tableRows.each(function () {
+                //set new id of row
+                //console.log("New row id = " + "POITable_" + index);
+                $(this).attr("id", "POITable_" + index);
+
+
+
+
+                $(this).closest('tr').find("input").each(function () {
+
+                    var OldName = $(this).attr("name");
+                    if (OldName != null) {
+                        var NewName = $(this).attr("name").split('[')[0] + "[" +
+                            index + "]" +
+                            $(this).attr("name").split('[')[1].split(']')[1];
+
+                        $(this).attr("name", NewName);
+
+                        console.log(OldName + '----' + NewName);
+                    }
+
+
+                    //(parseInt($(this).attr("name").split('[')[1].split(']')[0]) + 1)
+
+                });
+
+                $(this).closest('tr').find("select").each(function () {
+
+                    var OldName = $(this).attr("name");
+                    if (OldName != null) {
+                        var NewName = $(this).attr("name").split('[')[0] + "[" +
+                            index + "]" +
+                            $(this).attr("name").split('[')[1].split(']')[1];
+
+                        $(this).attr("name", NewName);
+
+                        //(parseInt($(this).attr("name").split('[')[1].split(']')[0]) + 1)
+                        console.log(OldName + '----' + NewName);
+                    }
+
+                });
+                index++;
+            });
+        }
+
+    }
+    function ResetTableControlNamesAlias() {
+        debugger;
+        var tableRows = $("#tblItemAlias tbody .RowTable");
+
+        if (tableRows.length > 0) {
+            var index = 0;
+            tableRows.each(function () {
+                //set new id of row
+                //console.log("New row id = " + "POITable_" + index);
+                $(this).attr("id", "AliasITable_" + index);
+
+
+
+
+                $(this).closest('tr').find("input").each(function () {
+
+                    var OldName = $(this).attr("name");
+                    if (OldName != null) {
+                        var NewName = $(this).attr("name").split('[')[0] + "[" +
+                            index + "]" +
+                            $(this).attr("name").split('[')[1].split(']')[1];
+
+                        $(this).attr("name", NewName);
+
+                        console.log(OldName + '----' + NewName);
+                    }
+
+
+                    //(parseInt($(this).attr("name").split('[')[1].split(']')[0]) + 1)
+
+                });
+
+                $(this).closest('tr').find("select").each(function () {
+
+                    var OldName = $(this).attr("name");
+                    if (OldName != null) {
+                        var NewName = $(this).attr("name").split('[')[0] + "[" +
+                            index + "]" +
+                            $(this).attr("name").split('[')[1].split(']')[1];
+
+                        $(this).attr("name", NewName);
+
+                        //(parseInt($(this).attr("name").split('[')[1].split(']')[0]) + 1)
+                        console.log(OldName + '----' + NewName);
+                    }
+
+                });
+                index++;
+            });
+        }
+
+    }
+    function ReArrangeIdexSrl() {
+        debugger;
+        var tableRows = $('#tblItemOrigin tbody .RowTable');
+        var i = 0;
+        tableRows.each(function () {
+            // $('#tblProduct tbody tr td:second').html(i + 1);
+            $(this).find('td').eq(1).find('input').val(i + 1);
+            i++;
+        })
+    }
+    function ReArrangeIdexSrlAlias() {
+        debugger;
+        var tableRows = $('#tblItemAlias tbody .RowTable');
+        var i = 0;
+        tableRows.each(function () {
+            // $('#tblProduct tbody tr td:second').html(i + 1);
+            $(this).find('td').eq(1).find('input').val(i + 1);
+            i++;
+        })
+    }
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function delRow(delrowid) {
+        // alert(delrowid);
+        $('#POITable_' + delrowid + '').remove();
+
+
+        ReArrangeIdexSrl();
+
+
+        //  ResetTableControlNames();
+    }
+    function delAliasRow(delrowid) {
+        // alert(delrowid);
+        if (delrowid != '0') {
+            $('#AliasITable_' + delrowid + '').remove();
+        }
+
+
+        //ReArrangeIdexSrlAlias();
+
+
+        //  ResetTableControlNames();
+    }
+    function addItemRow() {
+        debugger;
+        var last_id = $('#hiddentablei').val();
+        tablei = parseInt(last_id) + 1;
+
+        //  var rowCount = $('#tblProduct tbody .RowTable').length;
+
+
+        var MaxId = Number($("#TableMaxRow").val());
+        $("#TableMaxRow").val(MaxId + 1);
+        var rowCount = MaxId + 1;
+
+        var ValProductCode = $("#tblItemOrigin").find('tr.RowTable').last().find('td').eq(2).find('input').val();
+
+        var html = '';
+
+        html += '<tr id="TblInnerTable_' + rowCount + '">';
+        html += '<td colspan="20" class="hiddenRow">';
+        html += '<div class="accordian-body collapse" id="demoAG_' + rowCount + '">';
+        html += '<div class="row justify-content-center">';
+        html += '<div class="col-md-10 TableChild">';
+        html += '<table class="table table-bordered mb-0" id="innertable_' + rowCount + '" data-tablelastcolumn="1">';
+        html += '<thead class="classHaeder">';
+        html += '<tr>';
+        html += '<th class="text-center">';
+        html += '<a type="button" class="button button-small ag-i-btn" onclick="addRowColumn(' + rowCount + ',0)">';
+        html += '<i class="fa fa-plus"></i>';
+        html += '</a>';
+        html += '</th>';
+        html += '<th class="text-center">Product ID</th>';
+
+        html += '</tr>';
+        html += '</thead>';
+        html += '</table>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</td>';
+        html += '</tr>';
+
+
+        var data = { Id: rowCount, CallType: "O" }
+        var JsReturn = httpGetWithObj("../Master_Item/AddNewRow", data);
+
+        JsReturn.data += html;
+        // $('#div_add_row').append(JsReturn.data);
+        $("#tblItemOrigin tbody:first").append(JsReturn.data);
+        $('#hiddentablei').val(tablei);
+        ReArrangeIdexSrl();
+    }
+    function addAliasRow() {
+        debugger;
+        var last_id = $('#hiddentablei1').val();
+        tablei = parseInt(last_id) + 1;
+
+        //  var rowCount = $('#tblProduct tbody .RowTable').length;
+
+
+        var MaxId = Number($("#AliasMaxRow").val());
+        $("#AliasMaxRow").val(MaxId + 1);
+        var rowCount = MaxId + 1;
+
+        var ValProductCode = $("#tblItemAlias").find('tr.RowTable').last().find('td').eq(2).find('input').val();
+
+        var html = '';
+
+        html += '<tr id="TblInnerTable1_' + rowCount + '">';
+        html += '<td colspan="20" class="hiddenRow">';
+        html += '<div class="accordian-body collapse" id="demoAG_' + rowCount + '">';
+        html += '<div class="row justify-content-center">';
+        html += '<div class="col-md-10 TableChild">';
+        html += '<table class="table table-bordered mb-0" id="innertable_' + rowCount + '" data-tablelastcolumn="1">';
+        html += '<thead class="classHaeder">';
+        html += '<tr>';
+        html += '<th class="text-center">';
+        html += '<a type="button" class="button button-small ag-i-btn" onclick="addRowColumn(' + rowCount + ',0)">';
+        html += '<i class="fa fa-plus"></i>';
+        html += '</a>';
+        html += '</th>';
+        html += '<th class="text-center">Product ID</th>';
+
+        html += '</tr>';
+        html += '</thead>';
+        html += '</table>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</td>';
+        html += '</tr>';
+
+
+        var data = { Id: rowCount, CallType: "A" }
+        var JsReturn = httpGetWithObj("../Master_Item/AddNewRow", data);
+
+        JsReturn.data += html;
+        // $('#div_add_row').append(JsReturn.data);
+        $("#tblItemAlias tbody:first").append(JsReturn.data);
+        $('#hiddentablei1').val(tablei);
+        //ReArrangeIdexSrlAlias();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+                    //cancel: function () {
+
+                    //}
+                }
+
+            });
+            //  debugger;
+            // $("#ddlaccounthead").empty().trigger('change')
+            // $("#ddlaccounthead option:selected").prop("selected", false);
+            // $("#ddlaccounthead").selectpicker("refresh");
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "success"
+            //})
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>
+
+}
+

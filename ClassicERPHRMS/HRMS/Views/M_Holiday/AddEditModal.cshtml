@@ -1,0 +1,213 @@
+﻿@model HRMS.Models.Master.M_HOLIDAY
+@using HRMS.Models.Master
+@using System.Globalization;
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="modal-dialog modal-lg" role="document">
+    @using (Html.BeginForm("AddOrUpdate", "M_Holiday", FormMethod.Post, new { id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Holiday Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">From Date :</label>
+                                @if (Model.id == 0)
+                                {
+                                    @Html.EditorFor(x => x.froM_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "frm_dt" } })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.froM_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "frm_dt" })
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">To Date :</label>
+                                @if (Model.id == 0)
+                                {
+                                    @Html.EditorFor(x => x.tO_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "to_dt" } })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.tO_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "to_dt" })
+                                }
+
+
+                            </div>
+                            <div id="errorMessage" style="color: red;"></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Previous Date :</label>
+                                @if (Model.id == 0)
+                                {
+                                    @Html.EditorFor(x => x.preV_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "prev_dt" } })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.preV_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "prev_dt" })
+                                }
+                                @*@Html.HiddenFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}")*@
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Next Date :</label>
+                                @if (Model.id == 0)
+                                {
+                                    @Html.EditorFor(x => x.nexT_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "nxt_dt" } })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.nexT_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "nxt_dt" })
+                                }
+
+                                @*@Html.HiddenFor(x => x.TO_DATE, "{0:yyyy-MM-dd}")*@
+                            </div>
+                            <div id="errorMessage" style="color: red;"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="exampleInputName1">Attendance Code & Description :</label>
+                            @Html.DropDownListFor(x => x.fK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                            new { @class = "form-control", @required = "required" })
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="exampleInputName1">Holiday Description :</label>
+                            @Html.TextBoxFor(x => x.description, new { @type = "text", @class = "form-control col-sm-12", @maxlength = "30" , @required = "required" })
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div id="divMsg" class="text-danger"> </div>
+            <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("M_Holiday","M_Holiday")'" id="btnclose" data-dismiss="modal">Close</a>
+            <button name="submit" type="submit" id="nextButton1" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+        </div>
+    }
+
+    @if (ViewBag.HolidayList != null)
+    {
+        <div class="page-body">
+            <div class="card">
+                <div class="card-block">
+                    <div class="table-responsive dt-responsive">
+                        <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12">
+                                    @*@using (Ajax.BeginForm("AddOrUpdate", "M_Holiday", new AjaxOptions { }, new { Id = "myForm" }))
+                                        {*@
+                                    <form method="post" action="/M_Holiday/AddOrUpdate">
+
+                                        <table id="dom-jqry" class="table table-striped table-bordered nowrap dataTable" style="width: 100%;" role="grid" aria-describedby="dom-jqry_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th width="10%">Holiday Type</th>
+                                                    <th width="10%">Holiday Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (ViewBag.HolidayList != null)
+                                                {
+                                                    for (int i = 0; i < ViewBag.HolidayList.Count; i++)
+                                                    {
+
+                                                        <tr class="RowTable">
+                                                            <td>
+                                                                @Html.DropDownListFor(x => x.fK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text", ViewBag.HolidayList[i].fK_ATTEND_CODE),
+                                                              new { @class = "form-control", @id = "holi" + ViewBag.HolidayList[i].hoL_DATE, @disabled = "disabled" })
+                                                            </td>
+                                                            <td>
+                                                                @ViewBag.HolidayList[i].hoL_DATE
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="2"><center> No Data </center></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div class="modal-footer">
+                                            <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+</div>
+
+<script src="~/libraries/assets/js/jquery3_3_1.min.js"></script>
+<script>
+    $('#frm_dt, #to_dt').change(function () {
+        debugger
+        var fromDate = new Date($('#frm_dt').val());
+        var toDate = new Date($('#to_dt').val());
+
+        var prevDate = new Date(fromDate);
+        prevDate.setDate(prevDate.getDate() - 1);
+        $('#prev_dt').val(prevDate.toISOString().split('T')[0]);
+
+        var nextDate = new Date(toDate);
+        nextDate.setDate(nextDate.getDate() + 1);
+        $('#nxt_dt').val(nextDate.toISOString().split('T')[0]);
+    });
+    $('#frm_dt, #to_dt').change(function () {
+        debugger;
+        var fromDate = new Date($('#frm_dt').val());
+        var toDate = new Date($('#to_dt').val());
+
+        if (fromDate > toDate) {
+            msgError('From Date cannot exceed To Date!');
+            $('#to_dt').val("");
+            $('#nxt_dt').val("");
+        } else {
+
+        }
+    });
+</script>
+
+
+
+
+
+
+
+

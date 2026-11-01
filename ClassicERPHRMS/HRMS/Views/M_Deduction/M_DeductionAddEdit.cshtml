@@ -1,0 +1,313 @@
+﻿
+@model HRMS.Models.Master.M_DEDUCTION
+
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+
+    @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content"  id="form_my" >
+            <div class="modal-header">
+                <h4 class="modal-title">Deduction Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Deduction Code :</label>
+                                    @Html.TextBoxFor(x => x.pK_DEDUCT_CODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4", @readonly = true })
+                                </div>
+
+                                @Html.HiddenFor(x => x.pK_DEDUCT_CODE)
+
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Deduction Code :</label>
+                                    @Html.TextBoxFor(x => x.pK_DEDUCT_CODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4" })
+                                </div>
+
+                            </div>
+
+                        }
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Deduction Description :</label>
+                                @Html.TextBoxFor(x => x.description, new { @class = "form-control", @maxlength = "20", @required = "required", @readonly = true, @id = "Descn" })
+                            </div>
+                        </div>
+
+                        @if (Model == null)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit :</label>
+
+                                    @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                                    new { @class = "js-example-disabled-results col-sm-12", @required = "required", @id = "Unt" })
+                                </div>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit :</label>
+
+                                    @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                                    new { @class = "js-example-disabled-results col-sm-12", @required = "required", @id = "Unt", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.unit)
+                            </div>
+                        }
+
+
+
+                        @if (Model == null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Calculation Mode :</label>
+                                    @*@Html.TextBoxFor(x => x.CALCULATION_MODE, new { @class = "form-control", @maxlength = "20" })*@
+                                    @Html.DropDownListFor(x => x.fK_CALC_MODE, new SelectList(ViewBag.calM, "PK_CALC_MODE", "DESCRIPTION"),
+                                    "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "CALCULATION_MODE", @required = "required" })
+                                </div>
+                            </div>
+
+
+
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Calculation Mode :</label>
+                                    @*@Html.TextBoxFor(x => x.CALCULATION_MODE, new { @class = "form-control", @maxlength = "20" })*@
+                                    @Html.DropDownListFor(x => x.fK_CALC_MODE, new SelectList(ViewBag.calM, "PK_CALC_MODE", "DESCRIPTION"),
+                                    "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "CALCULATION_MODE", @required = "required", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.fK_CALC_MODE)
+                            </div>
+
+
+
+                        }
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Short Name :</label>
+                                @Html.TextBoxFor(x => x.shorT_NAME, new { @class = "form-control", @maxlength = "12" })
+                            </div>
+
+                        </div>
+                        @if (ViewBag.LOca == "AGR")
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group hidden-lg">
+                                    <label for="exampleInputName1">Voucher Head Code:</label>
+                                    @Html.TextBoxFor(x => x.voucheR_HEAD, new { @class = "form-control", @maxlength = "3" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Voucher Head Code:</label>
+                                    @Html.TextBoxFor(x => x.voucheR_HEAD, new { @class = "form-control", @maxlength = "3" })
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-md-12">
+                            <div class="form-group hidden-lg">
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.bool_incL_PF)
+                                        <span>PF:</span>
+                                    </div>
+                                </div>
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.bool_incL_ESI)
+                                        <span>ESI</span>
+                                    </div>
+                                </div>
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.bool_incL_PTAX)
+                                        <span>PTAX</span>
+                                    </div>
+                                </div>
+                                <div class="checkbox-fade fade-in-primary">
+                                    <div>
+                                        @Html.CheckBoxFor(x => x.bool_incL_TAXABLE)
+                                        <span>Income Tax</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+
+
+    });
+
+    $('#form_my').ready(function () {
+
+        debugger;
+        var dscn = $("#Descn").val();
+        //var ut = $("#Unt").val();
+        //var cm = $("#CALCULATION_MODE").val();
+        if (dscn !== "") {
+
+            $("#Descn").prop('readonly', false);
+        }
+        //if (ut !== "") {
+
+        //    $("#Unt").prop('disabled', true);
+        //}
+        //if (cm !== "") {
+
+        //    $("#CALCULATION_MODE").prop('disabled', true);
+        //}
+        else {
+
+            $("#Descn").prop('readonly', false);
+            //$("#Unt").prop('disabled', false);
+            //$("#CALCULATION_MODE").prop('disabled', false);
+
+        }
+
+    });
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var directUrl = '@Url.Action("StoreOrEdit", "M_Deduction")';
+        var IstoVlidate = 'form';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: directUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+               
+                }
+
+            });
+
+
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>
+
+}
+
+
+

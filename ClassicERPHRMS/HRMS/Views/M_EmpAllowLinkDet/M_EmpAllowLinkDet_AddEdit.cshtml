@@ -1,0 +1,317 @@
+﻿
+@model HRMS.Models.Master.M_EMP_ALLOW_DET
+
+@using HRMS.Models.Master
+
+<div class="modal-dialog modal-lg" role="document">
+
+
+    @using (Html.BeginForm("StoreOrEdit", "M_EmpAllowLinkDet", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.FK_EMPCODE)
+        @Html.HiddenFor(x => x.ID)
+        @Html.HiddenFor(x => x.UNIT)
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Allowance Link Master</h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model.ID > 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Allow Code And Description :</label>
+                                    @Html.TextBoxFor(x => x._allowanceDesc, new { @class = "form-control", @maxlength = "14", @readonly = true })
+                                   
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.FK_ALL_CODE)                                               
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Allow Code And Description :</label>
+                                    @{
+                                        var allowlst = ViewBag.Allow as List<M_ALLOWANCE>;
+                                        var allowSelectList = allowlst.Select(item => new SelectListItem { Text = item.pK_alL_CODE + " " + " - " + item.description, Value = item.pK_alL_CODE.ToString() }).ToList();
+                                        allowSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                    }
+
+                                    @Html.DropDownListFor(x => x.FK_ALL_CODE, allowSelectList, new { @class = "js-example-disabled-results col-sm-12", @id = "ddlAllow", @required = "required" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.FK_ALL_CODE)
+                            </div>
+                        }
+                        @if (Model.ALL_RS >= 0 && Model.ID > 0)
+                        {
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Amount :</label>
+                                    @Html.TextBoxFor(x => x.ALL_RS, new { @class = "form-control", @min = "1", @maxlength = "1", @readonly = true })
+                                </div>
+                                @Html.HiddenFor(x => x.ALL_RS)
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Amount :</label>
+                                    @Html.TextBoxFor(x => x.ALL_RS, new { @type = "number", @class = "form-control", @min = "1", @maxlength = "1" ,@required = "required" })
+                                </div>
+                            </div>
+                        }
+
+
+                        @if (Model.ID >0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective From Date :</label>
+
+                                    @*@Html.TextBoxFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { @type = "Date", @class = "form-control", @required = "required", @disabled = "disabled" })*@
+                                    @*@Html.TextBoxFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { @type = "Date", @class = "form-control", @required = "required", @disabled = "disabled" })*@
+                                    @Html.EditorFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required" , @readonly = true } })
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective From Date :</label>
+                                    @*@Html.TextBoxFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { @type = "Date", @class = "form-control", @required = "required" })*@
+                                    @Html.EditorFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required" } })
+
+
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.DDATE != null || Model.ID > 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective To Date :</label>
+
+                                    @*@Html.TextBoxFor(x => x.DDATE, "{0:yyyy-MM-dd}", new { @type = "Date", @class = "form-control", @required = "required", @disabled = "disabled" })*@
+                                    @Html.EditorFor(x => x.DDATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required",@readonly = true } })
+
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective To Date :</label>
+                                    @Html.EditorFor(x => x.DDATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required" } })
+
+
+                                </div>
+                            </div>
+                        }
+
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Active Status:</label>
+                                @Html.DropDownListFor(x => x.ACTIVE_STATUS, new List<SelectListItem>
+                                {
+                                 new SelectListItem { Text = "Active", Value = "true", Selected = true},
+                                 new SelectListItem { Text = "Deactive", Value = "false"}
+                                }, "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Currency Code :</label>
+
+                                @Html.DropDownListFor(x => x.FK_CURR_CODE, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                                new { @class = "js-example-disabled-results col-sm-12", @required = "required", @id = "curr_cd", @maxlength = "4" })
+
+                            </div>
+
+                        </div>
+
+                        @if (ViewBag.LOca == "AGR")
+                        {
+
+                            if (Model.ALL_PERCENT >= 0 && Model.ID > 0)
+                            {
+
+                                <div class="col-md-4">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Amount % :</label>
+                                        @Html.TextBoxFor(x => x.ALL_PERCENT, new { @class = "form-control", @maxlength = "5" })
+                                    </div>
+                                </div>
+
+                            }
+                            else
+                            {
+
+                                <div class="col-md-4">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Amount % :</label>
+                                        @Html.TextBoxFor(x => x.ALL_PERCENT, new { @class = "form-control", @maxlength = "5" })
+                                    </div>
+                                </div>
+
+
+                            }
+
+
+                        }
+                        else
+                        {
+                            if (Model.ALL_PERCENT >= 0 && Model.ID > 0)
+                            {
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Amount % :</label>
+                                        @Html.TextBoxFor(x => x.ALL_PERCENT, new { @class = "form-control", @maxlength = "5" })
+                                    </div>
+                                    @Html.HiddenFor(x => x.ALL_PERCENT)
+                                </div>
+
+                            }
+                            else
+                            {
+
+                                <div class="col-md-4 ">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Amount % :</label>
+                                        @Html.TextBoxFor(x => x.ALL_PERCENT, new { @class = "form-control", @maxlength = "5" })
+                                    </div>
+                                </div>
+
+
+                            }
+
+
+                        }
+
+                        @if (ViewBag.LOca == "AGR")
+                        {
+                            if (Model.ALL_LIMIT >= 0 && Model.ID > 0)
+                            {
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Limit :</label>
+                                        @Html.TextBoxFor(x => x.ALL_LIMIT, new { @class = "form-control", @maxlength = "14" })
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+
+                                <div class="col-md-4">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Limit :</label>
+                                        @Html.TextBoxFor(x => x.ALL_LIMIT, new { @class = "form-control", @maxlength = "14" })
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            if (Model.ALL_LIMIT >= 0 && Model.ID > 0)
+                            {
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Limit :</label>
+                                        @Html.TextBoxFor(x => x.ALL_LIMIT, new { @class = "form-control", @maxlength = "14" })
+                                    </div>
+                                    @Html.HiddenFor(x => x.ALL_LIMIT)
+                                </div>
+                            }
+                            else
+                            {
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Limit :</label>
+                                        @Html.TextBoxFor(x => x.ALL_LIMIT, new { @class = "form-control", @maxlength = "14" })
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                       
+
+                            @if (Model.ID != 0)
+                            {
+                                <div class="col-md-4">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">INCL OT:</label>
+                                        @Html.DropDownListFor(x => x.INCL_OT, new List<SelectListItem>
+                                        {
+                                      new SelectListItem { Text = "Yes", Value = "true"  },
+                                      new SelectListItem { Text = "No", Value = "false" }
+                                        }, "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @readonly = true })
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-4">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">INCL OT:</label>
+                                        @Html.DropDownListFor(x => x.INCL_OT, new List<SelectListItem>
+                                        {
+                                        new SelectListItem { Text = "Yes", Value = "true" },
+                                        new SelectListItem { Text = "No", Value = "false" }
+                                        }, "SELECT..", new { @class = "js-example-disabled-results col-sm-12" })
+                                    </div>
+                                </div>
+                            }
+
+                        
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" onclick="location.href='@Url.Action("M_EmpAllowLinkDet","M_EmpAllowLinkDet")?EmpId='+'@Model.FK_EMPCODE'+'&UnitCode='+'@Model.UNIT'" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-default waves-effect" id="btnclose" onclick="location.href='@Url.Action("M_EmpAllowLinkDet","M_EmpAllowLinkDet")'" data-dismiss="modal">Close</button>*@
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+

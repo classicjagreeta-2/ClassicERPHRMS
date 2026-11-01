@@ -1,0 +1,59 @@
+﻿
+@using (Html.BeginForm("CompanySelection", "Module", FormMethod.Post))
+{
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change company selection</h4>
+                </div>
+                <div class="modal-body">
+                    @{
+                        var companyList = Session["companyList"] as IEnumerable<SelectListItem>;
+                        var locationList = Session["locationList"] as IEnumerable<SelectListItem>;
+                        var financialYearList = Session["financialYearList"] as IEnumerable<SelectListItem>;
+                        var currentCompany = Session["currentCompany"] as string;
+                    }
+
+                    <div>
+                        <label for="exampleInputName1">Select Company</label>
+                        @Html.DropDownList("asassa", companyList, // value that should be set selected of dropdown
+                                  new
+                                       {
+                                      @class = "form-control js-dropdown",
+                                      @id = "ddlcompany",
+                                      @required = "required",
+                                      onchange = "document.forms[0].submit();"
+                                  })
+                    </div>
+                    <div>
+                        <label for="exampleInputName1">Select Company</label>
+                        @Html.DropDownList("asassa", locationList, // value that should be set selected of dropdown
+                                  new
+                                       {
+                                      @class = "form-control js-dropdown",
+                                      @required = "required",
+                                      onchange = "document.forms[0].submit();"
+                                  })
+                    </div>
+                    <div>
+                        <label for="exampleInputName1">Select Company</label>
+                        @Html.DropDownList("asassa", financialYearList, // value that should be set selected of dropdown
+                                  new
+                                       {
+                                      @class = "form-control js-dropdown",
+                                      @required = "required",
+                                      onchange = "document.forms[0].submit();"
+                                  })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

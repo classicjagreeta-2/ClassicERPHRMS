@@ -1,0 +1,343 @@
+﻿
+@model HRMS.Models.Master.M_EMP_DEDUCT_DET
+
+<div class="modal-dialog modal-lg" role="document">
+    @using (Html.BeginForm("StoreOrEdit", "M_EmpDeductLinkDet", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.FK_EMPCODE)
+        @Html.HiddenFor(x => x.ID)
+        @Html.HiddenFor(x => x.DOCNO)
+        @Html.HiddenFor(x => x.UNIT)
+        <div class="modal-content" id="form_my">
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Deduction Link Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Doc No :</label>
+
+                                @if (Model.ID > 0)
+                                {
+                                    @Html.TextBoxFor(x => x.DOCNO, new { @class = "form-control", @id = "txt_DocNo", @required = "required", @readonly = true })
+
+                                    @Html.HiddenFor(x => x.DOCNO)
+                                    @Html.HiddenFor(x => x.ID)
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.DOCNO, new { @class = "form-control", @id = "txt_DocNo", @readonly = true })
+                                }
+                            </div>
+
+                        </div>
+                        @if (Model.DOCDT != null || Model.ID > 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Doc Date :</label>
+                                    @*@Html.TextBoxFor(x => x.DOCDT, new { @class = "form-control", @maxlength = "14" })*@
+                                    @Html.EditorFor(x => x.DOCDT, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @id = "docdt", @readonly = true } })
+                                </div>
+                                @Html.HiddenFor(x => x.DOCDT)
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Doc Date :</label>
+                                    @*@Html.TextBoxFor(x => x.DOCDT, new { @class = "form-control", @maxlength = "14" })*@
+                                    @Html.EditorFor(x => x.DOCDT, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "docdt" } })
+                                </div>
+                            </div>
+                        }
+
+
+                        @if (Model.FK_DEDUCT_CODE != null && Model.ID > 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Deduct Code and Description :</label>
+                                    @Html.TextBoxFor(x => x.DeductionDesc, new { @class = "form-control", @maxlength = "14", @readonly = true, @required = "required" })
+
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.FK_DEDUCT_CODE)
+                                @Html.HiddenFor(x => x.UNIT)
+                                @Html.HiddenFor(x => x.DOCNO)
+                                @Html.HiddenFor(x => x.CLOSEDBY)
+                                @Html.HiddenFor(x => x.FK_MONTHCODE)
+                                @Html.HiddenFor(x => x.ADVANCE_CLOSED)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Deduct Code and Description :</label>
+
+                                    @Html.DropDownListFor(x => x.FK_DEDUCT_CODE, new SelectList(ViewBag.At, "Value", "Text"), "SELECT..",
+                                    new { @class = "form-control", @required = "required", @id = "ddldeduct" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.FK_DEDUCT_CODE)
+                            </div>
+                        }
+
+
+                        @if (Model.ID != 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Advance Amount :</label>
+                                    @Html.TextBoxFor(x => x.ADVANCE_AMOUNT, new { @class = "form-control", @maxlength = "14", @id = "adAdv", @readonly = true })
+                                </div>
+                                @Html.HiddenFor(x => x.ADVANCE_AMOUNT)
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Advance Amount :</label>
+                                    @Html.TextBoxFor(x => x.ADVANCE_AMOUNT, new { @class = "form-control", @maxlength = "14", @id = "adAdv" })
+                                </div>
+
+                            </div>
+
+                        }
+
+                        @if (Model.ID != 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">No. of Installment :</label>
+                                    @Html.TextBoxFor(x => x.NUMBER_INST, new { @class = "form-control", @maxlength = "4", @id = "numinst" })
+                                </div>
+                                @Html.HiddenFor(x => x.NUMBER_INST)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">No. of Installment :</label>
+                                    @Html.TextBoxFor(x => x.NUMBER_INST, new { @class = "form-control", @maxlength = "4", @id = "numinst" })
+                                </div>
+
+                            </div>
+                        }
+                        @if (Model.DEDUCT_RS >= 0 && Model.ID > 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Deduct Amount :</label>
+                                    @Html.TextBoxFor(x => x.DEDUCT_RS, new { @class = "form-control", @maxlength = "14", @readonly = true, @id = "deduct" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.DEDUCT_RS)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Deduct Amount :</label>
+                                    @Html.TextBoxFor(x => x.DEDUCT_RS, new { @Type = "number", @class = "form-control", @min = "1", @required = "required", @maxlength = "14", @id = "deduct" })
+                                </div>
+
+                            </div>
+                        }
+
+                        @if (Model.ID != 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective from:</label>
+                                    @*@Html.TextBoxFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { @class = "form-control", @maxlength = "10", @minlength = "2", type = "date", @placeholder = "Datetime", @required = "required" })*@
+                                    @Html.EditorFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "edate", @readonly = true } })
+                                </div>
+                                @Html.HiddenFor(x => x.EFF_DATE)
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective from:</label>
+                                    @*@Html.TextBoxFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { @class = "form-control", @maxlength = "10", @minlength = "2", type = "date", @placeholder = "Datetime", @required = "required" })*@
+                                    @Html.EditorFor(x => x.EFF_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "edate" } })
+                                </div>
+
+                            </div>
+
+                        }
+                        @if (Model.DDATE != null || Model.ID > 0)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective To:</label>
+                                    @Html.EditorFor(x => x.DDATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @id = "ddate", @readonly = true, @type = "Date" } })
+                                </div>
+                                @Html.HiddenFor(x => x.DDATE)
+                            </div>
+                        }
+
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Effective To:</label>
+                                    @Html.EditorFor(x => x.DDATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", @id = "ddate", @required = "required", @type = "Date" } })
+                                </div>
+                            </div>
+                        }
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Currency Code :</label>
+
+                                @Html.DropDownListFor(x => x.FK_CURR_CODE, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                                new { @class = "form-control", @required = "required", @id = "curr_cd" })
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Active Status:</label>
+                                @Html.DropDownListFor(x => x.ACTIVE_STATUS, new List<SelectListItem>
+                                {
+                                  new SelectListItem { Text = "Active", Value = "true"},
+                                  new SelectListItem { Text = "Deactive", Value = "false" }
+                                }, "SELECT..", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        @if (ViewBag.LOca == "AGR")
+                        {
+
+                            if (Model.DEDUCT_PERCENT >= 0 && Model.ID > 0)
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Deduct Amount % :</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_PERCENT, new { @class = "form-control", @maxlength = "5", @readonly = true, @id = "deductPer" })
+                                    </div>
+                                    @Html.HiddenFor(x => x.ID)
+                                    @Html.HiddenFor(x => x.DEDUCT_PERCENT)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Deduct Amount % :</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_PERCENT, new { @class = "form-control", @maxlength = "5", @id = "deductPer" })
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            if (Model.DEDUCT_PERCENT >= 0 && Model.ID > 0)
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Deduct Amount % :</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_PERCENT, new { @class = "form-control", @maxlength = "5", @id = "deductPer" })
+                                    </div>
+                                    @Html.HiddenFor(x => x.ID)
+                                    @Html.HiddenFor(x => x.DEDUCT_PERCENT)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Deduct Amount % :</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_PERCENT, new { @class = "form-control", @maxlength = "5", @id = "deductPer" })
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        @if (ViewBag.LOca == "AGR")
+                        {
+                            if (Model.DEDUCT_LIMIT >= 0 && Model.ID > 0)
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Limit :</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_LIMIT, new { @class = "form-control", @maxlength = "14", @readonly = true, @id = "deductLt" })
+                                    </div>
+                                    @Html.HiddenFor(x => x.ID)
+                                    @Html.HiddenFor(x => x.DEDUCT_LIMIT)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group hidden-lg">
+                                        <label for="exampleInputName1">Limit :</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_LIMIT, new { @class = "form-control", @maxlength = "14", @id = "deductLt" })
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            if (Model.DEDUCT_LIMIT >= 0 && Model.ID > 0)
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Limit:</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_LIMIT, new { @class = "form-control", @maxlength = "14", @readonly = true, @id = "deductLt" })
+                                    </div>
+                                    @Html.HiddenFor(x => x.ID)
+                                    @Html.HiddenFor(x => x.DEDUCT_LIMIT)
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Limit :</label>
+                                        @Html.TextBoxFor(x => x.DEDUCT_LIMIT, new { @class = "form-control", @maxlength = "14", @id = "deductLt" })
+                                    </div>
+
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" onclick="location.href='@Url.Action("M_EmpDeductLinkDet","M_EmpDeductLinkDet")?Employee='+'@Model.FK_EMPCODE'+'&UnitCode='+'@Model.UNIT'" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+

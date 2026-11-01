@@ -1,0 +1,124 @@
+﻿
+
+
+@using HRMS.Models.Master
+@model HRMS.Models.Master.M_EMP_LINK_DET
+@*@using WEB_PRO17.Common*@
+
+<head>
+
+    <style>
+        .select2-container--default .select2-selection--single {
+            color: #fff;
+            height: 41px;
+        }
+
+        .j-wrapperForm {
+            margin: 0 auto;
+            outline: none;
+            padding: 40px 15px;
+            /*-webkit-box-sizing: content-box;*/
+            -moz-box-sizing: content-box;
+            /*box-sizing: content-box;*/
+        }
+
+        input[type="checkbox"] {
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.15em;
+            transform: translateY(-0.075em);
+            border: 2px solid #01a9ac;
+        }
+
+        .shade {
+            -webkit-box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+            box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+        }
+    </style>
+</head>
+
+<div class="page-body">
+    <div class="col-sm-12">
+        <!-- Login card start -->
+        <div class="card">
+            @using (Html.BeginForm("MastEmpLinkDel", "MastEmpLinkDel", FormMethod.Get))
+            {
+                <div class="card-block" id="divcontainer">
+
+                    <div class="j-wrapperForm j-wrapper-640">
+
+                        <!-- end /.header -->
+                        <div class="j-content">
+                            <!-- start login -->
+                        </div>
+                        <div class="col-sm-9">
+                            <label for="exampleInputName1">Employee</label>
+                            @*@{
+                                var selectList14 = new List<SelectListItem>();
+                                selectList14.Add(new SelectListItem { Text = "SELECT..", Value = "" });
+                            }*@
+
+                            @Html.DropDownList("EmpId", new SelectList(ViewBag.Emp ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..", new { @class = "form-control select", @id = "employee" })
+                            @*@Html.DropDownListFor(o => o.FK_EMPCODE, selectList14, new { @id = "FK_EMPCODE", @name = "FK_EMPCODE", @class = "form-control text-box single-line required EmpListDDL" })*@
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-primary pull-right aLoader" id="btnNext" type="submit" onclick="showLoading()">
+                                    NEXT <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Login card end -->
+            }
+        </div>
+    </div>
+
+</div>
+
+@*<script>
+        $('.EmpListDDL').select2({
+         ajax: {
+            url: "@Url.Action("ReturnEmpListDDLData", "MastEmpLinkDel")"},
+                data: function (params) {
+                    debugger;
+                    var query = {
+                        searchString: params.term,
+                        page: params.page || 1,
+                        pageSize: 25
+                    }
+                    return query;
+                },
+            processResults: function (res) {
+                debugger;
+
+                if (!res.Data || !res.Data.value || res.Data.value.results.length === 0) {
+                    //$('.CostCentreDDL').prop("disabled", true);
+
+                    return [];
+                }
+                return {
+                    results: $.map(res.Data.value.results, function (item) {                     
+                        return { text: item.pK_EMPCODE + ' : ' + item.fname, id: item.pK_EMPCODE};
+                    }),
+                    pagination: { more: res.Data.value.currentPage < res.Data.value.pageCount }
+                };
+            }
+        });
+</script>*@
+
+
+
+
+
+
+
+
+
+
+
+

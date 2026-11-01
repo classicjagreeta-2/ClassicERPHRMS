@@ -1,0 +1,221 @@
+﻿
+@model HRMS.Models.Master.M_COST_CENTRE
+
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+    @using (Ajax.BeginForm("AddOrUpdate", "CostCenter", new AjaxOptions { }, new { Id = "myForm" }))   
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content" style="width:70%">
+            <div class="modal-header">
+                <h4 class="modal-title">Cost Centre Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Cost Centre Code :</label>
+                                    @Html.TextBoxFor(x => x.pK_CODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "4", @maxlength = "4", @disabled = "disabled", @id = "CODE" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+                                @Html.HiddenFor(x => x.pK_CODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Cost Centre Code :</label>
+                                    @Html.TextBoxFor(x => x.pK_CODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "4", @maxlength = "4", @id = "CODE", @style = "text-transform:uppercase" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+
+                            </div>
+                        }
+
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Cost Centre Description :</label>
+                                @Html.TextBoxFor(x => x.descn, new { @class = "form-control mustfiled", @maxlength = "25", @required = "required" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("CostCenter","CostCenter")'" id="btnclose" data-dismiss="modal">Close</a>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+            </div>
+        </div>
+    }
+</div>
+
+@*<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>*@
+
+@*<script>
+
+    $(document).ready(function () {
+
+
+
+    });
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var directUrl = '@Url.Action("StoreOrEdit", "CostCenter")';
+        var IstoVlidate = 'form';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Cost_Center"
+            $.ajax({
+                url: directUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+                    //cancel: function () {
+
+                    //}
+                }
+
+            });
+
+            //  debugger;
+            // $("#ddlaccounthead").empty().trigger('change')
+            // $("#ddlaccounthead option:selected").prop("selected", false);
+            // $("#ddlaccounthead").selectpicker("refresh");
+            // $.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "success"
+            //})
+
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>*@
+
+@*<script>
+    $(document).ready(function () {
+        // Get the original unique code
+        var originalUniqueCode = "@Model.CODE";
+
+        // Attach an event handler to the submit button
+        $("#btnSubmit").submit(function (event) {
+            // Get the current unique code from the form
+            var currentUniqueCode = $("#CODE").val();
+
+            // Compare the current and original unique codes
+            if (currentUniqueCode !== originalUniqueCode) {
+                // Display an error message
+                $("#CodeError").text("Cannot edit the Unique Code.");
+
+                // Prevent form submission
+                event.preventDefault();
+            } else {
+                // Clear the error message if the codes are the same
+                $("#CodeError").text("");
+            }
+        });
+    });
+</script>*@
+
+<!--<script>
+
+    $(document).ready(function () {
+         debugger
+         
+        if ($('#CODE').val() == null || ("#CODE")=="" ) {-->
+           @*@Html.HiddenFor(x => x.DESCN)*@
+            
+            <!--$('#CODE').prop('disabled', false);
+            
+        }
+        else
+            {              
+            $('#CODE').prop('disabled', true);
+            }
+
+        }
+    });
+</script>-->
+
+
+
+

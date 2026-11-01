@@ -1,0 +1,197 @@
+﻿
+
+@model HRMS.Models.Master.M_EMPRATE
+
+
+<style>
+    .select2-container .select2-selection {
+        height: 80px;
+        overflow: scroll;
+    }
+
+    .select2-results__group {
+        cursor: pointer !important;
+    }
+
+    .select3-container .select3-selection {
+        height: 80px;
+        overflow: scroll;
+    }
+
+    .select3-results__group {
+        cursor: pointer !important;
+    }
+</style>
+<div class="page-body">
+    <div class="col-sm-12">
+        <div class="card">
+
+            <div class="modal-header">
+                <div class="text-center" style="margin-left: 160px;"><h4>Employee Allowance Link Master</h4></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="j-wrapperForm j-wrapper-640">
+                    <div class="col-sm-5">
+                        <input type="hidden" id="myTextBox" value="This is a text box">
+                        <label for="exampleInputName1">Unit Code And Unit Description :</label>
+                        <select  id='select-unit' data-placeholder="Please choose unit" data-allow-clear="true" data-close-on-select="false">
+                            <optgroup label="select all">
+
+                                <option> </option>
+
+
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="col-sm-5">
+                        <input type="hidden" id="hiddenemployee" value="This is a text box">
+                        <label for="exampleInputName1">Employee Code And Employee Name :</label>
+                        <select  id='select-employee' data-placeholder="Please choose Employee" data-allow-clear="true" data-close-on-select="false">
+                            <optgroup id="SELECTALL" label="select all">
+
+                                <option></option>
+
+                            </optgroup>
+                        </select>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+             
+
+                <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action(" Index","Menu")'" id="btnclose" data-dismiss="modal">Close</a>
+                <button name="submit" type="submit" id="nextSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Next</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $('#select-unit').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#myTextBox').val(x);
+
+    });
+
+    $('#select-employee').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#hiddenemployee').val(x);
+
+    });
+
+    // for Employee
+
+    debugger
+    $('#select-employee').select2({
+
+        ajax: {
+            url: "@Url.Action("GetEmployee", "M_EmpAllowLinkDet")",
+            data: function (params) {
+                var query = {
+                    searchString: params.term,
+                    page: params.page || 1,
+                    pageSize: 25,
+                    UNIT: $('#myTextBox').val(),
+                }
+                return query;
+
+            },
+            processResults: function (res, params) {
+                debugger;
+                var list = res.Data.value.results; // The data returned from the API
+
+
+
+                // Map the data into the Select2 expected format
+                return {
+                    results: $.map(list, function (x) {
+                        return {
+                            text: x.pK_EMPCODE + "-" + x.fname, // The text to display in the dropdown
+                            id: x.pK_EMPCODE
+                        };
+                    }),
+                    pagination: {
+                        more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+                    }
+                };
+            },
+
+            cache: true
+        }
+    });
+
+
+
+
+
+    $('#select-unit').select2({
+
+        ajax: {
+            url: "@Url.Action("GetUnitDropdown", "M_EmpAllowLinkDet")", 
+            data: function (params) {
+                var query = {
+                    searchString: params.term, // The search term
+                    page: params.page || 1, // Page number for pagination
+                    pageSize: 5, // Number of results per page
+                    /*UNIT: $("#select-unit").val(), // The value of the UNIT dropdown*/
+                }
+                return query;
+
+            },
+            processResults: function (res, params) {
+
+                var list = res.Data.value.results; // The data returned from the API
+
+
+
+                return {
+                    results: $.map(list, function (x) {
+                        return {
+                            text: x.code + "-" + x.name, // The text to display in the dropdown
+                            id: x.code // The value to store for the option
+                        };
+                    }),
+                    pagination: {
+                        more: res.Data.value.currentPage < res.Data.value.pageCount // Check if more results are available
+                    }
+                };
+            },
+
+            cache: true
+        }
+    });
+
+
+
+
+</script>
+
+
+
+<script>
+
+    //data send on unit
+    $("#nextSubmit").click(function () {
+        debugger;
+         var selectedUnits = $('#myTextBox').val();
+        var selectemployee = $('#hiddenemployee').val();
+
+
+        window.location.href = "@Url.Action("M_EmpAllowLinkDet", "M_EmpAllowLinkDet")?EmpId=" + selectemployee + "&UnitCode=" + selectedUnits;
+
+    });
+
+</script>
+

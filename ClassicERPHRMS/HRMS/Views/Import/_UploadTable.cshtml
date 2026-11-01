@@ -1,0 +1,177 @@
+﻿@using HRMS.Models.Master
+@using System.Data;
+
+<style>
+    .fixTableHead {
+        overflow-y: auto;
+        height: 370px;
+    }
+
+        .fixTableHead thead th {
+            position: sticky;
+            top: 0;
+        }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th {
+        background: #ABDD93;
+    }
+
+    th,
+    td {
+        padding: 8px 15px;
+        border: 2px solid #529432;
+    }
+</style>
+
+<style type="text/css">
+    /* Generic Styling, for Desktops/Laptops */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    /* Zebra striping */
+    tr:nth-of-type(odd) {
+        background: #eee;
+    }
+
+    th {
+        background: #333;
+        color: white;
+        font-weight: bold;
+    }
+
+    td, th {
+        padding: 6px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+
+    @@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+            /* Hide table headers (but not display: none;, for accessibility) */
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        tr {
+            border: 1px solid #ccc;
+        }
+
+        td {
+            /* Behave like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+            }
+            /*
+        Label the data
+        */
+            td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+
+<div class="fixTableHead col-lg-12 col-xl-12">
+    <table id="">
+        @if (ViewBag.MissingData != null)
+        {
+            var missingDataList = ViewBag.MissingData as List<MissingData>;
+            if (missingDataList != null)
+            {
+                <thead>
+                    <tr>
+                        <th>EmpCode</th>
+                        <th>Duplicate DataField</th>
+                        <th>MissMatch DataField</th>
+                    </tr>
+                </thead>
+                foreach (var item in missingDataList)
+                {
+                    if (item.MissingFields.Any()|| item.DuplicateFields.Any())
+                    {
+                        <tr>
+                            <td>@item.EMPCODE</td>
+                            <td>@string.Join(", ", item.DuplicateFields)</td>
+                            <td>@string.Join(", ", item.MissingFields)</td>
+                        </tr>
+                    }
+                }
+            }
+        }
+
+        else if (ViewBag.Data != null)
+        {
+            <thead>
+                <tr>
+                    @foreach (DataColumn column in (ViewBag.Data as DataTable).Columns)
+                    {
+                        <th>@column.ColumnName.ToUpper()</th>
+                    }
+                </tr>
+            </thead>
+            if ((ViewBag.Data as DataTable).Rows.Count > 0)
+            {
+                foreach (DataRow dr in (ViewBag.Data as DataTable).Rows)
+                {
+                    if (!string.IsNullOrEmpty(dr["EMPCODE"].ToString()))
+                    {
+                        <tr>
+                            @foreach (DataColumn column in (ViewBag.Data as DataTable).Columns)
+                            {
+                                <td data-title='@column.ColumnName'>
+                                    @dr[column].ToString()
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            }
+            else
+            {
+                int count = (ViewBag.Data as DataTable).Columns.Count;
+                <tr>
+                    <td colspan='@count' style="color:red;">
+                        No Data Found.
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            if (ViewBag.Error != null)
+            {
+                <tr>
+                    <td style="color:red;">
+                        @(ViewBag.Error != null ? ViewBag.Error.ToString() : "")
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+</div>

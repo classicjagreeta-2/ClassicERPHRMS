@@ -1,0 +1,2445 @@
+﻿
+@model PagedList.StaticPagedList<HRMS.Models.TRN.PaySlipList>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+
+}
+
+<title class="time-runner stop-runner"></title>
+
+
+
+
+
+<link href="~/Content/assets/driver.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
+<link href="~/Content/assets/style.min.css" rel="stylesheet" />
+<link href="~/Content/assets/style.css" rel="stylesheet" />
+<
+<link href="~/Content/assets/summernote-lite.min.css" rel="stylesheet" />
+<link href="~/Content/assets/orgChart.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    .oh-modal__close-custom {
+        border: none;
+        background: none;
+        font-size: 1.5rem;
+        opacity: 0.7;
+        position: absolute;
+        top: 25px;
+        right: 15px;
+        cursor: pointer;
+    }
+
+    .tag-badge {
+        box-sizing: border-box;
+        display: inline-block;
+        /* background-color: orangered; */
+        color: black;
+        border-radius: 3rem;
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 400;
+        padding: 0.05rem 0.8rem 0.1rem;
+        line-height: inherit;
+        padding: 7px;
+        padding-right: 10px;
+        margin-bottom: 5px;
+        border: solid orangered 2px;
+        cursor: pointer;
+    }
+
+    .tag-badge--primary {
+        background-color: orangered;
+        color: white;
+    }
+
+    .oh-profile__avatar-limit-height {
+        height: 30px !important;
+    }
+
+    .oh-profile_name_custom {
+        font-size: 13px;
+        padding-left: 4px;
+    }
+
+    .oh-profile__image_custm {
+        width: 26px;
+        height: 26px;
+    }
+
+    .badge-container {
+        height: 30vh;
+        overflow: auto;
+    }
+
+    .tag-badge--outline {
+        background: white;
+        border: solid orangered 2px;
+        color: black;
+    }
+
+    .oh-sticky-table__th--custom {
+        padding-left: 10px !important;
+    }
+
+    .oh-sticky-table__tr--selected {
+        background: #ff450017 !important;
+    }
+
+    .avatars {
+        display: flex;
+        padding: 8px 10px 8px 10px;
+    }
+
+    .avatars__item {
+        background-color: #596376;
+        border: 2px solid white;
+        border-radius: 100%;
+        color: #ffffff;
+        display: block;
+        font-family: sans-serif;
+        font-size: 12px;
+        font-weight: 100;
+        height: 26px;
+        width: 26px;
+        line-height: 17px;
+        text-align: center;
+        transition: margin 0.1s ease-in-out;
+        overflow: hidden;
+        margin-left: -10px;
+    }
+
+        .avatars__item:first-child {
+            z-index: 5;
+        }
+
+        .avatars__item:nth-child(2) {
+            z-index: 4;
+        }
+
+        .avatars__item:nth-child(3) {
+            z-index: 3;
+        }
+
+        .avatars__item:nth-child(4) {
+            z-index: 2;
+        }
+
+        .avatars__item:nth-child(5) {
+            z-index: 1;
+        }
+
+        .avatars__item:last-child {
+            z-index: 0;
+        }
+
+        .avatars__item img {
+            width: 100%;
+        }
+
+    .avatars:hover .avatars__item {
+        margin-right: 10px;
+    }
+
+    .select2 {
+        width: 100% !important;
+    }
+
+    #slectContainere3aac515-ad14-45a2-b431-bbabf55ce937 .select2-container .select2-selection {
+        padding: 5px !important;
+        max-height: 70px !important;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+
+    .custom-scroll {
+        overflow-x: scroll
+    }
+
+        .custom-scroll::-webkit-scrollbar {
+            background-color: #cacaca;
+            height: 4px;
+            border-radius: 6px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 6px;
+        }
+</style>
+
+<style>
+    .oh-modal__close-custom {
+        border: none;
+        background: none;
+        font-size: 1.5rem;
+        opacity: 0.7;
+        position: absolute;
+        top: 25px;
+        right: 15px;
+        cursor: pointer;
+    }
+
+    .tag-badge {
+        box-sizing: border-box;
+        display: inline-block;
+        /* background-color: orangered; */
+        color: black;
+        border-radius: 3rem;
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 400;
+        padding: 0.05rem 0.8rem 0.1rem;
+        line-height: inherit;
+        padding: 7px;
+        padding-right: 10px;
+        margin-bottom: 5px;
+        border: solid orangered 2px;
+        cursor: pointer;
+    }
+
+    .tag-badge--primary {
+        background-color: orangered;
+        color: white;
+    }
+
+    .oh-profile__avatar-limit-height {
+        height: 30px !important;
+    }
+
+    .oh-profile_name_custom {
+        font-size: 13px;
+        padding-left: 4px;
+    }
+
+    .oh-profile__image_custm {
+        width: 26px;
+        height: 26px;
+    }
+
+    .badge-container {
+        height: 30vh;
+        overflow: auto;
+    }
+
+    .tag-badge--outline {
+        background: white;
+        border: solid orangered 2px;
+        color: black;
+    }
+
+    .oh-sticky-table__th--custom {
+        padding-left: 10px !important;
+    }
+
+    .oh-sticky-table__tr--selected {
+        background: #ff450017 !important;
+    }
+
+    .avatars {
+        display: flex;
+        padding: 8px 10px 8px 10px;
+    }
+
+    .avatars__item {
+        background-color: #596376;
+        border: 2px solid white;
+        border-radius: 100%;
+        color: #ffffff;
+        display: block;
+        font-family: sans-serif;
+        font-size: 12px;
+        font-weight: 100;
+        height: 26px;
+        width: 26px;
+        line-height: 17px;
+        text-align: center;
+        transition: margin 0.1s ease-in-out;
+        overflow: hidden;
+        margin-left: -10px;
+    }
+
+        .avatars__item:first-child {
+            z-index: 5;
+        }
+
+        .avatars__item:nth-child(2) {
+            z-index: 4;
+        }
+
+        .avatars__item:nth-child(3) {
+            z-index: 3;
+        }
+
+        .avatars__item:nth-child(4) {
+            z-index: 2;
+        }
+
+        .avatars__item:nth-child(5) {
+            z-index: 1;
+        }
+
+        .avatars__item:last-child {
+            z-index: 0;
+        }
+
+        .avatars__item img {
+            width: 100%;
+        }
+
+    .avatars:hover .avatars__item {
+        margin-right: 10px;
+    }
+
+    .select2 {
+        width: 100% !important;
+    }
+
+    #slectContainere3aac515-ad14-45a2-b431-bbabf55ce937 .select2-container .select2-selection {
+        padding: 5px !important;
+        max-height: 70px !important;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
+
+    .custom-scroll {
+        overflow-x: scroll
+    }
+
+        .custom-scroll::-webkit-scrollbar {
+            background-color: #cacaca;
+            height: 4px;
+            border-radius: 6px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 6px;
+        }
+</style>
+
+<style>
+    .oh-checkpoint-badge--success {
+        color: yellowgreen;
+    }
+
+    .oh-checkpoint-badge {
+        cursor: pointer;
+    }
+
+    .m-zero {
+        margin: 0 !important;
+    }
+</style>
+
+<style>
+    .oh-checkpoint-badge--success {
+        color: yellowgreen;
+    }
+
+    .oh-checkpoint-badge {
+        cursor: pointer;
+    }
+
+    .m-zero {
+        margin: 0 !important;
+    }
+</style>
+
+<div id="main-section-data" style="" data-lang="en">
+    <style>
+        .sent-to-employee {
+            background-color: yellowgreen;
+            color: white;
+        }
+
+        .oh-tabs__movable-title:hover {
+            border: solid #80808078 1px !important;
+        }
+    </style>
+
+    <div id="messages"></div>
+
+    <div class="oh-modal" id="individualPayslipModal" role="dialog" aria-labelledby="individualPayslipModal" aria-hidden="true">
+        <div class="oh-modal__dialog">
+            <div class="oh-modal__dialog-header pb-0">
+                <h1 class="oh-modal__dialog-title" id="addEmployeeModalLabel">
+                    Create Payslip
+                </h1>
+                <button class="oh-modal__close" aria-label="Close">
+                    <ion-icon name="close-outline" role="img" class="md hydrated" aria-label="close outline"></ion-icon>
+                </button>
+            </div>
+            <div class="oh-modal__dialog-body" id="individualPayslipModal">
+                <form action="/Payslip/create-payslip" class="oh-profile-section pt-1" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="2IUnwuxPLeaEAEEybABQpVITyeEfueLm4YmFJbXbocKUUQbPhrjfAh5FhPYzgRuU">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="oh-input__group">
+                                <label class="oh-input__label" for="id_employee_id">Employee</label>
+                                <select name="employee_id" class="oh-select oh-select-2 select2-hidden-accessible" id="id_employee_id" data-select2-id="select2-data-id_employee_id" tabindex="-1" aria-hidden="true">
+                                    <option value="2">Michael Brown (#PEP01)</option>
+
+                                    <option value="3">Sarah Anderson (#PEP02)</option>
+
+                                    <option value="4">Emily Clark (#PEP03)</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="oh-input__group">
+                                <label class="oh-input__label" for="id_start_date">Start Date</label>
+                                <input type="date" name="start_date" value="2024-10-01" class="oh-input w-100" placeholder="Start Date" required="" id="id_start_date">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="oh-input__group">
+                                <label class="oh-input__label" for="id_end_date">End Date</label>
+                                <input type="date" name="end_date" value="2024-10-04" class="oh-input w-100" placeholder="End Date" required="" id="id_end_date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oh-modal__dialog-footer p-0 pt-4">
+                        <input type="submit" value="Save" class="oh-btn oh-btn--secondary oh-btn--shadow">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade"
+         id="bulkPayslipModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> Bulk Payslip</h5>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="oh-modal__dialog-body" id="bulkPayslipModal">
+                        @*<form action="/Payslip/generate-payslip" class="oh-profile-section pt-2" method="post">*@
+                        @using (Html.BeginForm("Payslip", "Payslip", FormMethod.Post, new { id = "myForm" }))
+                        {
+
+                            <input type="hidden" name="csrfmiddlewaretoken" value="hqPrPSN7T06cQ0EoUSpvAZBI3ZDDmICojGhJ2zdtwYGsacbF0J7ULlYuMAXX8llW">
+                            @Html.Partial("_unitMonthEmployeeSelection")
+
+
+                            <div class="oh-modal__dialog-footer p-0 pt-4">
+                                <input type="submit" value="Generate Payslips" class="oh-btn oh-btn--secondary oh-btn--shadow">
+                                @*<button type="button" class="btn btn-primary" data-dismiss="modal" id="generatePayslipBtn">Okay</button>*@
+                            </div>
+                        }
+                        @*</form>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="oh-modal" id="bulkPayslipModalxx" role="dialog" aria-labelledby="bulkPayslipModal" aria-hidden="true">
+        <div class="oh-modal__dialog">
+            <div class="oh-modal__dialog-header pb-0">
+                <h1 class="oh-modal__dialog-title" id="addEmployeeModalLabel">
+                    Bulk Payslip
+                </h1>
+                <button class="oh-modal__close" aria-label="Close">
+                    <ion-icon name="close-outline" role="img" class="md hydrated" aria-label="close outline"></ion-icon>
+                </button>
+            </div>
+            <div class="oh-modal__dialog-body" id="bulkPayslipModal">
+                <form action="/Payslip/generate-payslip" class="oh-profile-section pt-2" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="hqPrPSN7T06cQ0EoUSpvAZBI3ZDDmICojGhJ2zdtwYGsacbF0J7ULlYuMAXX8llW">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="oh-input__group">
+                                <label class="oh-input__label" for="id_group_name">Batch Name</label>
+                                <input type="text" name="group_name" class="oh-input w-100" id="id_group_name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="oh-input__group">
+                                <label class="oh-input__label" for="e3aac515-ad14-45a2-b431-bbabf55ce937">Employee</label>
+                                <div id="widget6dc27">
+
+
+                                    <div id="slectContainere3aac515-ad14-45a2-b431-bbabf55ce937">
+                                        <select name="employee_id" id="e3aac515-ad14-45a2-b431-bbabf55ce937" class="w-100 oh-select oh-select2 select2-hidden-accessible" multiple="" data-select2-id="e3aac515-ad14-45a2-b431-bbabf55ce937" tabindex="-1" aria-hidden="true">
+
+                                            <option value="1">Adam Luis </option>
+
+                                            <option value="22">Amelia Cooper (#PEP25)</option>
+
+                                            <option value="58">Elijah Cox (#PEP64)</option>
+
+                                            <option value="30">Ella Jackson (#PEP33)</option>
+
+                                            <option value="4">Emily Clark (#PEP03)</option>
+
+                                            <option value="26">Evelyn Garcia (#PEP29)</option>
+
+                                            <option value="55">Hannah Brooks (#PEP61)</option>
+
+                                            <option value="24">Harper Edwards (#PEP27)</option>
+
+                                            <option value="51">Hazel Adams (#PEP57)</option>
+
+                                            <option value="43">Jack Rivera (#PEP46)</option>
+
+                                            <option value="5">Jessica Evans (#PEP05)</option>
+
+                                            <option value="60">Joseph Diaz (#PEP66)</option>
+
+                                            <option value="21">Lucas Carter (#PEP24)</option>
+
+                                            <option value="32">Madison Kelly (#PEP35)</option>
+
+                                            <option value="6">Matthew Harris (#PEP08)</option>
+
+                                            <option value="2">Michael Brown (#PEP01)</option>
+
+                                            <option value="42">Nora Reed (#PEP45)</option>
+
+                                            <option value="72">Olivia Green (#PEP07)</option>
+
+                                            <option value="46">Penelope Scott (#PEP49)</option>
+
+                                            <option value="3">Sarah Anderson (#PEP02)</option>
+
+                                            <option value="69">Sofia Howard (#PEP75)</option>
+
+                                            <option value="53">Stella Bell (#PEP59)</option>
+
+                                            <option value="49">Zoey Watson (#PEP55)</option>
+
+                                            <option value="78">test employee (PEP234568)</option>
+
+                                        </select>
+                                    </div>
+                                    <!-- custom scroll/ horizontal scroll section -->
+                                    <div class="d-flex justify-content-between custom-scroll">
+                                        <div class="avatars" id="avatarsContainer"></div>
+                                    </div>
+                                    @*<span style="
+                                                  cursor: pointer;
+                                                  padding: 10px;
+                                                  display: flex;
+                                                  justify-content: right;
+                                                  color: orangered;
+                                                ">
+                                            <span data-toggle="oh-modal-toggle" data-target="#filterChoosewidget6dc27" title="Filter and Choose Employee" style="
+                                                    justify-content: right;
+                                                    align-items: center;
+                                                    display: flex;
+                                                    width: 50px;
+                                                  ">
+                                                <ion-icon name="filter-circle" role="img" class="md hydrated" aria-label="filter circle"></ion-icon> Filter
+                                            </span>
+                                        </span>*@
+                                    <div class="oh-modal" id="filterChoosewidget6dc27" role="dialog" aria-labelledby="filterChoosewidget6dc27" aria-hidden="true">
+                                        <div class="oh-modal__dialog">
+                                            <div class="oh-modal__dialog-header">
+                                                <button type="button" class="oh-modal__close-custom" onclick="event.stopPropagation();event.preventDefault;$('#filterChoosewidget6dc27').toggleClass('oh-modal--show');">
+                                                    <ion-icon name="close-outline" role="img" class="md hydrated" aria-label="close outline"></ion-icon>
+                                                </button>
+                                            </div>
+                                            <div class="oh-modal__dialog-body" id="filterChooseModalBodye3aac515-ad14-45a2-b431-bbabf55ce937">
+                                                <div class="oh-wrapper">
+                                                    <!-- Nav -->
+
+                                                    <section class="oh-main__topbar p-3 mb-1 m-0" style="padding-left: 0 !important; padding-right: 0 !important" x-data="{searchShow: false}" id="widgetFilterFormContainere3aac515-ad14-45a2-b431-bbabf55ce937">
+                                                        <div class="oh-main__titlebar oh-main__titlebar--left">
+                                                            <div class="mb-2 mt-2">
+                                                                <h1 class="oh-main__titlebar-title fw-bold">Employee</h1>
+                                                            </div>
+                                                        </div>
+                                                        <div class="oh-main__titlebar oh-main__titlebar--right">
+                                                            <div class="oh-input-group oh-input__search-group" :class="searchShow ? 'oh-input__search-group--show' : ''">
+                                                                <input type="text" class="oh-input oh-input__icon" name="search" aria-label="Search Input" placeholder="Search">
+                                                            </div>
+                                                            <div class="oh-main__titlebar-button-container">
+                                                                <div class="oh-dropdown" x-data="{open: false}">
+                                                                    <button hx-get="/horilla-widget/get-filter-form?template_path=employee_filters.html" hx-target="#wodgetFilterContainer" class="oh-btn ml-2" @@@@click="open = !open">
+                                                                        <ion-icon name="filter" class="mr-1 md hydrated" role="img" aria-label="filter"></ion-icon>Filter
+                                                                        <div id="filterCount"></div>
+                                                                    </button>
+                                                                    <div class="oh-dropdown__menu oh-dropdown__menu--left oh-dropdown__filter p-4" x-show="open" @@@@click.outside="open = false" style="display: none;">
+                                                                        <div id="wodgetFilterContainer">
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+
+                                                    <!-- Filter Tags -->
+
+                                                    <div class="oh-filter-tag-container mb-2 p-0" id="filterTagContainere3aac515-ad14-45a2-b431-bbabf55ce937">
+
+                                                    </div>
+                                                    <div class="ration-container mb-2 d-flex justify-content-between">
+                                                        <div>
+                                                            <div class="oh-checkpoint-badge oh-checkpoint-badge--secondary" data-toggle="oh-modal-toggle" data-target="#viewSelectedModal">
+                                                                Selected <span class="selected-count">0</span>/<span class="total-count">24</span>
+                                                            </div>
+                                                            <div class="oh-checkpoint-badge oh-checkpoint-badge--secondary" id="selectAllUsers">
+                                                                Select All <span class="total-count visible-count">24</span> user
+                                                            </div>
+                                                            <div class="oh-checkpoint-badge" id="unselectAllUsers">
+                                                                Unselect All
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="oh-checkpoint-badge oh-checkpoint-badge--success m-zero" id="selectAllInstances">
+                                                            Select All 24 Item
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Sticky Table -->
+
+                                                    <div class="oh-sticky-table" style="height: 50vh">
+                                                        <div class="oh-sticky-table__table oh-table--sortable" id="chooseTableHeaderParent">
+                                                            <div class="oh-sticky-table__thead" id="chooseTableHeader">
+                                                                <div class="oh-sticky-table__tr">
+                                                                    <div class="oh-sticky-table__th oh-sticky-table__th--custom">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" title="Select all users" class="oh-input oh-input__checkbox mt-1 mr-2" id="choose-all-user">
+                                                                            </div>
+                                                                            Employee
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="1" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="1" data-label="Adam Luis " data-avatar="https://ui-avatars.com/api/?name=Adam Luis&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce9371">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="1" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Adam Luis&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Adam Luis </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="22" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="22" data-label="Amelia Cooper (#PEP25)" data-avatar="https://ui-avatars.com/api/?name=Amelia Cooper&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93722">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="22" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Amelia Cooper&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Amelia Cooper (#PEP25)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="58" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="58" data-label="Elijah Cox (#PEP64)" data-avatar="https://ui-avatars.com/api/?name=Elijah Cox&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93758">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="58" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Elijah Cox&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Elijah Cox (#PEP64)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="30" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="30" data-label="Ella Jackson (#PEP33)" data-avatar="https://ui-avatars.com/api/?name=Ella Jackson&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93730">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="30" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Ella Jackson&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Ella Jackson (#PEP33)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="4" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="4" data-label="Emily Clark (#PEP03)" data-avatar="https://ui-avatars.com/api/?name=Emily Clark&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce9374">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="4" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Emily Clark&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Emily Clark (#PEP03)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="26" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="26" data-label="Evelyn Garcia (#PEP29)" data-avatar="https://ui-avatars.com/api/?name=Evelyn Garcia&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93726">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="26" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Evelyn Garcia&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Evelyn Garcia (#PEP29)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="55" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="55" data-label="Hannah Brooks (#PEP61)" data-avatar="https://ui-avatars.com/api/?name=Hannah Brooks&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93755">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="55" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Hannah Brooks&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Hannah Brooks (#PEP61)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="24" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="24" data-label="Harper Edwards (#PEP27)" data-avatar="https://ui-avatars.com/api/?name=Harper Edwards&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93724">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="24" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Harper Edwards&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Harper Edwards (#PEP27)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="51" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="51" data-label="Hazel Adams (#PEP57)" data-avatar="https://ui-avatars.com/api/?name=Hazel Adams&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93751">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="51" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Hazel Adams&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Hazel Adams (#PEP57)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="43" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="43" data-label="Jack Rivera (#PEP46)" data-avatar="https://ui-avatars.com/api/?name=Jack Rivera&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93743">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="43" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Jack Rivera&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Jack Rivera (#PEP46)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="5" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="5" data-label="Jessica Evans (#PEP05)" data-avatar="https://ui-avatars.com/api/?name=Jessica Evans&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce9375">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="5" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Jessica Evans&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Jessica Evans (#PEP05)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="60" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="60" data-label="Joseph Diaz (#PEP66)" data-avatar="https://ui-avatars.com/api/?name=Joseph Diaz&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93760">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="60" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Joseph Diaz&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Joseph Diaz (#PEP66)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="21" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="21" data-label="Lucas Carter (#PEP24)" data-avatar="https://ui-avatars.com/api/?name=Lucas Carter&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93721">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="21" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Lucas Carter&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Lucas Carter (#PEP24)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="32" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="32" data-label="Madison Kelly (#PEP35)" data-avatar="https://ui-avatars.com/api/?name=Madison Kelly&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93732">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="32" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Madison Kelly&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Madison Kelly (#PEP35)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="6" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="6" data-label="Matthew Harris (#PEP08)" data-avatar="https://ui-avatars.com/api/?name=Matthew Harris&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce9376">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="6" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Matthew Harris&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Matthew Harris (#PEP08)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="2" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="2" data-label="Michael Brown (#PEP01)" data-avatar="https://ui-avatars.com/api/?name=Michael Brown&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce9372">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="2" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Michael Brown&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Michael Brown (#PEP01)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="42" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="42" data-label="Nora Reed (#PEP45)" data-avatar="https://ui-avatars.com/api/?name=Nora Reed&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93742">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="42" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Nora Reed&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Nora Reed (#PEP45)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="72" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="72" data-label="Olivia Green (#PEP07)" data-avatar="https://ui-avatars.com/api/?name=Olivia Green&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93772">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="72" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Olivia Green&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Olivia Green (#PEP07)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="46" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="46" data-label="Penelope Scott (#PEP49)" data-avatar="https://ui-avatars.com/api/?name=Penelope Scott&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93746">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="46" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Penelope Scott&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Penelope Scott (#PEP49)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="3" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="3" data-label="Sarah Anderson (#PEP02)" data-avatar="https://ui-avatars.com/api/?name=Sarah Anderson&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce9373">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="3" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Sarah Anderson&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Sarah Anderson (#PEP02)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="69" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="69" data-label="Sofia Howard (#PEP75)" data-avatar="https://ui-avatars.com/api/?name=Sofia Howard&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93769">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="69" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Sofia Howard&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Sofia Howard (#PEP75)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="53" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="53" data-label="Stella Bell (#PEP59)" data-avatar="https://ui-avatars.com/api/?name=Stella Bell&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93753">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="53" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Stella Bell&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Stella Bell (#PEP59)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="49" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="49" data-label="Zoey Watson (#PEP55)" data-avatar="https://ui-avatars.com/api/?name=Zoey Watson&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93749">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="49" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=Zoey Watson&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">Zoey Watson (#PEP55)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="oh-sticky-table__tbody ui-sortable" data-instance-id="78" style="">
+                                                                <div class="oh-sticky-table__tr oh-sticky-table__tr--custom ui-sortable-handle" data-instance-id="78" data-label="test employee (PEP234568)" data-avatar="https://ui-avatars.com/api/?name=test employee&amp;background=random" draggable="true" style="">
+                                                                    <div class="oh-sticky-table__sd" id="selectRowe3aac515-ad14-45a2-b431-bbabf55ce93778">
+                                                                        <div class="d-flex">
+                                                                            <div class="">
+                                                                                <input type="checkbox" value="78" class="oh-input oh-input__checkbox mt-2 mr-2 all-choose-user-row">
+                                                                            </div>
+                                                                            <div class="oh-profile oh-profile--md">
+                                                                                <div class="oh-profile__avatar mr-1">
+                                                                                    <img src="https://ui-avatars.com/api/?name=test employee&amp;background=random" class="oh-profile__image">
+                                                                                </div>
+                                                                                <span class="oh-profile__name oh-text--dark">test employee (PEP234568)</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!-- Pagination -->
+                                                    <div class="oh-pagination">
+                                                        <span class="oh-pagination__page" data-toggle="modal" data-target="#addEmployeeModal">Page 1 of 1</span>
+                                                    </div>
+
+                                                    <div class="d-flex flex-row-reverse">
+                                                        <a class="oh-btn oh-btn--secondary oh-btn--shadow pr-3 pl-3" onclick="event.stopPropagation();event.preventDefault;$('#filterChoosewidget6dc27').removeClass('oh-modal--show');">
+                                                            Add
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="oh-input__group">
+                                <label class="oh-input__label" for="id_start_date">Start Date</label>
+                                <input type="date" name="start_date" value="2024-10-01" class="oh-input w-100" required="" id="id_start_date">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="oh-input__group">
+                                <label class="oh-input__label" for="id_end_date">End Date</label>
+                                <input type="date" name="end_date" value="2024-10-04" class="oh-input w-100" required="" id="id_end_date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oh-modal__dialog-footer p-0 pt-4">
+                        <input type="submit" value="Generate Payslips" class="oh-btn oh-btn--secondary oh-btn--shadow">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <section class="oh-wrapper oh-main__topbar" x-data="{searchShow: false}" style="height:0px">
+        <div class="oh-main__titlebar oh-main__titlebar--left">
+            <h1 class="oh-main__titlebar-title fw-bold">Payslip</h1>
+            <a class="oh-main__titlebar-search-toggle" role="button" aria-label="Toggle Search" @@click="searchShow = !searchShow">
+                <ion-icon name="search-outline" class="oh-main__titlebar-serach-icon md hydrated" role="img" aria-label="search outline"></ion-icon>
+            </a>
+        </div>
+        <div class="oh-main__titlebar-button-container">
+            <form hx-get="/Payslip/Payslip" class="filter-form d-flex" id="filterForm" hx-swap="innerHTML" hx-target="#payslips-table">
+
+                <div class="oh-input-group oh-input__search-group" :class="searchShow ? 'oh-input__search-group--show' : ''">
+                    <ion-icon name="search-outline" class="oh-input-group__icon oh-input-group__icon--left md hydrated" role="img" aria-label="search outline"></ion-icon>
+
+                    <!-- htmx attributes here -->
+                    <input type="text" class="oh-input oh-input__icon" aria-label="Search Input" id="searchString" name="searchString"
+                           placeholder="Search"
+                           style="height:10px"
+                           hx-get="/Payslip/Payslip"
+                           hx-trigger="keyup changed delay:500ms"
+                           hx-target="#payslips-table"
+                           hx-swap="innerHTML">
+                </div>
+
+                <input type="hidden" name="view" value="" id="payslipViewType">
+            @*</form>
+
+            <form hx-get="/Payslip/Payslip" class="filter-form d-flex" id="filterForm" hx-swap="innerHTML" hx-target="#payslips-table" onsubmit="event.preventDefault()">
+
+                <div class="oh-input-group oh-input__search-group" :class="searchShow ? 'oh-input__search-group--show' : ''">
+                    <ion-icon name="search-outline" class="oh-input-group__icon oh-input-group__icon--left md hydrated" role="img" aria-label="search outline"></ion-icon>
+                    <input type="text" class="oh-input oh-input__icon" aria-label="Search Input" id="searchString" name="search" placeholder="Search" style="height:10px" onkeyup="$('.filterButton')[0].click();" fdprocessedid="r948zs">
+                </div>
+                <input type="hidden" name="view" value="" id="payslipViewType">*@
+
+                @*<div class="oh-dropdown">
+                        <button class="oh-btn oh-btn--dropdown ml-2 h-100">
+                            Actions
+                        </button>
+                        <div class="oh-dropdown__menu oh-dropdown__menu--right">
+                            <ul class="oh-dropdown__items">
+
+                                <li class="oh-dropdown__item">
+                                    <a class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#bulkPayslipModal">Generate</a>
+                                </li>
+
+
+                                <li class="oh-dropdown__item">
+                                    <a hx-get="/Payslip/payslip-detailed-export" hx-target="#objectDetailsModalTarget" class="oh-dropdown__link" id="employee-payslip-Report" data-toggle="oh-modal-toggle" data-target="#objectDetailsModal">Payslip report</a>
+                                </li>
+
+
+                                <li class="oh-dropdown__item">
+                                    <a class="oh-dropdown__link" data-toggle="oh-modal-toggle" id="payslipBulkSend">Send via mail</a>
+                                </li>
+
+
+                                <li class="oh-dropdown__item" onclick="event.stopPropagation()">
+                                    <a class="oh-dropdown__link">Bulk Status Update</a>
+                                    <select name="update_selected" class="oh-select" fdprocessedid="aceor4">
+                                        <option value="">------</option>
+                                        <option value="draft">Draft</option>
+                                        <option value="review_ongoing">
+                                            Review Ongoing
+                                        </option>
+                                        <option value="confirmed">Confirmed</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
+                                </li>
+
+
+                                <li class="oh-dropdown__item">
+                                    <a hx-get="/Payslip/payslip-info-export" hx-target="#objectDetailsModalTarget" class="oh-dropdown__link" id="employee-payslip-export" data-toggle="oh-modal-toggle" data-target="#objectDetailsModal">Export</a>
+                                </li>
+
+
+                                <li class="oh-dropdown__item">
+                                    <a class="oh-dropdown__link oh-dropdown__link--danger" data-action="delete" id="deletePayslipBulk">Delete</a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>*@
+                <div class="oh-dropdown">
+                    @*<button class="oh-btn oh-btn--dropdown ml-2 h-100" data-toggle="dropdown">
+                            Actions
+                        </button>*@
+
+                    <div class="dropdown oh-dropdown__menu oh-dropdown__menu--right">
+                        <ul class="dropdown-menu oh-dropdown__items" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                            <li class="oh-dropdown__item">
+                                <a class="oh-dropdown__link" data-toggle="oh-modal-toggle" data-target="#bulkPayslipModal">Generate</a>
+                            </li>
+                            <li class="oh-dropdown__item">
+                                <a hx-get="/Payslip/payslip-detailed-export" hx-target="#objectDetailsModalTarget" class="oh-dropdown__link" id="employee-payslip-Report" data-toggle="oh-modal-toggle" data-target="#objectDetailsModal">Payslip report</a>
+                            </li>
+                            <li class="oh-dropdown__item">
+                                <a class="oh-dropdown__link" data-toggle="oh-modal-toggle" id="payslipBulkSend">Send via mail</a>
+                            </li>
+                            <li class="oh-dropdown__item" onclick="event.stopPropagation()">
+                                <a class="oh-dropdown__link">Bulk Status Update</a>
+                                <select name="update_selected" class="oh-select" fdprocessedid="aceor4">
+                                    <option value="">------</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="review_ongoing">
+                                        Review Ongoing
+                                    </option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="paid">Paid</option>
+                                </select>
+                            </li>
+                            <li class="oh-dropdown__item">
+                                <a hx-get="/Payslip/payslip-info-export" hx-target="#objectDetailsModalTarget" class="oh-dropdown__link" id="employee-payslip-export" data-toggle="oh-modal-toggle" data-target="#objectDetailsModal">Export</a>
+                            </li>
+                            <li class="oh-dropdown__item">
+                                <a class="oh-dropdown__link oh-dropdown__link--danger" data-action="delete" id="deletePayslipBulk">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="oh-btn-group ml-2">
+                    <div>
+                        <button type="button"
+                                class="oh-btn oh-btn--secondary oh-btn--shadow"
+                                data-toggle="modal"
+                                data-target="#bulkPayslipModal" style="height:10px">
+                            Generate Payslip
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <div id="filterTagContainerSectionNav" class="oh-titlebar-container__filters mb-2 mt-0 oh-wrapper"></div>
+
+    <div class="d-flex flex-row-reverse oh-wrapper mb-2" style="padding-bottom: 10px; justify-content: right; align-items: center">
+
+        <span class="paid me-3" onclick="$('[name=sent_to_employee]').val('false'); $('[name=sent_to_employee]').first().change(); $('.filterButton').click()" style="cursor: pointer; margin-left: 5px">
+            <span class="oh-dot oh-dot--small me-1" style="background-color: grey"></span>
+            Mail Not Sent
+        </span>
+        <span class="paid me-3" onclick="$('[name=sent_to_employee]').val('true'); $('[name=sent_to_employee]').first().change(); $('.filterButton').click()" style="cursor: pointer; margin-left: 5px">
+            <span class="oh-dot oh-dot--small me-1" style="background-color: yellowgreen"></span>
+            Mail Sent
+        </span>
+
+        <span class="draft me-3" onclick="$('[name=status]').val('draft'); $('[name=status]').first().change(); $('.filterButton').click();" style="cursor: pointer; margin-left: 5px">
+            <span class="oh-dot oh-dot--small me-1" style="background-color: gray"></span>
+            Draft
+        </span>
+        <span class="review_ongoing me-3" onclick="$('[name=status]').val('review_ongoing'); $('[name=status]').first().change(); $('.filterButton').click()" style="cursor: pointer; margin-left: 5px">
+            <span class="oh-dot oh-dot--small me-1" style="background-color: orange"></span>
+            Review Ongoing
+        </span>
+        <span class="confirmed me-3" onclick="$('[name=status]').val('confirmed'); $('[name=status]').first().change(); $('.filterButton').click()" style="cursor: pointer; margin-left: 5px">
+            <span class="oh-dot oh-dot--small me-1" style="background-color: rgb(103, 171, 238)"></span>
+            Confirmed
+        </span>
+        <span class="paid me-3" onclick="$('[name=status]').val('paid'); $('[name=status]').first().change(); $('.filterButton').click()" style="cursor: pointer; margin-left: 5px">
+            <span class="oh-dot oh-dot--small me-1" style="background-color: yellowgreen"></span>
+            Paid
+        </span>
+    </div>
+
+    <div class="oh-checkpoint-badge mb-2" id="selectedPayslip" data-ids="[&quot;14&quot;]" data-clicked="0" style="display: none">
+        Selected Employees
+    </div>
+
+    <div class="oh-tabs oh-wrapper">
+        <div class="oh-tabs__contents">
+            <div class="oh-tabs__content oh-tabs__content--active" style="padding-top: 10px" id="allPaySlips">
+                <div id="payroll-payslip-container">
+                    <!-- filter items showing here -->
+                    <div style="display: none;">{}</div>
+                    <div id="payslips-table">
+                        <!-- filter items showing here -->
+                        <div style="display: none;">{}</div>
+                        @*<div class="oh-checkpoint-badge text-success mb-2" id="selectAllPayslip" style="cursor: pointer">
+                                Select All Payslips
+                            </div>
+                            <div class="oh-checkpoint-badge text-secondary mb-2" id="unselectAllPayslip" style="cursor: pointer; display: inline-flex;">
+                                Unselect All Payslips
+                            </div>*@
+                        <div class="oh-checkpoint-badge text-info mb-2" disabled id="exportPayslips" style="cursor: pointer; display: inline-flex;">
+                            Export Payslips
+                        </div>
+                        @*<div class="oh-checkpoint-badge text-danger mb-2" id="selectedSlipShow" style="display: inline-flex;">1 -  Selected</div>*@
+
+
+                        <!-- start of column toggle -->
+                        <div class="oh-table_sticky--wrapper">
+                            <div class="oh-sticky-dropdown--header">
+                                <div class="oh-dropdown" x-data="{open: false}">
+                                    <button class="oh-sticky-dropdown_btn " @@click="open = !open" fdprocessedid="og2a7j"><ion-icon name="ellipsis-vertical-sharp" role="img" class="md hydrated" aria-label="ellipsis vertical sharp"></ion-icon></button>
+                                    <div class="oh-dropdown__menu oh-sticky-table_dropdown" x-show="open" @@click.outside="open = false" style="display: none;">
+                                        <div class="oh-dropdown_btn-header">
+                                            <button onclick="$(this).parent().parent().find('[type=checkbox]').prop('checked',true).change()" class="oh-btn oh-btn--success-outline">Select All Rows</button>
+                                            <button onclick="$(this).parent().parent().find('[type=checkbox]').prop('checked',false).change()" class="oh-btn oh-btn--primary-outline">Unselect All Rows</button>
+                                        </div>
+                                        <ul class="oh-dropdown__items" id="payslipCells">
+                                            <li class="oh-dropdown__item oh-sticy-dropdown-item">
+                                                <span>Start Date</span>
+                                                <span class="oh-table__checkbox">
+                                                    <input type="checkbox" name="showTableColumn" onchange=" " value="1">
+                                                </span>
+                                            </li>
+
+                                            <li class="oh-dropdown__item oh-sticy-dropdown-item">
+                                                <span>End Date</span>
+                                                <span class="oh-table__checkbox">
+                                                    <input type="checkbox" name="showTableColumn" onchange=" " value="2">
+                                                </span>
+                                            </li>
+
+                                            <li class="oh-dropdown__item oh-sticy-dropdown-item">
+                                                <span>Batch</span>
+                                                <span class="oh-table__checkbox">
+                                                    <input type="checkbox" name="showTableColumn" onchange=" " value="4">
+                                                </span>
+                                            </li>
+
+                                            <li class="oh-dropdown__item oh-sticy-dropdown-item">
+                                                <span>Gross Pay</span>
+                                                <span class="oh-table__checkbox">
+                                                    <input type="checkbox" name="showTableColumn" onchange=" " value="5">
+                                                </span>
+                                            </li>
+
+                                            <li class="oh-dropdown__item oh-sticy-dropdown-item">
+                                                <span>Deduction</span>
+                                                <span class="oh-table__checkbox">
+                                                    <input type="checkbox" name="showTableColumn" onchange=" " value="6">
+                                                </span>
+                                            </li>
+
+                                            <li class="oh-dropdown__item oh-sticy-dropdown-item">
+                                                <span>Net Pay</span>
+                                                <span class="oh-table__checkbox">
+                                                    <input type="checkbox" name="showTableColumn" onchange=" " value="7">
+                                                </span>
+                                            </li>
+
+                                            <li class="oh-dropdown__item oh-sticy-dropdown-item">
+                                                <span>Status</span>
+                                                <span class="oh-table__checkbox">
+                                                    <input type="checkbox" name="showTableColumn" onchange=" " value="3">
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of column toggle -->
+                        <div id="payslip-column-table" data-table-name="payslip_column_tab" style="">
+                            <div class="oh-sticky-table">
+                                <div class="oh-sticky-table__table oh-table--sortable">
+                                    <div class="oh-sticky-table__thead">
+                                        <div class="oh-sticky-table__tr">
+                                            <div class="oh-sticky-table__th" style="width:10px;">
+                                                <div class="centered-div">
+                                                    <input type="checkbox" class="all-payslip oh-input oh-input__checkbox" id="Allpayslip" title="Select All">
+                                                </div>
+                                            </div>
+                                            <div class="oh-sticky-table__th arrow-up-down " hx-get="/Payslip/filter-payslip?&amp;sortby=employee_id" hx-target="#payslips-table">Employee</div>
+                                            <div class="oh-sticky-table__th arrow-up-down " hx-get="/Payslip/filter-payslip?&amp;sortby=employee_id" hx-target="#payslips-table">Employee Code</div>
+                                            <div data-cell-index="1" data-cell-title="Start Date" class="oh-sticky-table__th arrow-up-down " hx-get="/Payslip/filter-payslip?&amp;sortby=start_date" hx-target="#payslips-table" style="">Month</div>
+                                            @*<div data-cell-index="2" data-cell-title="End Date" class="oh-sticky-table__th arrow-up-down " hx-get="/Payslip/filter-payslip?&amp;sortby=end_date" hx-target="#payslips-table" style="">End Date</div>*@
+                                            <div data-cell-index="4" data-cell-title="Batch" class="oh-sticky-table__th" style="">Batch</div>
+                                            <div data-cell-index="5" data-cell-title="Gross Pay" class="oh-sticky-table__th arrow-up-down " hx-get="/Payslip/filter-payslip?&amp;sortby=gross_pay" hx-target="#payslips-table" style="">Gross Pay</div>
+                                            <div data-cell-index="6" data-cell-title="Deduction" class="oh-sticky-table__th arrow-up-down " hx-get="/Payslip/filter-payslip?&amp;sortby=deduction" hx-target="#payslips-table" style="">Deduction</div>
+                                            <div data-cell-index="7" data-cell-title="Net Pay" class="oh-sticky-table__th arrow-up-down " hx-get="/Payslip/filter-payslip?&amp;sortby=net_pay" hx-target="#payslips-table" style="">Net Pay</div>
+                                            @*<div data-cell-index="3" data-cell-title="Status" class="oh-sticky-table__th" style="">Status</div>*@
+                                            <div class="oh-sticky-table__th oh-sticky-table__right" style="width: 251px !important;">Actions</div>
+                                        </div>
+                                    </div>
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="oh-sticky-table__tbody ui-sortable" style="">
+
+                                            @*<a class="oh-sticky-table__tr ui-sortable-handle highlight-selected" draggable="true" href="" style="text-decoration: none;">*@
+                                            <div class="oh-sticky-table__sd  row-status--gray">
+                                                <div class="centered-div">
+                                                    <input type="checkbox" id="14" value="14" onchange=" " class="oh-input payslip-checkbox oh-input__checkbox all-payslip-row">
+                                                </div>
+                                            </div>
+                                            <div class="oh-sticky-table__td">
+                                                <div class="oh-profile oh-profile--md">
+                                                    <div class="oh-profile__avatar mr-1">
+                                                        @{
+                                                            var avatars = string.Format("name={0} {1}&background=random", @item.FNAME, @item.LNAME);
+                                                        }
+
+                                                        <img src="https://ui-avatars.com/api/?@avatars" class="oh-profile__image" alt="Mary Magdalene">
+                                                    </div>
+                                                    <span class="oh-profile__name oh-text--dark">@item.FNAME @item.LNAME</span>
+                                                </div>
+                                            </div>
+                                            @*<div data-cell-index="1" class="oh-sticky-table__td dateformat_changer" style="">@DateTime(int.Parse(item.MONTHCODE)/100, int.Parse(item.MONTHCODE) % 100, 1).ToString("MMMM yyyy")</div>*@
+                                            <div data-cell-index="2" class="oh-sticky-table__td dateformat_changer" style="">@item.EMPCODE</div>
+                                            <div data-cell-index="2" class="oh-sticky-table__td dateformat_changer" style="">@item.MONTHCODE</div>
+                                            <div data-cell-index="4" class="oh-sticky-table__td" style="">@item.UNIT </div>
+                                            <div data-cell-index="5" class="oh-sticky-table__td" style="">@item.GROSS_PAY  </div>
+                                            <div data-cell-index="6" class="oh-sticky-table__td" style=""> @item.TOTAL_DED_AMT</div>
+                                            <div data-cell-index="7" class="oh-sticky-table__td" style=""> @item.NET_SAL_PAID </div>
+
+
+                                            @*<div data-cell-index="3" class="oh-sticky-table__td" onclick="event.preventDefault();" style="">
+                                                    <select name="status" data-instance-id="14" hx-trigger="change" hx-post="/Payslip/payslip-status-update/14/" hx-target="#payslips-table" hx-vals="{&quot;view&quot;:&quot;table&quot;}" style="color: hsl(0,0%,11%); background-color: transparent; border: none; height: 100%; border: 1px solid transparent;">
+
+                                                        <option value="draft" selected="">Draft</option>
+
+                                                        <option value="review_ongoing">Review Ongoing</option>
+
+                                                        <option value="confirmed">Confirmed</option>
+
+                                                        <option value="paid">Paid</option>
+
+                                                    </select>
+                                                </div>*@
+
+                                            <div class="oh-sticky-table__td oh-sticky-table__right" style="width: 251px !important;">
+                                                <div class="oh-btn-group">
+                                                    @*<form action="/Payslip/payslip-pdf/15" method="post" class="w-100">*@
+                                                    @using (Html.BeginForm("PayslipPDF", "Payslip", new { MonthCode = item.MONTHCODE, UNIT = item.UNITCODE, EmpCode = item.EMPCODE }, FormMethod.Post, new { target = "_blank" }))
+                                                    {
+                                                        @*<input type="hidden" name="csrfmiddlewaretoken" value="Czi7iOHFjJwRU62ZBOAp4kbSbbN4s7BTEPKpvv71WH67eizgHFiOfGyEUM7oeKkr">*@
+                                                        <button type="submit" title="Download" class="oh-btn oh-btn--light-bkg w-100" fdprocessedid="62qw2n">
+                                                            <ion-icon name="download" role="img" class="md hydrated" aria-label="download"></ion-icon>
+                                                        </button>
+                                                    }
+
+                                                    @*</form>*@
+
+                                                    <button disabled hx-confirm="Do you want to sent the payslip by mail?" hx-get="" hx-target="#payslips-table" title="Send via mail" type="button" class="oh-btn oh-btn--light-bkg w-50" fdprocessedid="e5f5f">
+                                                        <ion-icon name="mail-outline" role="img" class="md hydrated" aria-label="mail outline"></ion-icon>
+                                                    </button>
+
+                                                    <button disabled hx-confirm="Are you sure you want to delete this payslip?" hx-post="" hx-target="#payslips-table" class="oh-btn oh-btn--danger-outline oh-btn--light-bkg w-50" title="Remove" fdprocessedid="nec7d3">
+                                                        <ion-icon name="trash-outline" role="img" class="md hydrated" aria-label="trash outline"></ion-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            @*</a>*@
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </div>
+                                    @*<div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.value.pageSize < Model.value.pageSize ? 0 : Model.value.pageSize) of @Model.value.rowCount </div>*@
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="dom-jqry_paginate">
+                                        @Html.PagedListPager(Model, page => Url.Action("Payslip", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="oh-pagination">
+                                    <span class="oh-pagination__page">
+                                        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                    </span>
+                                    <nav class="oh-pagination__nav">
+                                        <div class="oh-pagination__input-container me-3">
+                                            <span class="oh-pagination__label me-1">Page</span>
+                                            <input type="number" name="page" class="oh-pagination__input" value="1" hx-get="/Payslip/filter-payslip?" hx-target="#payslips-table" min="1" fdprocessedid="wi7t5r">
+                                            <span class="oh-pagination__label">of 1</span>
+                                        </div>
+                                        <ul class="oh-pagination__items">
+                                        </ul>
+                                    </nav>
+                                </div>*@
+                        </div>
+                    </div>
+                    @*<script src="https://demo.horilla.com/static/Payslip/action.js"></script>*@
+                </div>
+            </div>
+            <div id="messageContainer"></div>
+        </div>
+    </div>
+
+    <script src="https://demo.horilla.com/static/Payslip/action.js"></script>
+
+    <div class="oh-modal" style="z-index: 100;" id="objectDetailsModal" role="dialog" aria-labelledby="objectDetailsModalLabel" aria-hidden="true">
+        <div class="oh-modal__dialog oh-modal__dialog-relative" style="max-width: 550px" id="objectDetailsModalTarget"> </div>
+    </div>
+    <div class="oh-modal" style="z-index: 100;" id="objectDetailsModalW25" role="dialog" aria-labelledby="objectDetailsModalW25Label" aria-hidden="true">
+        <div class="oh-modal__dialog oh-modal__dialog-relative" style="max-width: 410px" id="objectDetailsModalW25Target"> </div>
+    </div>
+    <div class="oh-modal" id="objectCreateModal" role="dialog" aria-labelledby="objectCreateModalLabel" aria-hidden="true">
+        <div class="oh-modal__dialog" id="objectCreateModalTarget"></div>
+    </div>
+    <div class="oh-modal" id="objectUpdateModal" role="dialog" aria-labelledby="objectUpdateModalLabel" aria-hidden="true">
+        <div class="oh-modal__dialog" id="objectUpdateModalTarget"></div>
+    </div>
+    <div class="oh-modal" id="dynamicCreateModal" role="dialog" aria-hidden="true" style="z-index: 1022;">
+        <div id="dynamicCreateModalTarget" class="oh-modal__dialog" style="max-width: 550px"></div>
+    </div>
+
+</div>
+
+
+
+
+<script>
+    //(function ($) {
+    //    var select2 = $('.select2');
+    //    debugger;
+    //    select2.select2();
+    //    select2.on('select2:selecting', function (e) {
+    //        console.log('Selecting: ', e.params.args.data);
+    //    });
+    //})(jQuery);
+
+
+    //$(document).ready(function () {
+    //    $(".select2-selection__clear").click(function () { alert(); });
+    //    $('#select-unit').val('').trigger('change');
+    //});
+
+    //const selectedOptions = [];
+
+    //function RunSelect2() {
+    //    debugger;
+    //    // Initialize the first select2 element
+    //    $('#select-unit').select2({
+    //        allowClear: true,
+    //        closeOnSelect: false,
+    //    }).on('select2:open', function () {
+    //        setTimeout(function () {
+    //            $(".select2-results__option .select2-results__group").on("click", selectAllClickHandler);
+    //        }, 0);
+    //    }).on('select2:selecting', function (e) {
+    //        console.log('Selecting: ', e.params.args.data);
+    //    });
+    //}
+
+    //// Call the first select2 initialization
+    //RunSelect2();
+
+    //// Handler function for select2
+    //var selectAllClickHandler = function () {
+    //    debugger;
+    //    // Unbind the event after it's triggered
+    //    $(".select2-results__option .select2-results__group").off("click", selectAllClickHandler);
+
+    //    $('#select-unit').select2('destroy').find('option').prop('selected', 'selected').end();
+
+    //    const select = document.getElementById('select-unit');
+    //    for (const option of select.options) {
+    //        if (option.selected) {
+    //            selectedOptions.push(option.value);
+    //        }
+    //    }
+    //    $('#unitlist').val(selectedOptions),
+
+    //    RunSelect2();
+    //};
+
+    //// Initialize the second select2 element
+    //function RunSelect3() {
+    //    $('#select-employee').select2({
+    //        allowClear: true,
+    //        closeOnSelect: false,
+    //    }).on('select2:open', function () {
+    //        setTimeout(function () {
+    //            $(".select2-results__option .select2-results__group").on("click", selectAllClickHandler2);
+    //        }, 0);
+    //    });
+    //}
+
+    //// Call the second select2 initialization
+    //RunSelect3();
+
+    //// Handler function for select2 (for second select)
+    //var selectAllClickHandler2 = function () {
+    //    debugger;
+
+    //    $(".select2-results__option .select2-results__group").off("click", selectAllClickHandler2);
+
+    //    $('#select-employee').select2('destroy').find('option').prop('selected', 'selected').end();
+    //    RunSelect3();
+    //};
+
+    $('#category_id').select2({
+        placeholder: "Select Category",
+        allowClear: false,
+        multiple: true, // Search
+    });
+
+    $("#category_id").select2({
+        closeOnSelect: false,
+    //minimumInputLength: 2,
+        placeholder: "Select Category",
+        allowClear: false,
+        multiple: true, // Search
+    width: '15rem', // you might not need to specify this
+    ajax: {
+        url: "@Url.Action("GetEmployee", "Payslip")",
+        data: function (params) {
+            var query = {
+                searchString: params.term,
+                page: params.page || 1,
+                pageSize: 10,
+                UNIT: $('#UNIT').val(),
+            }
+            return query;
+        },
+        processResults: function (res) {
+            debugger;
+            var list = res.Data.value.results;
+            var dataList =  $.map(list, function (x) {
+                return {
+                    text: x.pK_EMPCODE + "-" + x.fname,
+                    id: x.pK_EMPCODE
+                };
+            })
+            return {
+                results: dataList,
+                pagination: {
+                    more: res.Data.value.currentPage < res.Data.value.pageCount
+                }
+            };
+        }
+    }
+});
+
+    $('#category_id').siblings('.select2-container').append('<span class="select-all"><i class="fa-regular fa-square-check"></i></span>');
+
+    $(document).on('click', '.select-all', function (e) {
+        selectAllSelect2($(this).siblings('.selection').find('.select2-search__field'));
+    });
+
+    $(document).on("keyup", ".select2-search__field", function (e) {
+        var eventObj = window.event ? event : e;
+        if (eventObj.keyCode === 65 && eventObj.ctrlKey)
+            selectAllSelect2($(this));
+    });
+
+    function selectAllSelect2(that) {
+        var selectAll = true;
+        var existUnselected = false;
+        var item = $(that.parents("span[class*='select2-container']").siblings('select[multiple]'));
+
+        item.find("option").each(function (k, v) {
+            if (!$(v).prop('selected')) {
+                existUnselected = true;
+                return false;
+            }
+        });
+
+        selectAll = existUnselected ? selectAll : !selectAll;
+        item.find("option").prop('selected', selectAll);
+        item.trigger('change');
+    }
+
+
+$(document).ready(function () {
+        $.fn.select2.amd.require([
+            'select2/utils',
+            'select2/dropdown',
+            'select2/dropdown/attachBody'
+        ], function (Utils, Dropdown, AttachBody) {
+            function SelectAll() { }
+
+            SelectAll.prototype.render = function (decorated) {
+                var $rendered = decorated.call(this);
+                var self = this;
+
+                var $selectAll = $(
+                    '<button type="button">Select All</button>'
+                );
+
+                $rendered.find('.select2-dropdown').prepend($selectAll);
+
+                $selectAll.on('click', function (e) {
+                    debugger;
+                    $("#select-employee > option").prop("selected", true);
+                    $("#select-employee").trigger("change");
+
+                    //var $results = $rendered.find('.select2-results__option[aria-selected=false]');
+                    //// Get all results that aren't selected
+                    //$results.each(function () {
+                    //    var $result = $(this);
+                    //    // Get the data object for it
+                    //    var data = $result.data('data');
+                    //    // Trigger the select event
+                    //    self.trigger('select', {
+                    //        data: data
+                    //    });
+                    //});
+
+                    self.trigger('close');
+                });
+
+                return $rendered;
+            };
+
+            var dataList = [{
+                text: "Select All",
+                id: 0
+            }];
+            var obj = {
+                text: "Unit",
+                children: []
+            };
+            $("#select-employee").select2({
+                closeOnSelect: false,
+            //minimumInputLength: 2,
+            placeholder: "Select Option(s)...",
+            dropdownAdapter: Utils.Decorate(
+                Utils.Decorate(
+                    Dropdown,
+                    AttachBody
+                ),
+                SelectAll
+            ),
+            multiple: true,
+            //sorter: addSelectAll,
+            width: '15rem', // you might not need to specify this
+            ajax: {
+                url: "@Url.Action("GetEmployee", "Payslip")",
+                data: function (params) {
+                    var query = {
+                        searchString: params.term,
+                        page: params.page || 1,
+                        pageSize: 10,
+                        UNIT: $('#UNIT').val(),
+                    }
+                    return query;
+                },
+                processResults: function (res) {
+                    debugger;
+                    var list = res.Data.value.results;
+                    var dataList =  $.map(list, function (x) {
+                        return {
+                            text: x.pK_EMPCODE + "-" + x.fname,
+                            id: x.pK_EMPCODE
+                        };
+                    })
+                    return {
+                        results: dataList,
+                        pagination: {
+                            more: res.Data.value.currentPage < res.Data.value.pageCount
+                        }
+                    };
+                }
+            }
+        });
+        });
+    });
+
+</script>
+
+@*<script src="https://demo.horilla.com/static/Payslip/action.js"></script>*@
+<script>
+    $("[name=update_selected]").change(function (e) {
+        updateBulkStatus($(this));
+        e.preventDefault();
+    });
+
+    $("#Allpayslip").click(function (e) {
+        var is_checked = $(this).is(":checked");
+        if (is_checked) {
+            $(".all-payslip-row").prop("checked", true).closest(".oh-sticky-table__tr")
+                .addClass("highlight-selected");
+        } else {
+            $(".all-payslip-row").prop("checked", false).closest(".oh-sticky-table__tr")
+                .removeClass("highlight-selected");;
+        }
+        addingPayslipIds();
+    });
+
+    $(document).ready(function () {
+        /*  tickPayslipCheckboxes();*/
+        $("#selectAllPayslip").click(function () {
+            selectAllPayslip();
+        });
+
+        $("#unselectAllPayslip").click(function () {
+            unselectAllPayslip();
+        });
+
+        $("#exportPayslips").click(function (e) {
+
+        });
+        $(".all-payslip-row").change(function () {
+            if ($(".all-payslip").is(":checked")) {
+                $(".all-payslip").prop("checked", false);
+            }
+            addingPayslipIds();
+        });
+    });
+    // toggle columns //
+    localStoragepayslipCells = localStorage.getItem("payslip_column_tab")
+    if (!localStoragepayslipCells) {
+        $("#payslipCells").find("[type=checkbox]").prop("checked", true)
+    }
+    $("[type=checkbox]").change()
+</script>
+
+<script>
+    var no_rows_payslip_send = {
+        ar: "لم يتم اختيار أي صفوف لإرسال قسائم الرواتب.",
+        de: "Es wurden keine Zeilen zum Senden von Gehaltsabrechnungen ausgewählt.",
+        es: "No se han seleccionado filas para enviar las nóminas.",
+        en: "No rows are selected for sending payslips.",
+        fr: "Aucune ligne n'est sélectionnée pour l'envoi des bulletins de salaire.",
+    };
+    var mail_processing = {
+        ar: "معالجة البريد.",
+        de: "Mailverarbeitung.",
+        es: "Procesamiento de correo.",
+        en: "Mail processing.",
+        fr: "Traitement du courrier.",
+    };
+    function getCurrentLanguageCode(callback) {
+        var languageCode = $("#main-section-data").attr("data-lang");
+        var allowedLanguageCodes = ["ar", "de", "es", "en", "fr"];
+        if (allowedLanguageCodes.includes(languageCode)) {
+            callback(languageCode);
+        } else {
+            $.ajax({
+                type: "GET",
+                url: "/employee/get-language-code/",
+                success: function (response) {
+                    var ajaxLanguageCode = response.language_code;
+                    $("#main-section-data").attr("data-lang", ajaxLanguageCode);
+                    callback(
+                        allowedLanguageCodes.includes(ajaxLanguageCode)
+                            ? ajaxLanguageCode
+                            : "en"
+                    );
+                },
+                error: function () {
+                    callback("en");
+                },
+            });
+        }
+    }
+    function updateBulkStatus(element) {
+        var status = element.val();
+        var ids = [];
+        var containerId = element.attr("data-accordion-id");
+        var notCheckedIds = $("[data-checked=false]")
+            .map(function () {
+                return $(this).val();
+            })
+            .get();
+        if (containerId == undefined) {
+            var allSelectedElements = $(".all-payslip-row").filter(":checked");
+            ids = JSON.parse($("#selectedPayslip").attr("data-ids"));
+        } else {
+            var containerCheckBoxes = $(
+                `[id="${containerId}"]:first .all-payslip-row`
+            ).filter(":checked");
+            $.each(containerCheckBoxes, function (indexInArray, valueOfElement) {
+                ids.push($(valueOfElement).val());
+            });
+        }
+        var color = "gray";
+        if (status == "review_ongoing") {
+            color = "orange";
+        } else if (status == "confirmed") {
+            color = "blue";
+        } else if (status == "paid") {
+            color = "yellow";
+        }
+        ids = [...new Set(ids)];
+        if (ids.length) {
+            $.ajax({
+                type: "post",
+                url: '/Payslip/payslip-status-update-no-id',
+                data: {
+                    csrfmiddlewaretoken: getCookie("csrftoken"),
+                    ids: JSON.stringify(ids),
+                    status: status,
+                },
+                success: function (response) {
+                    if (containerId == undefined) {
+                        allSelectedElements
+                            .parent()
+                            .parent()
+                            .attr("class", `oh-sticky-table__sd row-status--${color}`);
+                        allSelectedElements
+                            .parent()
+                            .parent()
+                            .parent()
+                            .find("[name=status]")
+                            .val(status);
+                    } else {
+                        containerCheckBoxes
+                            .parent()
+                            .parent()
+                            .attr("class", `oh-sticky-table__sd row-status--${color}`);
+                        containerCheckBoxes
+                            .parent()
+                            .parent()
+                            .parent()
+                            .find("[name=status]")
+                            .val(status);
+                    }
+                    $("#messageContainer").html(
+                        $(
+                            $(`
+                                                                                                                                                                                                                                                                                                                                                        <div class="oh-alert-container">
+                                                                                                                                                                                                                                                                                                                                                          <div class="oh-alert oh-alert--animated  oh-alert--${response.type}">
+                                                                                                                                                                                                                                                                                                                                                            ${response.message}
+                                                                                                                                                                                                                                                                                                                                                          </div>
+                                                                                                                                                                                                                                                                                                                                                        </div>`)
+                        )
+                    );
+                },
+                error: () => {
+                    $("#messageContainer").html(
+                        $(
+                            $(`
+                                                                                                                                                                                                                                                                                                                                                    <div class="oh-alert-container">
+                                                                                                                                                                                                                                                                                                                                                      <div class="oh-alert oh-alert--animated  oh-alert--danger">
+                                                                                                                                                                                                                                                                                                                                                        Status not updated.
+                                                                                                                                                                                                                                                                                                                                                      </div>
+                                                                                                                                                                                                                                                                                                                                                    </div>`)
+                        )
+                    );
+                },
+            });
+        }
+    }
+    function updateView(viewType) {
+        var currentUrl = window.location.href;
+        var params = new URLSearchParams(window.location.search);
+        $("#payslipViewType").val(viewType);
+        setTimeout(function () {
+            $(".filterButton")[0].click();
+        }, 10);
+
+        $(".oh-btn--view-active").removeClass("oh-btn--view-active");
+        $(`#${viewType}`).addClass("oh-btn--view-active");
+
+        params.set("view", viewType);
+
+        var updatedUrl = currentUrl.split("?")[0] + "?" + params.toString();
+        history.pushState({ path: updatedUrl }, "", updatedUrl);
+    }
+    $(document).ready(function () {
+        $(
+            /*`[action="/Payslip/create-payslip"], [action="/Payslip/generate-payslip"]`*/
+        ).submit(function (e) {
+            e.preventDefault();
+            debugger
+            var form = $(this); // Get the form element
+            var formData = form.serialize(); // Serialize the form data as a URL-encoded string
+
+            $(".errorlist").remove();
+            $.ajax({
+                type: "get",
+                url: "/Payslip/validate-start-date",
+                data: formData,
+                success: function (response) {
+                    form.prepend(response.message);
+                    if (response.valid) {
+                        form[0].submit();
+                    }
+                },
+            });
+        });
+    });
+    function updatePayStatus($element) {
+        var instanceId = $element.attr("data-instance-id");
+        var status = $element.val();
+        $.ajax({
+            type: "get",
+            url: `/Payslip/payslip-status-update/${instanceId}/`,
+            data: { status: status },
+            success: function (response) {
+                var color = "gray";
+                if (status == "review_ongoing") {
+                    color = "orange";
+                } else if (status == "confirmed") {
+                    color = "blue";
+                } else if (status == "paid") {
+                    color = "yellow";
+                }
+                $element
+                    .parent()
+                    .parent()
+                    .find(".oh-sticky-table__sd")
+                    .attr("class", `oh-sticky-table__sd row-status--${color}`);
+                $("#messageContainer").html(
+                    $(
+                        $(`
+                                                                                                                                                                                                                                                                                                                                                    <div class="oh-alert-container">
+                                                                                                                                                                                                                                                                                                                                                      <div class="oh-alert oh-alert--animated  oh-alert--${response.type}">
+                                                                                                                                                                                                                                                                                                                                                        ${response.message}
+                                                                                                                                                                                                                                                                                                                                                      </div>
+                                                                                                                                                                                                                                                                                                                                                    </div>`)
+                    )
+                );
+            },
+            error: () => {
+                $("#messageContainer").html(
+                    $(
+                        $(`
+                                                                                                                                                                                                                                                                                                                                                    <div class="oh-alert-container">
+                                                                                                                                                                                                                                                                                                                                                      <div class="oh-alert oh-alert--animated  oh-alert--danger">
+                                                                                                                                                                                                                                                                                                                                                        Status not updated.
+                                                                                                                                                                                                                                                                                                                                                      </div>
+                                                                                                                                                                                                                                                                                                                                                    </div>`)
+                    )
+                );
+            },
+        });
+    }
+    $("#payslipBulkSend").click(function (e) {
+        e.preventDefault();
+        var languageCode = null;
+        getCurrentLanguageCode(function (code) {
+            languageCode = code;
+            var idsJson = $("#selectedPayslip").attr("data-ids");
+            var ids = JSON.parse(idsJson);
+            if (ids.length > 0) {
+                $.ajax({
+                    type: "get",
+                    url: `/Payslip/send-slip`,
+                    data: { id: ids },
+                    traditional: true,
+                    success: function (response) {
+                        var mailProcessingMessage = mail_processing[languageCode];
+
+                        $("#messages").html(
+                            $(`                                                                                                                                                                                                                                                                                                             <div class="oh-alert oh-alert--animated oh-alert--info">`
+                                + mailProcessingMessage + `                                                                                                                                                                                                                                                                                                                          `)
+                        );
+                        $("#unselectAllPayslip").click();
+                        $(".payslip-checkbox:checked").prop("checked", false).change();
+                    },
+                });
+            } else {
+                var textMessage = no_rows_payslip_send[languageCode];
+                Swal.fire({
+                    text: textMessage,
+                    icon: "warning",
+                    confirmButtonText: "Close",
+                });
+                $("#unselectAllPayslip").click();
+                $(".payslip-checkbox:checked").prop("checked", false).change();
+            }
+        });
+    });
+</script>
+
+<script>
+    let selectedIds = [];
+    $(document).ready(function () {
+        $("#widget6dc27 #e3aac515-ad14-45a2-b431-bbabf55ce937").select2({
+            multiple: true,
+            allowClear: true,
+            closeOnSelect: false,
+            ajax: {
+    url: "@Url.Action("GetEmployee", "Payslip")",
+    data: function (params) {
+        var query = {
+            searchString: params.term,
+            page: params.page || 1,
+            pageSize: 10,
+            UNIT: $('#UNIT').val(),
+        }
+        return query;
+    },
+    processResults: function (res) {
+        var list = res.Data.value.results;
+        return {
+            //results: list,
+            results: $.map(list, function (x) {
+                return {
+                    text: x.pK_EMPCODE + "-" + x.fname,
+                    id: x.pK_EMPCODE
+                }
+            }),
+            pagination: {
+                more: res.Data.value.currentPage < res.Data.value.pageCount
+            }
+        };
+    }
+}
+        });
+
+        $("#widget6dc27 #e3aac515-ad14-45a2-b431-bbabf55ce937")
+            .next()
+            .find(".select2-container")
+            .css("width", "100%");
+
+        $("#widget6dc27 #chooseTableHeader")
+            .not("[type=checkbox]")
+            .click(function (e) {
+                e.preventDefault();
+                if ($(this).find("[type=checkbox]:first").is(":checked")) {
+                    $(this).find("[type=checkbox]:first").prop("checked", false);
+                } else {
+                    $(this).find("[type=checkbox]:first").prop("checked", true);
+                }
+                $("#widget6dc27 #choose-all-user").change();
+            });
+        $("#widget6dc27 #selectAllUsers").click(function (e) {
+            e.preventDefault();
+            $("#widget6dc27 #choose-all-user").prop("checked", true);
+            $("#widget6dc27 #choose-all-user").change();
+        });
+        $("#widget6dc27 #unselectAllUsers").click(function (e) {
+            e.preventDefault();
+            $("#widget6dc27 #choose-all-user").prop("checked", false);
+            $("#widget6dc27 #choose-all-user").change();
+        });
+        $("#widget6dc27 #choose-all-user").change(function (e) {
+            e.preventDefault();
+            if ($(this).is(":checked")) {
+                $("#widget6dc27 .all-choose-user-row:visible").prop("checked", true);
+                $("#widget6dc27 .oh-sticky-table__tr--custom:visible .oh-sticky-table__sd").addClass(
+                    "oh-sticky-table__tr--selected"
+                );
+            } else {
+                $("#widget6dc27 .all-choose-user-row:visible").prop("checked", false);
+                $(
+                    "#widget6dc27 .oh-sticky-table__tr--custom:visible .oh-sticky-table__sd"
+                ).removeClass("oh-sticky-table__tr--selected");
+            }
+        });
+        $("#widget6dc27 .oh-sticky-table__tr--custom").click(function (e) {
+            var checkbox = $(this).find("[type=checkbox]");
+
+            // Toggle the checkbox's checked state
+            checkbox.prop("checked", function (i, checked) {
+                if (!checked) {
+                    $(this)
+                        .parent()
+                        .parent()
+                        .parent()
+                        .addClass("oh-sticky-table__tr--selected");
+                } else {
+                    $(this)
+                        .parent()
+                        .parent()
+                        .parent()
+                        .removeClass("oh-sticky-table__tr--selected");
+                }
+                return !checked;
+            });
+        });
+        $("#widget6dc27 #filterChoosewidget6dc27").click(function (e) {
+            e.preventDefault();
+            var selectedRows = $("#widget6dc27 #filterChoosewidget6dc27 div").find(
+                ".oh-sticky-table__tr--selected"
+            );
+            var ids = [];
+            var instanceData = [];
+            $.each(selectedRows, function (indexInArray, valueOfElement) {
+                var id = $(valueOfElement).parent().attr("data-instance-id");
+                var label = $(valueOfElement).parent().attr("data-label");
+                ids.push(id);
+                instanceData.push({ id: id, label: label });
+            });
+            var selectedCount = selectedRows.length;
+            $("#widget6dc27 .selected-count").html(selectedCount);
+
+            $("#widget6dc27 #e3aac515-ad14-45a2-b431-bbabf55ce937").val(ids);
+            $("#widget6dc27 #e3aac515-ad14-45a2-b431-bbabf55ce937").change();
+            $("#widget6dc27 #avatarsContainer").html("");
+            $.each(instanceData, function (indexInArray, valueOfElement) {
+                var imgUrl = $(
+                    `#widget6dc27 .oh-sticky-table__tr.oh-sticky-table__tr--custom[data-instance-id=${valueOfElement.id}]`
+                ).attr("data-avatar");
+                $("#widget6dc27 #avatarsContainer").append(
+                    $(
+                        `<a href="#" class="avatars__item" title="${valueOfElement.label}"><img class="avatar" src="${imgUrl}" alt=""></a>`
+                    )
+                );
+            });
+        });
+        $("#widget6dc27 #selectAllInstances").click(function (e) {
+            e.preventDefault();
+            $("#widget6dc27 #choose-all-user").prop("checked", true);
+            $("#widget6dc27 .all-choose-user-row").prop("checked", true);
+            $("#widget6dc27 .oh-sticky-table__tr--custom .oh-sticky-table__sd").addClass(
+                "oh-sticky-table__tr--selected"
+            );
+            $("#widget6dc27 #choose-all-user").change();
+        });
+        $("#widget6dc27 #e3aac515-ad14-45a2-b431-bbabf55ce937").change(function (e) {
+            e.preventDefault();
+
+            // Get all selected options
+            $("#widget6dc27 #avatarsContainer").html("");
+            $("#widget6dc27 .oh-sticky-table__tr--selected")
+                .find("[type=checkbox]")
+                .prop("checked", false);
+            $("#widget6dc27 .oh-sticky-table__tr--selected").removeClass(
+                "oh-sticky-table__tr--selected"
+            );
+            var selectedOptions = $(this).find(`:selected`);
+
+            $("#widget6dc27 .selected-count").html(selectedOptions.length);
+
+            // Loop through the selected options
+            selectedOptions.each(function (indexInArray, valueOfElement) {
+                // Get the HTML content of each selected option
+                var optionHtml = $(this).html();
+                // Append the selected option's HTML to the avatarsContainer
+                var imgUrl = $(
+                    `#widget6dc27 .oh-sticky-table__tr.oh-sticky-table__tr--custom[data-instance-id=${$(
+                        valueOfElement
+                    ).val()}]`
+                ).attr("data-avatar");
+                $("#widget6dc27 #avatarsContainer").append(
+                    $(
+                        `<a href="#" class="avatars__item" title="${optionHtml}"><img class="avatar" src="${imgUrl}" alt=""></a>`
+                    )
+                );
+                var optValue = $(valueOfElement).val();
+                var rowId = "#widget6dc27 #selectRowe3aac515-ad14-45a2-b431-bbabf55ce937" + optValue;
+                $(rowId).addClass("oh-sticky-table__tr--selected");
+                $(rowId).find("[type=checkbox]").prop("checked", true);
+            });
+        });
+
+    });
+    $("#widget6dc27 #choose-all-user").click(function (e) {
+        setTimeout(() => {
+            $("#widget6dc27  #choose-all-user").closest(".oh-sticky-table__th--custom")[0].click()
+        }, 2);
+    });
+    $("#widget6dc27 .all-choose-user-row").click(function (e) {
+        e.preventDefault();
+        setTimeout(() => {
+            $(this).closest(".oh-sticky-table__tr--custom")[0].click()
+        }, 1);
+
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        function transformJson(inputJson) {
+            // Clone the input JSON to avoid modifying the original object
+            const modifiedJson = JSON.parse(JSON.stringify(inputJson));
+
+            // Iterate through each object in the JSON array
+            modifiedJson.forEach((obj) => {
+                // Remove "_id" when it appears at the end of a name
+
+                // If there are "__" in the name, keep only the word after the last "__" and capitalize it
+                obj.name = obj.name.replace(/_id$/, "");
+                obj.name.replace("_", " ");
+                if (obj.name.includes("__")) {
+                    const parts = obj.name.split("__");
+                    obj.name = parts[parts.length - 1];
+                }
+                obj.name = obj.name.charAt(0).toUpperCase() + obj.name.slice(1);
+                obj.name = obj.name.replace(/_/g, " ");
+            });
+
+            return modifiedJson;
+        }
+
+        $("#widget6dc27 #widgetFilterButtone3aac515-ad14-45a2-b431-bbabf55ce937").click(function (e) {
+            e.preventDefault();
+            const formFields = $("#widget6dc27 #widgetFilterFormContainere3aac515-ad14-45a2-b431-bbabf55ce937").find(
+                "[name]"
+            );
+            var formData = [];
+            formFields.each(function () {
+                const name = $(this).attr("name");
+                const value = $(this).val();
+                formData.push({ name, value });
+            });
+            var filterUrl = $(this).attr("data-action");
+            $.ajax({
+                type: "get",
+                url: filterUrl,
+                data: formData,
+                success: function (response) {
+                    let ids = response.ids;
+                    $("#widget6dc27 #chooseTableHeaderParent .oh-sticky-table__tbody").hide();
+                    $.each(ids, function (indexInArray, valueOfElement) {
+                        $(
+                            `#widget6dc27 #chooseTableHeaderParent .oh-sticky-table__tbody[data-instance-id=${valueOfElement}]`
+                        ).show();
+                    });
+                    $("#widget6dc27 .visible-count").html(
+                        $("#widget6dc27 .oh-sticky-table__tr--custom:visible .oh-sticky-table__sd")
+                            .length
+                    );
+                    var labeledTags = transformJson(formData);
+                    var tagContainer = $("#widget6dc27 #filterTagContainere3aac515-ad14-45a2-b431-bbabf55ce937");
+                    tagContainer.html("");
+                    $.each(labeledTags, function (indexInArray, valueOfElement) {
+                        if (valueOfElement.value.length != 0) {
+                            tagContainer.append(
+                                $(`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="oh-filter-tag" id="tag-e3aac515-ad14-45a2-b431-bbabf55ce937"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  >${valueOfElement.name}<button class="oh-filter-tag__close" onclick="closeFilterTag(event, ${formData[indexInArray].name}, '#widget6dc27 #tag-e3aac515-ad14-45a2-b431-bbabf55ce937')">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <ion-icon name="close-outline"></ion-icon></button
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </span>`)
+                            );
+                        }
+                    });
+                },
+            });
+        });
+        $("#widget6dc27 #widgetFilterFormContainere3aac515-ad14-45a2-b431-bbabf55ce937 [name=search]").keyup(
+            function (e) {
+                $("#widget6dc27 #widgetFilterButtone3aac515-ad14-45a2-b431-bbabf55ce937").click();
+            }
+        );
+    });
+    function closeFilterTag(e, fieldName, targetTag) {
+        e.preventDefault();
+        $(fieldName).val("");
+        if ($(fieldName).is("select")) {
+            $(fieldName)
+                .next()
+                .find(`#select2-${$(fieldName).attr("id")}-container`)
+                .html("---------");
+        }
+        $("#widget6dc27 #widgetFilterButtone3aac515-ad14-45a2-b431-bbabf55ce937").click();
+        $(targetTag).remove();
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        function transformJson(inputJson) {
+            // Clone the input JSON to avoid modifying the original object
+            const modifiedJson = JSON.parse(JSON.stringify(inputJson));
+
+            // Iterate through each object in the JSON array
+            modifiedJson.forEach((obj) => {
+                // Remove "_id" when it appears at the end of a name
+
+                // If there are "__" in the name, keep only the word after the last "__" and capitalize it
+                obj.name = obj.name.replace(/_id$/, "");
+                obj.name.replace("_", " ");
+                if (obj.name.includes("__")) {
+                    const parts = obj.name.split("__");
+                    obj.name = parts[parts.length - 1];
+                }
+                obj.name = obj.name.charAt(0).toUpperCase() + obj.name.slice(1);
+                obj.name = obj.name.replace(/_/g, " ");
+            });
+
+            return modifiedJson;
+        }
+
+        $("#widget6dc27 #widgetFilterButtone3aac515-ad14-45a2-b431-bbabf55ce937").click(function (e) {
+            e.preventDefault();
+            const formFields = $("#widget6dc27 #widgetFilterFormContainere3aac515-ad14-45a2-b431-bbabf55ce937").find(
+                "[name]"
+            );
+            var formData = [];
+            formFields.each(function () {
+                const name = $(this).attr("name");
+                const value = $(this).val();
+                formData.push({ name, value });
+            });
+            var filterUrl = $(this).attr("data-action");
+            $.ajax({
+                type: "get",
+                url: filterUrl,
+                data: formData,
+                success: function (response) {
+                    let ids = response.ids;
+                    $("#widget6dc27 #chooseTableHeaderParent .oh-sticky-table__tbody").hide();
+                    $.each(ids, function (indexInArray, valueOfElement) {
+                        $(
+                            `#widget6dc27 #chooseTableHeaderParent .oh-sticky-table__tbody[data-instance-id=${valueOfElement}]`
+                        ).show();
+                    });
+                    $("#widget6dc27 .visible-count").html(
+                        $("#widget6dc27 .oh-sticky-table__tr--custom:visible .oh-sticky-table__sd")
+                            .length
+                    );
+                    var labeledTags = transformJson(formData);
+                    var tagContainer = $("#widget6dc27 #filterTagContainere3aac515-ad14-45a2-b431-bbabf55ce937");
+                    tagContainer.html("");
+                    $.each(labeledTags, function (indexInArray, valueOfElement) {
+                        if (valueOfElement.value.length != 0) {
+                            tagContainer.append(
+                                $(`
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span class="oh-filter-tag" id="tag-e3aac515-ad14-45a2-b431-bbabf55ce937"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          >${valueOfElement.name}<button class="oh-filter-tag__close" onclick="closeFilterTag(event, ${formData[indexInArray].name}, '#widget6dc27 #tag-e3aac515-ad14-45a2-b431-bbabf55ce937')">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <ion-icon name="close-outline"></ion-icon></button
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          >
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </span>`)
+                            );
+                        }
+                    });
+                },
+            });
+        });
+        $("#widget6dc27 #widgetFilterFormContainere3aac515-ad14-45a2-b431-bbabf55ce937 [name=search]").keyup(
+            function (e) {
+                $("#widget6dc27 #widgetFilterButtone3aac515-ad14-45a2-b431-bbabf55ce937").click();
+            }
+        );
+    });
+    function closeFilterTag(e, fieldName, targetTag) {
+        e.preventDefault();
+        $(fieldName).val("");
+        if ($(fieldName).is("select")) {
+            $(fieldName)
+                .next()
+                .find(`#select2-${$(fieldName).attr("id")}-container`)
+                .html("---------");
+        }
+        $("#widget6dc27 #widgetFilterButtone3aac515-ad14-45a2-b431-bbabf55ce937").click();
+        $(targetTag).remove();
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#selectAllPayslip").click(function () {
+            selectAllPayslip();
+        });
+
+        $("#unselectAllPayslip").click(function () {
+            unselectAllPayslip();
+        });
+    });
+</script>
+

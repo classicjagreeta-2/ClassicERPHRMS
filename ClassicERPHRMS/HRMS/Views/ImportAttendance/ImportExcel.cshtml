@@ -1,0 +1,187 @@
+﻿
+@{
+    ViewBag.Title = "ImportExcel";
+}
+@*@model WEB_VIEWMODEL17.PAYROLL.TRN.T_ATTEND
+@using WEB_VIEWMODEL17.PAYROLL.Master*@
+@using System.Globalization
+
+
+@if (TempData["toastrSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["toastrSuccess"]</strong>
+        @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
+    </div>
+}
+@if (TempData["toastrError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>@TempData["toastrError"]</strong>
+    </div>
+}
+<div class="main-body">
+    <div class="page-wrapper">
+
+        <!-- Page-body start -->
+        <!--<div class="page-body">
+        <!-- File upload form start -->
+        <div class="page-body">
+            <!-- File upload form start -->
+
+            @using (Html.BeginForm("AttendanceExcel", "ImportAttendance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="card">
+                    <div class="modal-header">
+                        <h5>Attendance Excel</h5>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                <li><i class="feather icon-maximize full-card"></i></li>
+                                @*<li><i class="feather icon-minus minimize-card"></i></li>*@
+                                @*<li><i class="feather icon-trash-2 close-card"></i></li>*@
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="j-wrapperForm j-wrapper-640">
+                            <div class="card-block">
+                                <div class="row">
+                                    @*<div class="col-sm-4">
+                                        <label for="unit">Unit:</label>
+                                        @Html.DropDownList("UNIT", new SelectList(ViewBag.Unit, "CODE", "NAME"), "SELECT..", new { @class = "form-control", @id = "ddlUnit" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="month">Month:</label>
+                                        @Html.DropDownListFor(x => x.FK_MONTHCODE, new SelectList(ViewBag.MonthCode, "Value", "Text"), "SELECT..", new { @class = "form-control", @id = "month", @required = "required" })
+                                    </div>*@
+                                    <div class="col-sm-4">
+                                        <label for="File"> Select File:</label>
+                                        <input type="file" name="file" id="file" class="form-control">
+                                    </div>
+
+
+                                    <div class="col-sm-3" style="padding-top: 23px;">
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <!-- Required Jquery -->
+    <script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/popper.js/js/popper.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="~/libraries/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+    <!-- modernizr js -->
+    <script type="text/javascript" src="~/libraries/bower_components/modernizr/js/modernizr.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/modernizr/js/css-scrollbars.js"></script>
+    <!-- jquery file upload js -->
+    <script src="~/libraries/assets/pages/jquery.filer/js/jquery.filer.min.js"></script>
+    <script src="~/libraries/assets/pages/filer/custom-filer.js" type="text/javascript"></script>
+    <script src="~/libraries/assets/pages/filer/jquery.fileuploads.init.js" type="text/javascript"></script>
+    <!-- Custom js -->
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+    <script src="~/libraries/assets/js/vartical-layout.min.js"></script>
+    <script src="~/libraries/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+}
+
+
+
+
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Excel to HTML Table | Javacodepoint</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.min.js"></script>
+</head>
+<body>
+    <h1>Upload an excel file to display in HTML Table</h1>-->
+    <!-- Input element to upload an excel file -->
+    <!--<input type="file" id="file_upload" />
+    <button onclick="upload()">Upload</button>
+    <br>
+    <br>-->
+    <!-- table to display the excel data -->
+    <!--<table id="display_excel_data" border="1"></table>
+    <script>
+        // Method to upload a valid excel file
+        function upload() {
+            var files = document.getElementById('file_upload').files;
+            if (files.length == 0) {
+                alert("Please choose any file...");
+                return;
+            }
+            var filename = files[0].name;
+            var extension = filename.substring(filename.lastIndexOf(".")).toUpperCase();
+            if (extension == '.XLS' || extension == '.XLSX') {
+                //Here calling another method to read excel file into json
+                excelFileToJSON(files[0]);
+            } else {
+                alert("Please select a valid excel file.");
+            }
+        }
+
+        //Method to read excel file and convert it into JSON
+        function excelFileToJSON(file) {
+            try {
+                var reader = new FileReader();
+                reader.readAsBinaryString(file);
+                reader.onload = function (e) {
+
+                    var data = e.target.result;
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                    var result = {};
+                    var firstSheetName = workbook.SheetNames[0];
+                    //reading only first sheet data
+                    var jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName]);
+                    //displaying the json result into HTML table
+                    displayJsonToHtmlTable(jsonData);
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        //Method to display the data in HTML Table
+        function displayJsonToHtmlTable(jsonData) {
+            debugger;
+            var table = document.getElementById("display_excel_data");
+            if (jsonData.length > 0) {
+                var htmlData = '<tr><th>Student Name</th><th>Address</th><th>Email ID</th><th>Age</th></tr>';
+                for (var i = 0; i < jsonData.length; i++) {
+                    var row = jsonData[i];
+                    htmlData += '<tr><td>' + row["Student Name"] + '</td><td>' + row["Address"]
+                        + '</td><td>' + row["Email ID"] + '</td><td>' + row["Age"] + '</td></tr>';
+                }
+                table.innerHTML = htmlData;
+            } else {
+                table.innerHTML = 'There is no data in Excel';
+            }
+        }</script>
+</body>
+</html>-->

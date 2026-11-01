@@ -1,0 +1,370 @@
+﻿@model  WEB_VIEWMODEL17.Model_CompanySelection
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Classic ERP</title>
+    <link href="~/src/selectstyle.css" rel="stylesheet">
+    <link rel="icon" href="~/libraries/assets/images/faviconcc.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+    <!-- feather Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+    <!-- Select 2 css -->
+    <link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+    <!-- jpro forms css -->
+    <link href="~/libraries/assets/pages/j-pro/css/demo.css" rel="stylesheet" />
+    <link href="~/libraries/assets/pages/j-pro/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/libraries/assets/pages/j-pro/css/j-forms.css" rel="stylesheet" />
+    <link href="~/libraries/assets/pages/j-pro/css/j-pro-modern.css" rel="stylesheet" />
+
+    <!-- Switch component css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/switchery/css/switchery.min.css">
+
+    <!-- Tags css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css">
+
+    <style>
+        .select2-container--default .select2-selection--single {
+            color: #fff;
+            height: 41px;
+        }
+    </style>
+    <style>
+        input[type="checkbox"] {
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.15em;
+            transform: translateY(-0.075em);
+            border: 2px solid #01a9ac;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pre-loader start -->
+    <!-- Pre-loader end -->
+    <div class="pcoded">
+
+        <div class="pcoded-container navbar-wrapper">
+            @*<nav class="navbar header-navbar pcoded-header">
+
+                </nav>*@
+            <!-- Sidebar chat start -->
+            <!-- Sidebar inner chat start-->
+            <!-- Sidebar inner chat end-->
+            <div class="pcoded-main-container">
+                <div>
+
+                    <div class="pcoded-content">
+                        <div class="pcoded-inner-content">
+                            <!-- Main-body start -->
+                            <div class="main-body">
+                                <div class="page-wrapper">
+                                    <!-- Page-header start -->
+                                    <div class="page-header">
+                                        <div class="row align-items-end">
+                                            <div class="col-lg-8">
+                                                <div class="page-header-title">
+                                                    <div class="d-inline">
+                                                        <h4>COMPANY SELECTION</h4>
+                                                        <span style="color:darkblue"> User Name : @ViewBag.UserName </span>
+                                                        <span style="color:darkblue"> , Your Last Login Date : @ViewBag.LastLogin</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="page-header-breadcrumb">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Page-header end -->
+                                    <!-- Page body start -->
+                                    <div class="page-body">
+
+                                        @using (Ajax.BeginForm("DashBoard", "ProjectStartUp_CompanySelection",
+                                                      new AjaxOptions
+                                                      {
+                                                          OnSuccess = "OnSuccess",
+                                                          OnFailure = "OnFailure",
+                                                          LoadingElementId = "OnLoading",
+                                                          OnBegin = "OnBegin"
+
+                                                      }, new { @class = "form-1" }))
+                                        {
+                                            <div class="row">
+                                                <div class="col-sm-12">
+
+                                                    <!-- Login card start -->
+                                                    <div class="card">
+
+                                                        <div class="card-block">
+                                                            <div class="j-wrapper j-wrapper-400">
+                                                                <form action="j-pro/php/action.php" method="post" class="j-pro" id="j-pro" novalidate="">
+                                                                    <!-- end /.header -->
+                                                                    <div class="j-content">
+                                                                        <!-- start login -->
+                                                                        <div class="j-unit">
+                                                                            <div class="j-input">
+                                                                                <label for="exampleInputName1">Select Company</label>
+                                                                                @Html.DropDownListFor(x => x.Comid, new SelectList(ViewBag.ddlCompnay, "NAME", "NAME"),
+             "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "ddlcompany" , @required = "required" })
+                                                                            </div>
+                                                                        </div>
+                                                                        @if (ViewBag.ProjectLoca == "VEC")
+                                                                        {
+                                                                            <div class="j-unit">
+                                                                                <div class="j-input">
+                                                                                    <label for="exampleInputName1">Location</label>
+                                                                                    @Html.DropDownListFor(x => x.Loca, new SelectList(ViewBag.ddlLoaction, "TEXT", "VALUE"),
+                 "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "ddllocation", @required = "required" })
+                                                                                    @Html.HiddenFor(x => x.Loca, new { Id = "IdHiddenLoca" })
+
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <div class="j-unit">
+                                                                                <div class="j-input">
+                                                                                    <label for="exampleInputName1">Location</label>
+                                                                                    @Html.DropDownListFor(x => x.Loca, new SelectList(ViewBag.ddlLoaction, "TEXT", "VALUE"),
+                 "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "ddllocation", @required = "required"})
+
+                                                                                </div>
+                                                                            </div>
+                                                                        }
+
+                                                                        <div class="j-unit">
+                                                                            <div class="j-input">
+                                                                                <label for="exampleInputName1">Financial Year</label>
+                                                                                @Html.DropDownListFor(x => x.ProjectDb, new SelectList(ViewBag.ddlfincialyr, "VALUE", "TEXT"),
+             "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "ddlfincialyr" ,@required = "required"})
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="j-unit">
+                                                                            <div class="j-input">
+                                                                                <div class="checkbox-zoom zoom-primary">
+                                                                                    <div class="form-group">
+                                                                                    </div>
+                                                                                    <div class="checkbox-fade fade-in-primary">
+                                                                                        <div>
+
+                                                                                            @Html.CheckBoxFor(x => x.Ischeked)
+                                                                                            <span>  SET AS DEFAULT</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    @*<label>
+                                                                                            <input type="checkbox" value="">
+                                                                                            <span class="cr">
+                                                                                                <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
+                                                                                            </span>
+                                                                                            <span>  SET AS DEFAULT</span>
+                                                                                        </label>*@
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                    <!-- end /.content -->
+                                                                    <div class="modal-footer">
+
+                                                                        <div class="form-group">
+                                                                            <a href=@Url.Action("ProjectStartUp_ModuleSelect","ProjectStartUp_ModuleSelect") class="btn btn-danger m-r-20">
+                                                                                <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> BACK
+                                                                            </a>
+                                                                            @*<button  id="btnBack" class="btn btn-danger m-r-20">BACK</button>*@
+                                                                            <button type="submit" class="btn btn-primary pull-right">NEXT</button>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <!-- end /.footer -->
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Login card end -->
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <!-- Page body end -->
+                                </div>
+                            </div>
+                            <!-- Main-body end -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/popper.js/js/popper.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="~/libraries/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+    <!-- modernizr js -->
+    <script type="text/javascript" src="~/libraries/bower_components/modernizr/js/modernizr.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/modernizr/js/css-scrollbars.js"></script>
+    <!-- i18next.min.js -->
+    <script type="text/javascript" src="~/libraries/bower_components/i18next/js/i18next.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
+    <script type="text/javascript" src="~/libraries/bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+    <script src="~/libraries/assets/js/vartical-layout.min.js"></script>
+    <script src="~/libraries/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>
+    <!-- Select 2 js -->
+    <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/swithces.js"></script>
+    <script src="~/JsProject/commanJs.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var $disabledResults = $(".js-example-disabled-results");
+            $disabledResults.select2();
+
+          
+            $("#ddlcompany").change(function () {
+                var data = { CId: $("#ddlcompany").val() }
+                debugger;
+                var redirectUrl= '@Url.Action("GetLoction", "ProjectStartUp_CompanySelection")';
+               //  var JsData = httpPOST("/ProjectStartUp_CompanySelection/GetLoction", data, true);
+              //   var redirectUrl = @Url.Action("ProjectStartUp_CompanySelection", "GetLoction");
+               var JsData = httpPOST(redirectUrl, data, true);
+
+                if (JsData.data.length == 0) {
+                    ddlRest("select[id=ddllocation]", "SELECT");
+                    ddlRest("select[id=ddlfincialyr]", "SELECT");
+                } else {
+                    if (JsData.data.length == 1) {
+                        ddlLoadOnchangePOSTWithData(JsData.data, "select[id=ddllocation]", data, null);
+                        debugger;
+                        $("#IdHiddenLoca").val(JsData.data[0].Value);
+                        // $("#ddllocation").attr("disabled", true);
+                        GetFy();
+                    } else {
+                        ddlLoadOnchangePOSTWithData(JsData.data, "select[id=ddllocation]", data, "SELECT");
+                        // $("#ddllocation").attr("disabled", false);
+                    }
+
+
+
+                }
+
+
+                //ddlRest("select[id=ddlfincialyr]", "SELECT")
+
+            });
+
+            function GetFy() {
+                var data = {
+                    CId: $("#ddlcompany").val(),
+                    UnitDest: $("#ddllocation").val()
+                }
+                 var redirectUrl= '@Url.Action("GetFincialYear", "ProjectStartUp_CompanySelection")';
+                ddlLoadOnchangePOST(redirectUrl, "select[id=ddlfincialyr]", data, "SELECT");
+            }
+
+            $("#ddllocation").change(function () {
+                GetFy();
+            });
+
+        });
+
+        function blockUI() {
+            var div = '<div class="loader animation-start"><span class="circle delay-1 size-2"></span>';
+            div += '<span class="circle delay-2 size-4"></span>';
+            div += '<span class="circle delay-3 size-6"></span>';
+            div += '<span class="circle delay-4 size-7"></span>';
+            div += '<span class="circle delay-5 size-7"></span>';
+            div += '<span class="circle delay-6 size-6"></span>';
+            div += '<span class="circle delay-7 size-4"></span>';
+            div += '<span class="circle delay-8 size-2"></span>';
+            div += '</div>';
+            $.blockUI({
+                css: {
+                    backgroundColor: 'transparent',
+                    border: 'none'
+                },
+                message: div,
+                baseZ: 1500,
+                overlayCSS: {
+                    backgroundColor: '#FFFFFF',
+                    opacity: 0.7,
+                    cursor: 'wait'
+                }
+            });
+            // $('.blockUI.blockMsg').center();
+        }
+
+        function LoadProgess() {
+            alert('');
+        }
+
+        function OnBegin() {
+            blockUI();
+        }
+
+        function OnSuccess(result) {
+            $.unblockUI();
+            if (result.success == false) {
+
+                $.notify(result.message, {
+                    globalPosition: "top center",
+                    className: "Errror"
+                })
+            } else {
+                $.notify(result.message, {
+                    globalPosition: "top center",
+                    className: "success"
+                })
+            }
+
+        }
+        function OnFailure(result) {
+            $.unblockUI();
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+﻿
+@model HRMS.Models.TRN.T_DAILY_ATTEND
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+        <div style="text-align:center "><b>Employee Daily Attendence</b></div>
+  
+
+<!-- Page body start -->
+<div class="page-body">
+    <div class="row">
+        <div class="col-lg-12 col-xl-6">
+            <!-- Date card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><b>Code</b></h5>
+
+                </div>
+                <div class="card-block">
+                    <form>
+                        <div class="row form-group">
+                            <div class="col-sm-1">
+                                <label class="col-form-label">Unit</label>
+                            </div>
+                            <div class="col-sm-5">
+                                @Html.DropDownList("UNIT", new SelectList(ViewBag.AllowCal2 ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                new { @class = "form-control js-example-data-array", @id = "unit" })
+                            </div>
+                            @*<div class="col-sm-4">
+                                <input type="text" class="form-control date2">
+                            </div>*@
+                            <div class="col-sm-1">
+                                <label class="col-form-label">Date</label>
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="date" class="form-control date2">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <label class="col-form-label">Shift</label>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DropDownList("FK_SHIFT_CODE", new SelectList(ViewBag.AllowCal3 ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                new { @class = "form-control js-example-data-array", @id = "unit" })
+                            </div>
+                            @*<div class="col-sm-4">
+                                <input type="text" class="form-control ">
+                            </div>*@
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control ">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Date card end -->
+        </div>
+        <div class="col-lg-12 col-xl-6">
+            <!-- Time card start -->
+            <div class="card">
+                <div class="card-header">
+                    <h5><b>Find</b></h5>
+                </div>
+                <div class="card-block">
+                    <form>
+                        <div class="row form-group">
+                            <div class="col-sm-3">
+                                <label class="col-form-label">Department</label>
+                            </div>
+                            <div class="col-sm-7">
+                                @Html.DropDownList("FK_SHIFT_CODE", new SelectList(ViewBag.AllowCal4 ?? new List<SelectListItem>(), "Value", "Text"), "SELECT..",
+                                 new { @class = "form-control js-example-data-array", @id = "unit" })
+                            </div>
+                            @*<div class="col-sm-6">
+                                <input type="text" class="form-control date2" data-mask="99-99-9999">
+                            </div>*@
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary">Find</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary">Show All Department</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model List<HRMS.Models.Master.M_MONTH>
+@{
+    ViewBag.Title = "SelectMonth";
+}
+<div class="card">
+    <div class="card-header pull-right">
+
+        <a href=@Url.Action("CommonDashBoard","CommonDashBoard") class="btn btn-sm   float-right">
+            <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true"></i>
+        </a>
+
+
+        @using (Html.BeginForm("DailyAttend", "DailyAttend", FormMethod.Get))
+        {
+            <div class="card-block" id="divcontainer">
+                <div class="j-wrapperForm j-wrapper-640">
+                    <!-- end /.header -->
+                    <div class="j-content">
+                        <!-- start login -->
+                    </div>
+                    <div class="col-sm-9">
+                        <label for="exampleInputName1">SELECT MONTH</label>
+                        @Html.DropDownList("pK_MONTHCODE", new SelectList(ViewBag.monthList, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required" })
+                        <div class="modal-footer">
+                            <button class="btn btn-sm btn-primary pull-right aLoader" id="btnNext" type="submit">
+                                NEXT <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        }
+    </div>
+</div>
+

@@ -1,0 +1,478 @@
+﻿
+@{
+
+    ViewBag.Title = "Product Master";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/data-table/css/buttons.dataTables.min.css">
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/TableRowDesign.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.css">
+<script src="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>
+<link href="~/libraries/assets/css/CheckBoxStyle.css" rel="stylesheet" />
+
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+
+
+    .select2-container .select2-selection--single {
+        height: 34px;
+    }
+</style>
+
+
+
+<div class="modal fade" id="IdModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;">
+                    Erorr In Edit
+                </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;"> </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal 4</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">Content for the dialog / modal goes here.</div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+                <a href="#" class="btn btn-primary">Save changes</a>
+            </div>
+        </div>
+    </div>*@
+<div class="card">
+    <div class="card-header pull-right">
+        <button id="IdaddNewRecord" type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#IdModal">
+            <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+        </button>
+        <a href=@Url.Action("Index","Menu") class="btn btn-sm btn-info">
+            <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+        </a>
+        <button id="IdImportRecord" type="button" class="btn btn-sm btn-info float-right" data-toggle="modal" data-target="#IdModal">
+            <i class="fa fa-upload fa-lg" aria-hidden="true"></i>Import
+        </button>
+        <div class="text-center" style="margin-top: -29px;"><h4>Product Master</h4></div>
+    </div>
+    @*<div class="card-header">
+            <div class="label-main">
+                <label class="label label-inverse-noLine"><h4>Product Master</h4></label>
+            </div>
+            <button id="IdaddNewRecord" type="button" class="btn btn-sm btn-info float-right" data-toggle="modal" data-target="#IdModal">
+                <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+            </button>
+
+            <button id="IdImportRecord" type="button" class="btn btn-sm btn-info float-right" data-toggle="modal" data-target="#IdModal">
+                <i class="fa fa-upload fa-lg" aria-hidden="true"></i>Import
+            </button>
+        </div>*@
+    <div class="card-block">
+
+        <div class="dt-responsive table-responsive">
+            <table id="ajax-table" class="table table-striped table-bordered nowrap" style="width:100%">
+
+                <thead>
+                    <tr>
+                        <th width="1%">Action</th>
+                        <th>Product ID</th>
+                        <th>Product Description</th>
+                        <th>Short Description</th>
+                        <th>Maintain Product Specification</th>
+                        <th>UOM</th>
+                        <th>HS Code</th>
+                        <th>Grade</th>
+                        <th>Maintain P203 Qty</th>
+                        <th>Packing UOM</th>
+                        <th>Packing Net Weight</th>
+                        <th>Packing Tare Weight</th>
+                        <th>Active Tag</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+@section scripts{
+
+
+    @*<script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>*@
+    @*<script type="text/javascript" src="~/libraries/bower_components/jquery-ui/js/jquery-ui.min.js"></script>*@
+
+    <script src="~/libraries/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/jszip.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/vfs_fonts.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+    @*<script src="~/libraries/assets/pages/data-table/js/data-table-custom.js"></script>*@
+    @*<script src="~/libraries/assets/pages/data-table/extensions/responsive/js/responsive-custom.js"></script>*@
+
+
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script src="~/JsProject/commanJs.js"></script>
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <link href="~/libraries/js/loader/easy-loading.css" rel="stylesheet" />
+
+    <script src="~/libraries/Loader/waiting/bootstrap-waitingfor.js"></script>
+
+
+    <script>
+        var Popup, dataTable;
+
+        $(document).ready(function () {
+
+            // AddNewRecords
+
+
+            $("#IdaddNewRecord").click(function () {
+
+                var data = { Id: 0 };
+                //var x = httpGetWithObj("/Master_AccountHead/AddEditModel", data);
+                //$("#IdModal").empty().append(x.data);
+
+
+                $.ajax({
+                    type: "GET",
+                    url: "../Master_Item/AddEditModel",
+                    async: false,
+                    data: data,
+                    success: function (data) {
+
+                        $("#IdModal").empty().append(data);
+
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+
+            });
+
+            $("#IdImportRecord").click(function () {
+
+                var data = { Id: 0 };
+                $.ajax({
+                    type: "GET",
+                    url: "../MasterExcel/ItemMasterUpload",
+                    async: false,
+                    data: data,
+                    success: function (data) {
+
+                        $("#IdModal").empty().append(data);
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+
+            });
+
+            $("#btnaddNewRecord").click(function () {
+                debugger;
+                var data = { Id: 0 };
+                $.ajax({
+                    type: "POST",
+                    url: "../Master_Item/AddEditModel",
+                    async: false,
+                    data: data,
+                    success: function (data) {
+
+                        //$("#divMsg").empty();
+                        //$("#IdModal").empty().append(data);
+
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+
+            });
+            dataTable = $("#ajax-table").DataTable({
+                initComplete: function () {
+                    var input = $('.dataTables_filter input').unbind(),
+                        self = this.api(),
+                        $searchButton = $('<button>')
+                            .text('search')
+                            .addClass('dt-button  buttons-html5')
+                            .click(function () {
+                                self.search(input.val()).draw();
+                            }),
+                        $clearButton = $('<button>')
+                            .text('clear')
+                            .addClass('dt-button  buttons-html5')
+                            .click(function () {
+                                input.val('');
+                                $searchButton.click();
+                            })
+                    $('.dataTables_filter').append($searchButton, $clearButton);
+                },               
+                "serverSide": true,
+                "processing": true, // for show progress bar,
+                retrieve: true,
+                "language": {
+                    'processing': '<i class="icofont icofont-spinner-alt-2 icofont-3x"></i>'
+                },
+                search: {
+                    return: true,
+                },
+                responsive: true,
+                ajax: {
+                    url: "/Master_Item/GetData",
+                    type: "POST"
+                },
+
+                columns: [
+                    {
+                        "data": "PK_ITCD", "render": function (data) {
+                            //return "<a class='btn btn-sm btn-info' data-toggle='modal' data-target='#IdModal' onclick=PopupForm('" + data + "')><i class='icofont icofont-pencil-alt-4 icofont-1x'></i></a> <a class='btn btn-sm btn-danger'  onclick=Delete('" + data + "')><i class='icofont icofont-delete-alt'></i></a>";
+                            return "<a class='btn btn-sm btn-info' data-toggle='modal' data-target='#IdModal' onclick=PopupForm('" + data + "')><i class='icofont icofont-pencil-alt-4 icofont-1x'></i></a>";
+                        },
+                    },
+                    { data: "PK_ITCD" },
+                    { data: "ITEM_DESCN" },
+                    { data: "SHT_DESCN" },
+                    { data: "ITEM_SPECN" },
+                    { data: "FK_UNIT_CD" },
+                    { data: "HS_CODE" },
+                    { data: "GRADE" },
+                    { data: "P205_YESNO" },
+                    { data: "FK_PACK_UNIT" },
+                    { data: "PACKAGE_NET_WT" },
+                    { data: "PACKAGE_TARE_WT" },
+                    { data: "ACTIVE_TAG" },
+                ],
+
+                dom: 'lBfrtip',
+                buttons: [{
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                }],
+
+                "language": {
+                    "search": "",
+                    "searchPlaceholder": "Search..."
+                },
+
+            });
+
+            new $.fn.dataTable.FixedHeader(dataTable);
+        });
+
+
+
+        function PopupForm(Id) {
+            var data = { Id: Id };
+
+            $.ajax({
+                type: "GET",
+                url: "../Master_Item/AddEditModel",
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    $("#IdModal").empty().append(data);
+                    waitingDialog.hide();
+
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $('.btnClose').click();
+                    $.notify("Error In Edit", {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+
+            });
+        }
+
+        function SubmitForm(form) {
+
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $("#divMsg").empty().append("Please Wait......");
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    async: false,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        $("#divMsg").empty();
+                        if (data.success) {
+
+                            $('#IdModal').modal('toggle');
+
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+
+
+                        }
+                        else {
+                            $("#IdDivMsg").empty().append(data.message);
+                            $("#IdDivDeatils").empty().append(data.details);
+                            // $("#divMsg").empty().append(data.details);
+                            $("#myModal2").modal('show');
+
+                        }
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+            }
+
+            return false;
+
+        }
+
+        function Delete(id) {
+            $.confirm({
+                title: "Confirmation required",
+                content: "Are you sure you want to delete?",
+                buttons: {
+                    YES: function () {
+
+                        DeleteRecord(id);
+                    },
+                    NO: function () {
+
+                    },
+
+                }
+            });
+
+        }
+
+
+        function DeleteRecord(id) {
+            $.ajax({
+
+                type: "POST",
+                url: "../Master_Item/Delete",
+                data: { Id: id },
+                success: function (data) {
+
+                    if (data.success) {
+
+                        dataTable.ajax.reload();
+
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+
+                    }
+                    else {
+                        $("#IdDivMsg").empty().append(data.message);
+                        $("#IdDivDeatils").empty().append(data.details);
+                        // $("#divMsg").empty().append(data.details);
+                        $("#myModal2").modal('show');
+
+                    }
+                },
+                error: function (errorjqXHR, exception) {
+
+
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+
+            });
+        }
+    </script>
+
+}
+

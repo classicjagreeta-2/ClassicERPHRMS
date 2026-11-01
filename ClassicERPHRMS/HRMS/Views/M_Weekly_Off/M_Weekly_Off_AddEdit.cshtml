@@ -1,0 +1,318 @@
+﻿
+@model HRMS.Models.Master.M_WEEKLY_OFF
+
+@using HRMS.Models.Master
+
+
+                
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+
+    @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+
+        @Html.HiddenFor(x => x.AUTOID)
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Weekly Off Master</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+
+                       
+
+                        @if (Model != null)
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit Code And Description:</label>
+                                    @{
+                                        var unilst = ViewBag.Uunt as List<M_UNIT>;
+                                        var uniSelectList = unilst.Select(item => new SelectListItem { Text = item.CODE + " " + " - " + item.NAME, Value = item.CODE.ToString() }).ToList();
+                                        uniSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                    }
+
+                                    @Html.DropDownListFor(x => x.UNIT, uniSelectList, new { @class = "js-example-disabled-results col-sm-12", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.UNIT)
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit Code And Description:</label>
+                                    @{
+                                        var unilst = ViewBag.Uunt as List<M_UNIT>;
+                                        var uniSelectList = unilst.Select(item => new SelectListItem { Text = item.CODE + " " + " - " + item.NAME, Value = item.CODE.ToString() }).ToList();
+                                        uniSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                    }
+
+                                    @Html.DropDownListFor(x => x.UNIT, uniSelectList, new { @class = "js-example-disabled-results col-sm-12" })
+                                </div>
+
+                            </div>
+
+                        }
+
+
+                         
+
+
+
+                        
+
+
+
+
+
+                        @if (Model != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Attendance Code And Description:</label>
+
+
+                                    @*@{
+                         var attendlst = ViewBag.Attend as List<M_ATTEND_DAYS_TYPE>;
+                         var attendSelectList = attendlst.Select(item => new SelectListItem { Text = item.PK_ATTEND_CODE + " " + " - " + item.DESCRIPTION, Value = item.PK_ATTEND_CODE.ToString() }).ToList();
+                         attendSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                    }*@
+                                    @Html.DropDownListFor(x => x.FK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                                    new { @class = "js-example-disabled-results col-sm-12", @required = "required", @disabled = "disabled" })
+
+                                    @*@Html.DropDownListFor(x => x.FK_ATTEND_CODE, attendSelectList, new { @class = "js-example-disabled-results col-sm-12", @required = "required", @disabled = "disabled" })*@
+                                </div>
+                                @Html.HiddenFor(x => x.FK_ATTEND_CODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Attendance Code And Description:</label>
+
+
+                                    @*@{
+                        var attendlst = ViewBag.Attend as List<M_ATTEND_DAYS_TYPE>;
+                        var attendSelectList = attendlst.Select(item => new SelectListItem { Text = item.PK_ATTEND_CODE + " " + " - " + item.DESCRIPTION, Value = item.PK_ATTEND_CODE.ToString() }).ToList();
+                        attendSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                    }*@
+
+                                    @Html.DropDownListFor(x => x.FK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT..",
+                                    new { @class = "js-example-disabled-results col-sm-12", @required = "required" })
+                                </div>
+
+                            </div>
+                        }
+
+                        @*@if (Model != null)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Department Code And Description :</label>
+
+
+                                    @{
+                                        var deptlst = ViewBag.Dept as List<M_DEPARTMENT>;
+                                        var deptSelectList = deptlst.Select(item => new SelectListItem { Text = item.PK_DEPT_CODE + " " + " - " + item.DESCRIPTION, Value = item.PK_DEPT_CODE.ToString() }).ToList();
+                                        deptSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                    }
+
+                                    @Html.DropDownListFor(x => x.FK_DEPT_CODE, deptSelectList, new { @class = "js-example-disabled-results col-sm-12", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.FK_DEPT_CODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Department Code And Description:</label>
+
+
+                                    @{
+                                        var deptlst = ViewBag.Dept as List<M_DEPARTMENT>;
+                                        var deptSelectList = deptlst.Select(item => new SelectListItem { Text = item.PK_DEPT_CODE + " " + " - " + item.DESCRIPTION, Value = item.PK_DEPT_CODE.ToString() }).ToList();
+                                        deptSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                    }
+
+                                    @Html.DropDownListFor(x => x.FK_DEPT_CODE, deptSelectList, new { @class = "js-example-disabled-results col-sm-12" })
+                                </div>
+
+                            </div>
+                        }*@
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Off Day 1 :</label>
+
+
+                                @{
+                                    var enumlst = ViewBag.DropdownListDay_Mode as List<M_ENUM_PARA>;
+                                    var enumSelectList = enumlst.Select(item => new SelectListItem { Text = item.DESCN + " " + " - " + item.DESCN1, Value = item.DESCN1.ToString() }).ToList();
+                                    enumSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                }
+
+                                @Html.DropDownListFor(x => x.OFF_DAY1, enumSelectList, new { @class = "js-example-disabled-results col-sm-12", @required = "required" })
+                            </div>
+                            @*@Html.HiddenFor(x => x.OFF_DAY1)*@
+                        </div>
+
+                         
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Off Day 2 :</label>
+
+
+                                @{
+                                    var offlst = ViewBag.DropdownListDay_Mode as List<M_ENUM_PARA>;
+                                    var offSelectList = offlst.Select(item => new SelectListItem { Text = item.DESCN + " " + " - " + item.DESCN1, Value = item.DESCN1.ToString() }).ToList();
+                                    offSelectList.Insert(0, new SelectListItem { Text = "SELECT..", Value = "" });
+                                }
+
+                                @Html.DropDownListFor(x => x.OFF_DAY2, offSelectList, new { @class = "js-example-disabled-results col-sm-12" })
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+<script>
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        var directUrl = '@Url.Action("StoreOrEdit", "M_Weekly_Off")';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: directUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+                    //cancel: function () {
+
+                    //}
+                }
+
+            });
+
+            //  debugger;
+            // $("#ddlaccounthead").empty().trigger('change')
+            // $("#ddlaccounthead option:selected").prop("selected", false);
+            // $("#ddlaccounthead").selectpicker("refresh");
+            // $.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "success"
+            //})
+
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>
+
+<script>
+    $(function () {
+        $('#datepicker').datepicker({
+            autoclose: true
+        })
+    })
+</script>
+
+}
+
+

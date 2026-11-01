@@ -1,0 +1,610 @@
+﻿
+
+
+@{
+    ViewBag.Title = "MonthlyChecklistReport";
+}
+
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Checklist Report</title>
+
+
+
+    <style>
+
+        .form-check-inline .form-check-input {
+            position: static;
+            margin-top: 0px;
+            margin-right: -0.6875rem;
+            margin-left: 0;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #444;
+            line-height: 11px;
+        }
+
+        select.form-control:not([size]):not([multiple]) {
+            height: 28px;
+        }
+
+        .card-bodyEXCEL {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+            display: flex;
+            min-height: 40vh;
+            background-color: #f4f4f4;
+            max-height: 600px;
+            width: 100%;
+            align-items: flex-start;
+            overflow: scroll;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td[contenteditable="true"] {
+            background-color: #f9f9f9;
+            cursor: text;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><strong>Monthly Checklist Report</strong></h4>
+            </div>
+            <div class="card-body">
+                <!-- Unit Selection -->
+                @using (Html.BeginForm("MonthlyChecklistReport", "Report", FormMethod.Post, new { id = "myForm" }))
+                {
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <input type="hidden" id="dailyUnit" name="unit" value="This is a text box">
+                            <label for="unitSelect" class="form-label"><strong>Select Unit</strong></label>
+                            <select id='select-dailyUnit' required data-placeholder="Please choose unit" data-allow-clear="true" class="form-control" data-close-on-select="true">
+                                <optgroup label="select all">
+                                    <option></option>
+
+                                </optgroup>
+                            </select>
+                        </div>
+                        <!-- Month Year Selection -->
+                        <div class="col-md-3">
+                            <input type="hidden" id="costcenter" name="" value="">
+                            <label for="monthYearSelect" class="form-label"><strong>Select Cost Center</strong></label>
+                            @Html.DropDownList("pK_CODE", new SelectList(ViewBag.CostCentre ?? new List<SelectListItem>(), "Value", "Text"), "please choose Cost Center",
+                            new { @class = "form-control", id = "select-costcenter" })
+                            @Html.ValidationMessage("pK_CODE", "", new { @class = "text-danger" })
+                        </div>
+                        <!-- Employee Type Selection -->
+                        <div class="col-md-3">
+                            <input type="hidden" id="" name="" value="This is a text box">
+                            <label for="employeeTypeSelect" class="form-label"><strong>Select Employee Type</strong></label>
+                            @Html.DropDownList("EmpType", new SelectList(ViewBag.EmpType ?? new List<SelectListItem>(), "Value", "Text"), "please choose Emp Type",
+                                                    new { @class = "form-control", id = "select-empType" })
+                            @Html.ValidationMessage("EmpType", "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="hidden" id="SelectEmployee" name="employee" value="">
+                            <label for="departmentSelect" class="form-label"><strong>Select Employee</strong></label>
+                            <select id='id_SelectEmployee' data-placeholder="Please choose Employee" data-allow-clear="true" class="form-control" data-close-on-select="true">
+                                <optgroup label="select all">
+                                    <option></option>
+
+                                </optgroup>
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="hidden" id="dailyMonth" name="Month" value="">
+                            <label for="monthSelect"  class="form-label"><strong>Select Month</strong></label>
+                            <select id='select-dailyMonth' required data-placeholder="Please choose Month" data-allow-clear="true" class="form-control" data-close-on-select="true">
+                                <optgroup label="select all">
+                                    <option></option>
+
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                    <fieldset class="mb-4">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="dataradio" id="pfNoWise" value="PFAttendance">
+                            <label class="form-check-label" for="pfNoWise">Attendance File</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="dataradio" id="uanWise" value="monthly">
+                            <label class="form-check-label" for="uanWise">Monthly Pay File</label>
+                        </div>
+                    </fieldset>
+                    <div class="text-right">
+                        <button type="button" id="btn_generate" class="btn btn-primary">Generate Report</button>
+                        <button type="submit" id="btn" class="btn btn-primary">Export Excel</button>
+                    </div>
+                }
+            </div>
+
+        </div>
+        <div class="card2" style=" display:none ">
+            <div class="card-bodyEXCEL">
+
+                <table id="excelTable" style="border-collapse: collapse;">
+                    <thead>
+
+                        <tr style="border: none; text-align: left;">
+                            <th colspan="90" style="font-weight: bold; text-align: left; padding-left: 10px;">@Session["SelectedCompany"]</th>
+                        </tr>
+                        <tr style="border: none; text-align: left;">
+                            <th colspan="90" id="date" style="font-weight: bold; text-align: left; padding-left: 10px;">
+                                Monthly Pay file Report from <span id="date-range"></span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="background-color: darkblue; color: white;">Srl No</th>
+                            <th style="background-color: darkblue; color: white;">Unit</th>
+                            <th style="background-color: darkblue; color: white;">Unit Description</th>
+                            <th style="background-color: darkblue; color: white;">Employee ID</th>
+                            <th style="background-color: darkblue; color: white;">Employee Name</th>
+                            <th style="background-color: darkblue; color: white;">Designation</th>
+                            <th style="background-color: darkblue; color: white;">Department</th>
+                            <th style="background-color: darkblue; color: white;">Cost Centre</th>
+                            <th style="background-color: darkblue; color: white;">UAN NO</th>
+                            <th style="background-color: darkblue; color: white;">ESI NO</th>
+                            <th style="background-color: darkblue; color: white;">Bank Name</th>
+                            <th style="background-color: darkblue; color: white;">BANK A/C NO</th>
+                            <th style="background-color: darkblue; color: white;">IFSC CODE</th>
+                            <th style="background-color: darkblue; color: white;">Date of Birth</th>
+                            <th style="background-color: darkblue; color: white;">Date of Joining</th>
+                            <th style="background-color: darkblue; color: white;">Pay Type</th>
+                            <th style="background-color: darkblue; color: white;">Present Days</th>
+                            <th style="background-color: darkblue; color: white;">Week Off</th>
+                            <th style="background-color: darkblue; color: white;">Paid Holiday</th>
+                            <th style="background-color: darkblue; color: white;">Total Day</th>
+                            <th style="background-color: darkblue; color: white;">Arrear Days</th>
+                            <th style="background-color: darkblue; color: white;">Arrear Month</th>
+                            <th style="background-color: darkblue; color: white;">Leave Encash Days</th>
+                            <th style="background-color: darkblue; color: white;">Leave without Pay</th>
+                            <th style="background-color: darkblue; color: white;">Leave with Pay</th>
+                            <th style="background-color: darkblue; color: white;">Extra days</th>
+                            <th style="background-color: darkblue; color: white;">Late Days</th>
+                            <th style="background-color: darkblue; color: white;">Absent / Unpaid</th>
+                            <th style="background-color: darkblue; color: white;">Basic Pay</th>
+                            <th style="background-color: darkblue; color: white;">HRA</th>
+                            <th style="background-color: darkblue; color: white;">CA</th>
+                            <th style="background-color: darkblue; color: white;">Total</th>
+                            <th style="background-color: darkblue; color: white;">Arrear Pay</th>
+                            <th style="background-color: darkblue; color: white;">Other Allowance</th>
+                            <th style="background-color: darkblue; color: white;">Incentive</th>
+                            <th style="background-color: darkblue; color: white;">Total</th>
+                            <th style="background-color: darkblue; color: white;">Provident Fund</th>
+                            <th style="background-color: darkblue; color: white;">E.S.I</th>
+                            <th style="background-color: darkblue; color: white;">Professional Tax</th>
+                            <th style="background-color: darkblue; color: white;">Income Tax</th>
+                            <th style="background-color: darkblue; color: white;">Other Deduction</th>
+                            <th style="background-color: darkblue; color: white;">Total Deduction</th>
+                            <th style="background-color: darkblue; color: white;">Net Pay</th>
+                        </tr>
+                    </thead>
+                    <tbody id="#excelTable">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="card3" style=" display:none ">
+            <div class="card-bodyEXCEL">
+
+                <table id="AttendanceTable" style="border-collapse: collapse;">
+                    <thead>
+
+                        <tr style="border: none; text-align: left;">
+                            <th colspan="34" style="font-weight: bold; text-align: left; padding-left: 10px;">@Session["SelectedCompany"]</th>
+                        </tr>
+                        <tr style="border: none; text-align: left;">
+                            <th colspan="34" id="date" style="font-weight: bold; text-align: left; padding-left: 10px;">
+                                Attendance File Report from<span id="date-range2"></span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="background-color: darkblue; color: white;">Srl No</th>
+                            <th style="background-color: darkblue; color: white;">Unit             </th>
+                            <th style="background-color: darkblue; color: white;">Unit Description </th>
+                            <th style="background-color: darkblue; color: white;">Employee ID      </th>
+                            <th style="background-color: darkblue; color: white;">Employee Name    </th>
+                            <th style="background-color: darkblue; color: white;">Designation      </th>
+                            <th style="background-color: darkblue; color: white;">Department       </th>
+                            <th style="background-color: darkblue; color: white;">Cost Centre      </th>
+                            <th style="background-color: darkblue; color: white;">UAN NO           </th>
+                            <th style="background-color: darkblue; color: white;">ESI NO           </th>
+                            <th style="background-color: darkblue; color: white;">Bank Name        </th>
+                            <th style="background-color: darkblue; color: white;">BANK A/C NO      </th>
+                            <th style="background-color: darkblue; color: white;">IFSC CODE        </th>
+                            <th style="background-color: darkblue; color: white;">Date of Birth    </th>
+                            <th style="background-color: darkblue; color: white;">Date of Joining  </th>
+                            <th style="background-color: darkblue; color: white;">Pay Type         </th>
+                            <th style="background-color: darkblue; color: white;">Present Days     </th>
+                            <th style="background-color: darkblue; color: white;">Week Off         </th>
+                            <th style="background-color: darkblue; color: white;">Paid Holiday     </th>
+                            <th style="background-color: darkblue; color: white;">Total Days       </th>
+                            <th style="background-color: darkblue; color: white;">Arrear Days      </th>
+                            <th style="background-color: darkblue; color: white;">Arrear Month     </th>
+                            <th style="background-color: darkblue; color: white;">Leave Encash Days</th>
+                            <th style="background-color: darkblue; color: white;">Leave without Pay</th>
+                            <th style="background-color: darkblue; color: white;">Leave with Pay   </th>
+                            <th style="background-color: darkblue; color: white;">Extra days       </th>
+                            <th style="background-color: darkblue; color: white;">Late Days        </th>
+                            <th style="background-color: darkblue; color: white;">Absent /Unpaid   </th>
+                        </tr>
+                    </thead>
+                    <tbody id="#AttendanceTable">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    $('#select-dailyUnit').change(function () {
+        debugger
+        var x = $(this).val();
+        $('#dailyUnit').val(x);
+    });
+
+        $('#id_SelectEmployee').change(function () {
+        debugger
+        var x = $(this).val();
+            $('#SelectEmployee').val(x);
+    });
+
+        $('#select-dailyMonth').change(function () {
+            debugger
+            var x = $(this).val();
+            $('#dailyMonth').val(x);
+        });
+
+
+
+     $('#select-dailyUnit').select2({
+        ajax: {
+        url:  "@Url.Action("GetUnitDropdown", "DailyAttend")",
+        data: function (params) {
+            var query ={
+                searchString: params.term,
+                page: params.page || 1,
+                pageSize: 5,
+
+            }
+            return query;
+        },
+            processResults: function (res, params) {
+
+                var list = res.Data.value.results;
+                return {
+                    results: $.map(list, function (x) {
+                        return {
+                            text: x.code + "-" + x.name,
+                            id: x.code
+                        };
+                    }),
+                    pagination: {
+                        more: res.Data.value.currentPage < res.Data.value.pageCount
+                    }
+                };
+            },
+            cache: true
+        }
+     });
+
+     $('#select-dailyMonth').select2({
+    ajax: {
+    url:  "@Url.Action("GetMonthCodeDropDown", "DailyAttend")",
+        data: function (params) {
+            var query ={
+                searchString: params.term,
+                page: params.page || 1,
+                pageSize: 25,
+                UNIT: $('#dailyUnit').val(),
+            }
+            return query;
+        },
+         processResults: function (res, params) {
+             debugger;
+             var list = res.Data.value.results;
+
+            return {
+                results: $.map(list, function (x) {
+                    return {
+                        text: x.MonthName,
+                        id: x.pK_MONTHCODE
+                    };
+                }),
+                pagination: {
+                    more: res.Data.value.currentPage < res.Data.value.pageCount
+                }
+            };
+         },
+
+        cache: true
+    }
+ });
+
+
+
+         let optionSelect2 = {
+
+    closeOnSelect: false,
+    width: '100%',
+    ajax: {
+         url: "@Url.Action("GetEmployee", "Setting")",
+         data: function (params) {
+             var UNIT = $('#dailyUnit').val();
+
+         var query = {
+             searchString: params.term,
+             page: params.page || 1,
+             pageSize: 10,
+             UNIT: UNIT,
+         }
+         return query;
+ },
+         processResults: function (res) {
+     var list = res.Data.value.results;
+     var dataList =  $.map(list, function (x) {
+         return {
+             text: x.pK_EMPCODE + "-" + x.fname,
+             id: x.pK_EMPCODE
+         };
+     })
+     return {
+         results: dataList,
+         pagination: {
+             more: res.Data.value.currentPage < res.Data.value.pageCount
+         }
+     };
+ }
+    }
+};
+        $("#id_SelectEmployee").select2(optionSelect2);
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+     $("#btn_generate").click(function () {
+         var unit = $("#select-dailyUnit").val();
+         var costcenter = $("#select-costcenter").val();
+         var empType = $("#select-empType").val();
+         var employee = $("#id_SelectEmployee").val();
+         var month = $("#select-dailyMonth").val();
+         var reportType = $("input[name='dataradio']:checked").val();
+         debugger;
+
+         let isValid = true; // Start by assuming the form is valid
+         debugger;
+         // Validate required fields
+         $("input[required], select[required]").each(function () {
+             if ($(this).val() === "") {
+                 var errorId = "#" + $(this).attr("id") + "ValidationMessage";
+                 if ($(errorId).length === 0) {
+                     $(this).after('<span id="' + $(this).attr("id") + 'ValidationMessage" class="error" style="color: Red;">This field is required.</span>');
+                 }
+
+             } else {
+                 var errorId = "#" + $(this).attr("id") + "ValidationMessage";
+                 if ($(errorId).length !== 0) {
+                     $(errorId).remove();
+                 }
+             }
+         });
+
+         if (isValid) {
+             if (reportType === "monthly") {
+
+                 $(".card2").show();
+                 $.ajax({
+                     url: '@Url.Action("MonthlyChecklistReportAsync", "Report")',
+                     type: 'GET',
+                     data: {
+                         unit: unit,
+                         costcenter: costcenter,
+                         empType: empType,
+                         employee: employee,
+                         month: month,
+                         reportType: reportType
+                     },
+                     success: function (data) {
+                         $("#excelTable tbody").empty();
+
+                         debugger;
+                         i = 0;
+                         Srlno = 0;
+                         var date = new Date(parseInt(data.Data[0].FROM_PERIOD.replace('/Date(', '').replace(')/', '')));
+                         var date2 = new Date(parseInt(data.Data[0].TO_PERIOD.replace('/Date(', '').replace(')/', '')));
+                         var formattedDate = String(date.getDate()).padStart(2, '0') + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
+                         var formattedDate2 = String(date2.getDate()).padStart(2, '0') + ' ' + date2.toLocaleString('default', { month: 'long' }) + ' ' + date2.getFullYear();
+                         document.getElementById("date-range").innerText = formattedDate + " to " + formattedDate2;
+
+                         $("li").each(function () {
+                             debugger;
+                             var item = data.Data[i++];
+                             var row = "<tr>";
+                             Srlno++;
+                             row += "<td>" + Srlno + "</td>";
+                             row += "<td>" + item.UNIT + "</td>";
+                             row += "<td>" + item.DESCRIPTION + "</td>";
+                             row += " <td>" + item.FK_EMPCODE + "</td>";
+                             row += "<td>" + item.FNAME + ' ' + item.MNAME + ' ' + item.LNAME + "</td>";
+                             row += " <td>" + item.DESG_DESCN + "</td>";
+                             row += "<td>" + item.DESCRIPTION + "</td>";
+                             row += "<td>" + item.DESCN + "</td>";
+                             row += " <td>" + item.UAN + "</td>";
+                             row += "<td>" + item.ESINO + "</td>";
+                             row += " <td>" + item.BANK_NAME + "</td>";
+                             row += "<td>" + item.AC_NO + "</td>";
+                             row += "<td>" + item.IFSC_CODE + "</td>";
+                             row += " <td>" + new Date(parseInt(item.DATEOFBIRTH.replace("/Date(", "").replace(")/", "")))
+                                 .toLocaleDateString('en-GB') + "</td>";
+                             row += " <td>" + new Date(parseInt(item.DATEOFJOINING.replace("/Date(", "").replace(")/", "")))
+                                 .toLocaleDateString('en-GB') + "</td>";
+                             row += "<td>" + item.PAY_TYPE + "</td>";
+                             row += " <td>" + item.DAYS_PRESENT + "</td>";
+                             row += "<td>" + item.WEEK_LEAVE + "</td>";
+                             row += " <td>" + item.PAID_HOLIDAY + "</td>";
+                             row += " <td>" + item.TotalDays + "</td>";
+                             row += " <td>" + item.ARREAR_DAY + "</td>";
+                             row += "<td>" + item.ARREAR_MONTH + "</td>";
+                             row += " <td>" + item.LeaveEncashDays + "</td>";
+                             row += " <td>" + item.LeavewithoutPay + "</td>";
+                             row += " <td>" + item.LeavewithPay + "</td>";
+                             row += " <td>" + item.Extradays + "</td>";
+                             row += "<td>" + item.LateDays + "</td>";
+                             row += "<td>" + item.ABSENT + "</td>";
+                             row += "<td>" + item.BASIC_PAY + "</td>";
+                             row += "<td>" + item.HRA_PAY + "</td>";
+                             row += " <td>" + item.CA + "</td>";
+                             row += "<td>" + item.BasicpayHRACATotal + "</td>";
+                             row += "<td>" + item.ArrearPay + "</td>";
+                             row += " <td>" + item.OtherAllowance + "</td>";
+                             row += "<td>" + item.Incentive + "</td>";
+                             row += " <td>" + item.TOTAL_ALLOW_AMT + "</td>";
+                             row += "<td>" + item.PF + "</td>";
+                             row += "<td>" + item.ESI + "</td>";
+                             row += "<td>" + item.PTAX_AMT + "</td>";
+                             row += "<td>" + item.INCOMETAX_AMT + "</td>";
+                             row += " <td>" + item.OTHER_DED_AMT + "</td>";
+                             row += "<td>" + item.TOTAL_DED_AMT + "</td>";
+                             row += " <td>" + item.NET_PAY + "</td>";
+                             row += "</tr>";
+
+                             $("#excelTable tbody").append(row);
+                         });
+
+
+                     }
+                 });
+
+             } else {
+
+                 $(".card2").hide();
+             }
+
+             if (reportType === "PFAttendance") {
+
+                 $(".card3").show();
+                 $.ajax({
+                     url: '@Url.Action("AttendanceReportAsync", "Report")',
+                     type: 'GET',
+                     data: {
+                         unit: unit,
+                         costcenter: costcenter,
+                         empType: empType,
+                         employee: employee,
+                         month: month,
+                         reportType: reportType
+                     },
+                     success: function (data) {
+                         $("#AttendanceTable tbody").empty();
+
+                         debugger;
+                         i = 0;
+                         Srlno = 0;
+                         var date = new Date(parseInt(data.Data[0].FROM_PERIOD.replace('/Date(', '').replace(')/', '')));
+                         var date2 = new Date(parseInt(data.Data[0].TO_PERIOD.replace('/Date(', '').replace(')/', '')));
+                         var formattedDate = String(date.getDate()).padStart(2, '0') + ' ' + date.toLocaleString('default', { month: 'long' }) + ' ' + date.getFullYear();
+                         var formattedDate2 = String(date2.getDate()).padStart(2, '0') + ' ' + date2.toLocaleString('default', { month: 'long' }) + ' ' + date2.getFullYear();
+                         document.getElementById("date-range2").innerText = formattedDate + " to " + formattedDate2;
+
+                         $("li").each(function () {
+                             debugger;
+                             var item = data.Data[i++];
+                             var row = "<tr>";
+                             Srlno++;
+                             row += "<td>" + Srlno + "</td>";
+                             row += "<td>" + item.UNIT + "</td>";
+                             row += "<td>" + item.DESCRIPTION + "</td>";
+                             row += " <td>" + item.FK_EMPCODE + "</td>";
+                             row += "<td>" + item.FNAME + ' ' + item.MNAME + ' ' + item.LNAME + "</td>";
+                             row += " <td>" + item.DESG_DESCN + "</td>";
+                             row += "<td>" + item.DESCRIPTION + "</td>";
+                             row += "<td>" + item.DESCN + "</td>";
+                             row += " <td>" + item.UAN + "</td>";
+                             row += "<td>" + item.ESINO + "</td>";
+                             row += " <td>" + item.BANK_NAME + "</td>";
+                             row += "<td>" + item.AC_NO + "</td>";
+                             row += "<td>" + item.IFSC_CODE + "</td>";
+                             row += " <td>" + new Date(parseInt(item.DATEOFBIRTH.replace("/Date(", "").replace(")/", "")))
+                                 .toLocaleDateString('en-GB') + "</td>";
+                             row += " <td>" + new Date(parseInt(item.DATEOFJOINING.replace("/Date(", "").replace(")/", "")))
+                                 .toLocaleDateString('en-GB') + "</td>";
+                             row += "<td>" + item.PAY_TYPE + "</td>";
+                             row += " <td>" + item.DAYS_PRESENT + "</td>";
+                             row += "<td>" + item.WEEK_LEAVE + "</td>";
+                             row += " <td>" + item.PAID_HOLIDAY + "</td>";
+                             row += " <td>" + item.TotalDays + "</td>";
+                             row += " <td>" + item.ARREAR_DAY + "</td>";
+                             row += "<td>" + item.ARREAR_MONTH + "</td>";
+                             row += " <td>" + item.LeaveEncashDays + "</td>";
+                             row += " <td>" + item.LeavewithoutPay + "</td>";
+                             row += " <td>" + item.LeavewithPay + "</td>";
+                             row += " <td>" + item.Extradays + "</td>";
+                             row += "<td>" + item.LateDays + "</td>";
+                             row += "<td>" + item.ABSENT + "</td>";
+                             row += "</tr>";
+
+                             $("#AttendanceTable tbody").append(row);
+                         });
+
+
+                     }
+                 });
+
+             } else {
+
+                 $(".card3").hide();
+             }
+         }
+     });
+  });
+
+
+    </script>
+
+
+
+</body>
+
+</html>
+
+
+
+
+

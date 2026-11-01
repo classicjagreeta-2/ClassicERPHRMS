@@ -1,0 +1,258 @@
+﻿@using HRMS.Models.Master
+@model HRMS.Models.TRN.T_LEAVE_APPLICATION
+
+
+@{
+    ViewBag.Title = "Transaction Leave Application";
+}
+<link href="~/libraries/assets/css/font-awesome.min.css" rel="stylesheet" />
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+<link href="~/libraries/assets/css/ag-style.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/accodin.css" rel="stylesheet" />
+<link href="~/libraries/assets/css/ag-style.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+
+
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+
+
+    .select2-container .select2-selection--single {
+        height: 34px;
+    }
+</style>
+
+<div class="page-body">
+    <div class="col-sm-12">
+        <!-- Login card start -->
+        <div class="card">
+            <div class="card-block" id="divcontainer">
+                @if (TempData["toastrSuccess"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["toastrSuccess"]
+                    </div>
+                }
+                @if (TempData["toastrError"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @TempData["toastrError"]
+                    </div>
+                }
+
+                @*<div class="modal-header">
+            <div class="text-center" style="margin-left: 160px;"><h4>LEAVE APPLICATION TRANSACTION</h4></div>
+            <div class="text-center" style="margin-left: 160px;"><h5>@ViewBag.Name</h5></div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>*@
+                <div class="modal-header">
+                    <div class="text-center"  style="margin-left: 160px;"> <h4>LEAVE APPLICATION TRANSACTION</h4> <h6><b>@ViewBag.Name</b></h6> </div>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                @using (Html.BeginForm("AppliedLeaveWithNoOfDays", "T_Lev_App", FormMethod.Post))
+                {
+                    <div class="modal-body">
+                        <div class="j-wrapperForm j-wrapper-640">
+                            @*<div class="row">
+                                <div class="col-sm-5">
+                                    <label for="exampleInputName1"><b>Employee Code And Employee Name :</b></label>
+
+                                    @Html.TextBox("Name", (string)ViewBag.Name, new { @type = "text", @class = "form-control col-sm-12", @id = "name", @disabled = "disabled" })
+                                    @Html.HiddenFor(x => x.FK_EMPCODE)
+                                </div>
+                            </div>*@
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label for="exampleInputName1"><b>Leave Type:</b></label>
+                                        @Html.DropDownListFor(x => x.FK_ATTEND_CODE, new SelectList(ViewBag.Attend, "Value", "Text"),
+                                        "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "ddlattend", @required = "required" })
+                                        @*@Html.DropDownListFor(x => x.FK_REASON_CODE, unitSelectList, new { @class = "js-example-disabled-results col-sm-12", @id = "ddlreason", @required = "required" })*@
+
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1"><b>From Date :</b></label>
+                                            @if (Model.FROM_DATE == ViewBag.NullDate)
+                                            {
+                                                @Html.EditorFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "fdate" } })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "tdate" })
+                                            }
+                                            @*@Html.HiddenFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}")*@
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1"><b>To Date :</b></label>
+                                            @if (Model.TO_DATE == ViewBag.NullDate)
+                                            {
+                                                @Html.EditorFor(x => x.TO_DATE, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "tdate" } })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(x => x.TO_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "tdate" })
+                                            }
+
+                                            @*@Html.HiddenFor(x => x.TO_DATE, "{0:yyyy-MM-dd}")*@
+                                        </div>
+                                        <div id="errorMessage" style="color: red;"></div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1"><b>No of Days :</b></label>
+                                            @Html.TextBoxFor(x => x.NO_OF_DAYS, new { @class = "form-control", @id = "NOOFDAYS", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <label for="exampleInputName1"><b>Reason Of Leave :</b></label>
+                                        @Html.DropDownListFor(x => x.FK_REASON_CODE, new SelectList(ViewBag.Reason, "Value", "Text"),
+                                        "SELECT..", new { @class = "js-example-disabled-results col-sm-12", @id = "ddlreason", @required = "required" })
+                                        @*@Html.DropDownListFor(x => x.FK_REASON_CODE, unitSelectList, new { @class = "js-example-disabled-results col-sm-12", @id = "ddlreason", @required = "required" })*@
+
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <label for="exampleInputName1"><b>Remarks:</b></label>
+                                        @Html.TextAreaFor(x => x.REMARKS, new { @class = "form-control col-sm-12", @id = "remark" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-sm btn-primary pull-right aLoader" id="nextButton" type="submit" onclick="showLoading()">
+                            Get <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                }
+            </div>
+
+            @if (ViewBag.LeaveList != null)
+            {
+                <div class="modal-body">
+                    <div class="card" id="divcontainer">
+                        <div class="dt-responsive table-responsive">
+                            @Html.Partial("~/Views/T_Lev_App/_leaveList.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+
+    @*
+        <script src="~/libraries/assets/js/jquery3_3_1.min.js"></script>*@
+    <script src="~/libraries/assets/js/jquery3_3_1.min.js"></script>
+    <script src="~/libraries/assets/js/select2.js"></script>
+
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/sweetalert/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modal.js"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+
+    <!-- Accordion js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/accordion/accordion.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            //$('#btnclose').click(function () {
+            //    // Navigate back using JavaScript history
+            //    window.history.back();
+            //});
+        });
+         setTimeout(function () { $('.alert').alert('close'); }, 5000);
+
+
+       
+
+
+
+
+        function OnFailure() {
+            $.unblockUI();
+        }
+        function OnBegin() {
+            blockUIStart();
+        }
+
+
+       
+        $(document).ready(function () {
+            $('#tdate').change(function () {
+                debugger
+                var fromDate = new Date($('#fdate').val());
+                var toDate = new Date($(this).val());
+
+                var daysDifference = Math.abs(toDate.getDate() - fromDate.getDate());
+                $('#NOOFDAYS').val(daysDifference + 1);
+                $('#errorMessage').empty();
+            });
+            $('#fdate').change(function () {
+                $('#NOOFDAYS').val('');
+                $('#errorMessage').empty();
+            });
+        });
+    </script>
+}
+
+
+
+

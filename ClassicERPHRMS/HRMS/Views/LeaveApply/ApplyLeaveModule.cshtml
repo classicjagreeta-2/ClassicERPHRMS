@@ -1,0 +1,376 @@
+﻿
+@using System.Text.Json
+@using HRMS.Models.Master
+@using HRMS.Models.TRN
+@model List<HRMS.Models.TRN.T_LEAVE_APPLICATION>
+@{
+
+    //var leaveDataList = @Html.Raw(JsonSerializer.Serialize(ViewBag.LeaveData));
+    var leaveData = ViewBag.LeaveData as List<T_MONTHLY_ATTEND_DAYS_DET>; // Replace LeaveModel with your actual model type
+    var leaveDataJson = JsonSerializer.Serialize<List<T_MONTHLY_ATTEND_DAYS_DET>>(leaveData);
+    ViewBag.Title = "Apply LeaveModule";
+
+}
+<style>
+    .chart-container {
+        width: 200px;
+        height: 200px;
+    }
+</style>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Leave Application</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @if (Model!=null)
+            {
+                @*<form asp-controller="LeaveApply" asp-action="ApplyLeaveWithNoOfDays" method="post">*@
+                using (Html.BeginForm("ApplyLeaveWithNoOfDays", "LeaveApply", FormMethod.Post))
+                {
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="FK_ATTEND_CODE" class="required-star">Leave Type</label>
+                                    @Html.DropDownList("FK_ATTEND_CODE", new SelectList(ViewBag.Attend, "Value", "Text"), "SELECT...", new { @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="FK_REASON_CODE" class="required-star">Reason Type</label>
+                                    @Html.DropDownList("FK_REASON_CODE", new SelectList(ViewBag.Reason, "Value", "Text"), "SELECT...", new { @class = "form-control", @required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="FROM_DATE" class="required-star">Start date</label>
+                                    @*<input type="date" name="start_date" class="form-control" required id="FROM_DATE">*@
+                                    @*@if (Model.FROM_DATE == ViewBag.NullDate)
+                                {*@
+                                    @Html.Editor("FROM_DATE", "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "fdate" } })
+                                    @*}
+                                else
+                                {
+                                    @Html.TextBoxFor(x => x.FROM_DATE, "{0:yyyy-MM-dd}", new { @type = "date", @class = "form-control", @id = "tdate" })
+                                }*@
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="TO_DATE" class="required-star">End date</label>
+                                    @*<input type="date" name="end_date" class="form-control" required id="TO_DATE">*@
+                                    @Html.Editor("TO_DATE", "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @required = "required", @id = "tdate" } })
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="REMARKS" class="required-star">Remarks</label>
+                                    @*<textarea name="description" cols="40" rows="2" maxlength="255" class="form-control" placeholder="Remarks"  id="REMARKS"></textarea>*@
+                                    @Html.TextArea("REMARKS", new { @class = "form-control col-sm-12", @id = "remark" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Apply Leave ASAP</button>
+                    </div>
+                }
+                @*</form>*@
+            }
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-block">
+                <div class="row">
+                    <div class="col-md-6 col-lg-9">
+                        <canvas id="Leave-Chat" height="200"></canvas>
+                    </div>
+                    <div class="col-md-12 col-lg-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Apply Leave</h5>
+                            </div>
+                            <div class="card-block">
+                                <button type="button"
+                                        data-id=""
+                                        class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#exampleModal">
+                                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+                                    APPLY
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-md-12 col-lg-6">
+                            <div class="Leave-Chat-Lable">
+                                <ul></ul>
+                            </div>
+                        </div>*@
+
+                </div>
+                <div class="dt-responsive table-responsive">
+                    <table id="Leave-table" class="table table-bordered nowrap" style="width:100%; height:50%">
+                        <thead>
+                            <tr>
+                                @*<th width="1%">Action</th>*@
+                                <th>DATE</th>
+                                <th>LEAVE DAYS</th>
+                                <th>LEAVE TYPE</th>
+                                <th>REASON TYPE</th>
+                                <th>REQUESTED ON</th>
+                                <th>STATUS</th>
+                                <th>REMARKS</th>
+                                <th>APPROVED BY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.FROM_DATE.ToString("dd/MM/yyyy")  -  @item.TO_DATE.ToString("dd/MM/yyyy") </td>
+                                        <td>@item.NO_OF_DAYS</td>
+                                        <td>@item.Attend </td>
+                                        <td>@item.Reason </td>
+                                        <td>@item.APPLY_DATE.ToString("dd/MM/yyyy") </td>
+                                        <td>@(item.APPROVED == "P" ? "Pending" : item.APPROVED == "A" ? "Approved" : item.APPROVED == "R" ? "Rejected":"unknown") </td>
+                                        <td>@item.REMARKS </td>
+                                        <td>@item.USER_NAME_NEW</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @*<div class="col-md-12 col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Apply Leave</h5>
+                </div>
+                <div class="card-block">
+                    <button type="button"
+                            data-id=""
+                            class="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#exampleModal">
+                        <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+                        APPLY
+                    </button>
+                </div>
+            </div>
+        </div>*@
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript" src="/Content/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+@*<script type="text/javascript" src="~/Content/libraries/assets/pages/chart/chartjs/chartjs-custom.js"></script>*@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@*<script>
+        $(document).ready(function () {
+            const chartData = {
+                //labels: ["LD-Leave Adjust", "OT-Over Time", "CO-Compensatory Off", "IN-Incentive", "LD-Leave Adjust1", "OT-Over Time1", "CO-Compensatory Off1", "IN-Incentive1", "LD-Leave Adjust2", "LD-Leave Adjust3", "OT-Over Time", "CO-Compensatory Off", "IN-Incentive", "LD-Leave Adjust"],
+                labels: ["LD-Leave Adjust", "CO-Compensatory Off"],
+                //data: [30, 17, 10, 7, 36, 30, 17, 10, 7, 36],
+                data: [30, 17],
+                /* backgroundColor: ["#fe9365", "#01a9ac", "#fe5d70"],*/
+            };
+            const myChart = document.querySelector("#Leave-Chat");
+            const ul = document.querySelector(".Leave-Chat-Lable ul");
+            new Chart(myChart, {
+                type: "doughnut",
+                data: {
+                    labels: chartData.labels,
+                    datasets: [
+                        {
+                            label: "Language Popularity",
+                            data: chartData.data,
+                        },
+                    ],
+                },
+                options: {
+                    borderWidth: 5,
+                    borderRadius: 5,
+                    hoverBorderWidth: 0,
+                    maintainAspectRatio: true,
+                    responsive: false,
+                    layout: {
+                        //padding: {
+                        //    left: 0,
+                        //    right: 0,
+                        //    bottom: 0,
+                        //    top: 0,
+                        //},
+                    },
+                    cutoutPercentage: 0,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'right',
+                        },
+                        datalabels: {
+                            display: true,
+                        },
+                        outlabels: {
+                            text: '%l %p',
+                            color: 'white',
+                            stretch: 1,
+                            font: {
+                                resizable: false,
+                                minSize: 12,
+                                maxSize: 14
+                            }
+                        }
+                    },
+
+                    title: {
+                        display: true,
+                        text: "asass",
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+
+            const populateUl = () => {
+                chartData.labels.forEach((l, i) => {
+                    let li = document.createElement("li");
+                    li.innerHTML = `${l}: <span class='percentage'>${chartData.data[i]}%</span>`;
+                    ul.appendChild(li);
+                });
+            };
+
+            populateUl();
+
+        });
+
+        $('#Leave-table').DataTable({
+            "scrollY": "170px",
+            "scrollCollapse": true,
+            "paging": false
+        });
+
+    </script>*@
+<script>
+
+
+
+    $(document).ready(function () {
+        // Get the leave data from ViewBag and parse it
+        //var leaveData = Html.Raw(Json.Serialize(ViewBag.LeaveData));
+        //var leaveData = Html.Raw(JsonSerializer.Serialize(ViewBag.LeaveData));
+        var leaveData = @Html.Raw(leaveDataJson);
+
+        // Prepare the chart data
+        const chartData = {
+            labels: leaveData.map(item => item.Description),
+            data: leaveData.map(item => item.ReaminingLeave), // You can change this to use any other value you need
+        };
+
+        const myChart = document.querySelector("#Leave-Chat");
+        const ul = document.querySelector(".Leave-Chat-Lable ul");
+
+        new Chart(myChart, {
+            type: "doughnut",
+            data: {
+                labels: chartData.labels,
+                datasets: [
+                    {
+                        label: "Leave Allotted",
+                        data: chartData.data,
+                    },
+                ],
+            },
+            options: {
+                borderWidth: 5,
+                borderRadius: 5,
+                hoverBorderWidth: 0,
+                maintainAspectRatio: true,
+                responsive: false,
+                cutoutPercentage: 0,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'right',
+                    },
+                    datalabels: {
+                        display: true,
+                    },
+                    outlabels: {
+                        text: '%l %p',
+                        color: 'white',
+                        stretch: 1,
+                        font: {
+                            resizable: false,
+                            minSize: 12,
+                            maxSize: 14
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "Leave Allocation Chart", // Update the title dynamically if needed
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+
+        // Populate the leave details below the chart
+        const populateUl = () => {
+            chartData.labels.forEach((l, i) => {
+                let li = document.createElement("li");
+                li.innerHTML = `${l}: <span class='percentage'>${chartData.data[i]}%</span>`;
+                ul.appendChild(li);
+            });
+        };
+
+        populateUl();
+    });
+
+    $('#Leave-table').DataTable({
+        "scrollY": "170px",
+        "scrollCollapse": true,
+        "paging": false
+    });
+</script>
+
+
+
+
+
+
+
+
+

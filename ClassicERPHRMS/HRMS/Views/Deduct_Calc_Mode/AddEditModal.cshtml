@@ -1,0 +1,85 @@
+﻿@model HRMS.Models.Master.M_DEDUCT_CALC_MODE
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="modal-dialog modal-lg" role="document">
+    @using (Html.BeginForm("AddOrUpdate", "Deduct_Calc_Mode", FormMethod.Post, new { id = "myForm" }))
+    {
+        @Html.HiddenFor(x => x.id)
+        <div class="modal-content" style="width:70%">
+            <div class="modal-header">
+                <h4 class="modal-title">Deduction Calculation Mode Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        @if (Model.id != 0)
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Calcution Mode Code:</label>
+                                    @Html.TextBoxFor(x => x.pK_CALC_MODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "2",@maxlength = "2", @disabled = "disabled", @id = "CODE" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+                                @Html.HiddenFor(x => x.pK_CALC_MODE)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Calcution Mode Code:</label>
+                                    @Html.TextBoxFor(x => x.pK_CALC_MODE, new { @class = "form-control mustfiled", @required = "required", @minlength = "2", @maxlength = "2", @id = "CODE", @style = "text-transform:uppercase" })
+                                </div>
+                                @Html.HiddenFor(x => x.id)
+
+                            </div>
+                        }
+
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Calcution Mode Description :</label>
+                                @Html.TextBoxFor(x => x.description, new { @class = "form-control mustfiled", @maxlength = "25", @required = "required" })
+                            </div>
+                        </div>
+                        @if (Model.id == 0)
+                        {
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit Code And Unit Description:</label>
+                                    @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Ut, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required", @id = "unt" })
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Unit Code And Unit Description:</label>
+                                    @Html.HiddenFor(x => x.unit)
+                                    @Html.TextBoxFor(x => x.unit, new { @class = "form-control mustfiled", @disabled = "disabled", @id = "unt" })
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("Deduct_Calc_Mode","Deduct_Calc_Mode")'" id="btnclose" data-dismiss="modal">Close</a>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+

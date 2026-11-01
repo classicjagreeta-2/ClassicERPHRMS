@@ -1,0 +1,204 @@
+﻿
+
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.min.js"></script>*@
+<script src="~/Content/libraries/assets/xlsx.min.js"></script>
+<div class="mb-3">
+    <div class="form-group">
+        <input type="file" class="form-control form-control-sm" id="file_upload" style=" width: 70%;">
+    </div>
+</div>
+<div class="form-group">
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+        <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+    </div>
+</div>
+<div class="modal-footer">
+    <div id="divMsg" class="text-danger"> </div>
+</div>
+<div>
+    <div class="table-responsive dt-responsive">
+        <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <table id="display_excel_data" class="table table-striped table-bordered nowrap dataTable" style="width: 100%;" role="grid" aria-describedby="dom-jqry_info">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("file_upload").onchange = function (e) {
+        $("#display_excel_data").empty();
+        upload();
+    }
+    // Method to upload a valid excel file
+    function upload() {
+        var files = document.getElementById('file_upload').files;
+        if (files.length == 0) {
+            alert("Please choose any file...");
+            return;
+        }
+        var filename = files[0].name;
+        var extension = filename.substring(filename.lastIndexOf(".")).toUpperCase();
+        if (extension == '.XLS' || extension == '.XLSX') {
+            //Here calling another method to read excel file into json
+            excelFileToJSON(files[0]);
+        } else {
+            alert("Please select a valid excel file.");
+        }
+    }
+
+    //Method to read excel file and convert it into JSON
+    function excelFileToJSON(file) {
+        try {
+            var reader = new FileReader();
+            reader.readAsBinaryString(file);
+            reader.onload = function (e) {
+                debugger;
+                var data = e.target.result;
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+                var result = {};
+                var firstSheetName = workbook.SheetNames[0];
+                //reading only first sheet data
+                var jsonData = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], { defval: '' });
+                //displaying the json result into HTML table
+                //displayJsonToHtmlTable(jsonData);
+
+                BindTable(jsonData, "#display_excel_data")
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    //Method to display the data in HTML Table
+    function displayJsonToHtmlTable(jsonData) {
+        debugger;
+        var table = document.getElementById("display_excel_data");
+        var htmlData = '';
+        if (jsonData.length > 0) {
+            $.getJSON("/Json/EmployeeExcel.json",
+                function (data) {
+                    var allItems = [];
+                    htmlData += '<tr>';
+                    $.each(data,
+                        function (item) {
+                            allItems.push(item);
+                            htmlData += '<th>' + item + '</th>';
+                        });
+                    htmlData += '</tr>';
+                    for (var i = 0; i < jsonData.length; i++) {
+
+                        var row = jsonData[i];
+                        var headerName = allItems[i];
+                        htmlData += '<tr>';
+                        var sas = '<td>' + row["'" + headerName + "'"] + '</td>';
+                        htmlData += sas;
+                        //htmlData += '<tr><td>' + row[headerName] + '</td><td>' + row["Address"]
+                        //  + '</td><td>' + row["Email ID"] + '</td><td>' + row["Age"] + '</td></tr>';
+                    }
+                });
+
+            table.innerHTML = htmlData;
+        } else {
+            table.innerHTML = 'There is no data in Excel';
+        }
+    }
+
+
+    //function ExportToTable() {
+    //    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+    //    /* Checks whether the file is a valid excel file */
+    //    if (regex.test($("#excelfile").val().toLowerCase())) {
+    //        var xlsxflag = false; /* Flag for checking whether excel is .xls format or .xlsx format */
+    //        if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+    //            xlsxflag = true;
+    //        }
+    //        /* Checks whether the browser supports HTML5 */
+    //        if (typeof (FileReader) != "undefined") {
+    //            var reader = new FileReader();
+    //            reader.onload = function (e) {
+    //                var data = e.target.result;
+    //                /* Converts the excel data into object */
+    //                if (xlsxflag) {
+    //                    var workbook = XLSX.read(data, { type: 'binary' });
+    //                }
+    //                else {
+    //                    var workbook = XLS.read(data, { type: 'binary' });
+    //                }
+    //                /* Gets all the sheet names of excel into a variable */
+    //                var sheet_name_list = workbook.SheetNames;
+
+    //                var cnt = 0; /* This is used for restricting the script to consider only the first sheet of excel */
+    //                sheet_name_list.forEach(function (y) { /* Iterate through all sheets */
+    //                    /* Convert the cell value to JSON */
+    //                    if (xlsxflag) {
+    //                        var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+    //                    }
+    //                    else {
+    //                        var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+    //                    }
+    //                    if (exceljson.length > 0 && cnt == 0) {
+    //                        BindTable(exceljson, '#exceltable');
+    //                        cnt++;
+    //                    }
+    //                });
+    //                $('#exceltable').show();
+    //            }
+    //            if (xlsxflag) { /* If the excel file is .xlsx extension, then create an Array Buffer from excel */
+    //                reader.readAsArrayBuffer($("#excelfile")[0].files[0]);
+    //            }
+    //            else {
+    //                reader.readAsBinaryString($("#excelfile")[0].files[0]);
+    //            }
+    //        }
+    //        else {
+    //            alert("Sorry! Your browser does not support HTML5!");
+    //        }
+    //    }
+    //    else {
+    //        alert("Please upload a valid Excel file!");
+    //    }
+    //}
+
+    function BindTable(jsondata, tableid) {
+        debugger;
+        /* Function used to convert the JSON array to HTML Table */
+        var columns = BindTableHeader(jsondata, tableid); /* Gets all the column headings of Excel */
+        for (var i = 0; i < jsondata.length; i++) {
+            var row$ = $('<tr/>');
+            for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                var cellValue = jsondata[i][columns[colIndex]];
+                if (cellValue == null)
+                    cellValue = "";
+                row$.append($('<td/>').html(cellValue));
+            }
+            $(tableid).append(row$);
+        }
+    }
+
+    function BindTableHeader(jsondata, tableid) {
+        debugger;
+        /* Function used to get all column names from JSON and bind the HTML table header */
+        var columnSet = [];
+        var headerTr$ = $('<tr/>');
+        for (var i = 0; i < jsondata.length; i++) {
+            var rowHash = jsondata[i];
+            for (var key in rowHash) {
+                if (rowHash.hasOwnProperty(key)) {
+                    if ($.inArray(key, columnSet) == -1) { /* Adding each unique column name to a variable array */
+                        columnSet.push(key);
+                        headerTr$.append($('<th/>').html(key));
+                    }
+                }
+            }
+        }
+        $(tableid).append(headerTr$);
+        return columnSet;
+    }
+</script>

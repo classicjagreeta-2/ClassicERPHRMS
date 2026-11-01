@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WEB_VIEWMODEL17.TD_Model.TRN_DOC_FILE>
+@{
+    Layout = null;
+}
+
+
+<style>
+    .table td, .table th, .table thead {
+        padding: .20rem;
+        vertical-align: top;
+        border-top: 1px solid #e9ecef;
+        background-color: white;
+        border: none;
+    }
+
+    .btn-del {
+        background: #ff000078;
+        color: #fff !important;
+        padding: 3px 7px;
+        border-radius: 5px;
+        margin: 0 0 0 5px;
+        border: transparent;
+    }
+
+    .tab-icon i {
+        padding-right: 0px;
+    }
+</style>
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="card">
+                    <div class="card-block">
+                       
+                        
+                        <div class="col-md-4">
+                            <span class="badge badge-primary badge-pill">@(Model.ToList().IndexOf(item) + 1)</span>
+                            
+                            @if (item.FILE_EXT.ToLower() == ".pdf")
+                            {
+                                <img src="~/libraries/assets/images/pdffile.png" alt="Pdf File" width="40px" href=@item.FILE_PATH class="viewer" style="margin-left: 28px;">
+
+                            }
+                            @if (item.FILE_EXT.ToLower() == ".jpg" || item.FILE_EXT.ToLower() == ".png")
+                            {
+                                <img src="~/libraries/assets/images/imgfile.png" alt="Image" width="40px" href=@item.FILE_PATH class="viewer" style="margin-left: 28px;">
+                            }
+                        </div> 
+                        </div>
+                    <button type="button" class="button button-small ag-i-btn btn-del" onclick="delRow(@item.ID)"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+</div>
+
+<script src="~/libraries/fileviewer/EZView.js"></script>
+<script src="~/libraries/fileviewer/draggable.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.viewer').EZView();
+    })
+
+
+</script>

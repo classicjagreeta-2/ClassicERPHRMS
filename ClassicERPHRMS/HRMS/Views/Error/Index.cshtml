@@ -1,0 +1,22 @@
+﻿@model  WEB_VIEWMODEL17.Model_Common.ModelMaster
+
+ 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error2</title>
+</head>
+<body>
+    <hgroup>
+        <h1>Error.</h1>
+        <a type="button" href=@Url.Action("login","login22")>Login</a>
+        <h2>An error2 occurred while processing your request.</h2>
+        @Model.Text
+
+        @ViewBag.ErrorMessage
+
+    </hgroup>
+</body>
+</html>

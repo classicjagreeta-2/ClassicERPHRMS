@@ -1,0 +1,862 @@
+﻿@model HRMS.Models.ModelView.PayModel_Daily_Attend
+@using HRMS.Models.Master
+@using System.Globalization
+@{
+    ViewBag.Title = "Daily Attendance";
+    if (ViewBag.FK_ID != null)
+    {
+        DateTime date = DateTime.ParseExact(ViewBag.FK_ID, "yyyyMM", CultureInfo.InvariantCulture);
+        ViewBag.MonthName = date.ToString("MMMM");
+        ViewBag.Year = date.ToString("yyyy");
+    }
+
+    var empList = ViewBag.Month as List<M_MONTH>;
+    // Assuming ViewBag.Month is of type List<string>
+
+    var empSelectList = empList.Select(item => new SelectListItem
+    {
+        //Text = GetMonthYearText(item.PK_MONTHCODE.ToString()),
+        Text = DateTime.ParseExact(item.PK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture).ToString("MMM") + " " + DateTime.ParseExact(item.PK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture).ToString("yyyy"),
+        Value = item.PK_MONTHCODE.ToString()
+    }).ToList();
+    empSelectList.Insert(0, new SelectListItem { Text = "SELECT OPTION", Value = "" });
+
+}
+
+
+<head>
+    <title> SELECT EMPLOYEE</title>
+    <link href="~/src/selectstyle.css" rel="stylesheet">
+    <link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+    <!-- feather Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+    <!-- Select 2 css -->
+    <link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+    <!-- jpro forms css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/j-pro-modern.css">
+
+    <!-- Switch component css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/switchery/css/switchery.min.css">
+
+    <!-- Tags css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css">
+    <script src="~/JsProject/TD_Loder.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/data-table/css/buttons.dataTables.min.css">
+    <link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+    <link href="~/libraries/TableRowDesign.css" rel="stylesheet" />
+
+    @*<link rel="stylesheet" href="~/extensions/fixed-columns/bootstrap-table-fixed-columns.css">
+
+        <script src="~/extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>*@
+
+    @*<link rel="stylesheet" href="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.css">
+        <script src="~/libraries/bootstrapTale/src/extensions/fixed-columns/bootstrap-table-fixed-columns.js"></script>*@
+    <link href="~/libraries/assets/css/CheckBoxStyle.css" rel="stylesheet" />
+
+    <style>
+        .modal-backdrop {
+            opacity: 0.5 !important;
+        }
+
+        .dataTables_length {
+            margin: 0px 0px -45px 6px;
+        }
+
+        div.dt-buttons {
+            margin: 0px 0px 0px 188px;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 34px;
+        }
+    </style>
+    <style>
+        .select2-container--default .select2-selection--single {
+            color: #fff;
+            height: 41px;
+        }
+
+        .j-wrapperForm {
+            margin: 0 auto;
+            outline: none;
+            padding: 40px 15px;
+            /*-webkit-box-sizing: content-box;*/
+            -moz-box-sizing: content-box;
+            /*box-sizing: content-box;*/
+        }
+
+        input[type="checkbox"] {
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.15em;
+            transform: translateY(-0.075em);
+            border: 2px solid #01a9ac;
+        }
+
+        .shade {
+            -webkit-box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+            box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+        }
+    </style>
+</head>
+<div class="modal fade" id="IdModal" role="dialog" data-backdrop="static" data-keyboard="false">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;">
+                    Erorr In Edit
+                </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal2">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                <h4 class="modal-title">Alert Message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="container"></div>
+            <div class="modal-body">
+
+                <div id="IdDivMsg" style="font-size:22px;color:red;"> </div>
+                <br />
+                <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-body">
+    <div class="col-sm-12">
+        <!-- Login card start -->
+        <div class="card">
+            @if (ViewBag.Attend == null)
+            {
+                <!--<div class="page-body">
+        <div class="col-sm-12">-->
+                <!-- Login card start -->
+                <!--<div class="card">-->
+
+            <div class="card-header pull-right">
+               
+                <a href=@Url.Action("Index","Menu") class="btn btn-sm   float-right">
+                    <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true"></i>
+                </a>
+              
+
+                @using (Html.BeginForm("Experi", "Attendance", FormMethod.Post))
+                {
+                <div class="card-block" id="divcontainer">
+                    <div class="j-wrapperForm j-wrapper-640">
+                        <!-- end /.header -->
+                        <div class="j-content">
+                            <!-- start login -->
+                        </div>
+                        <div class="col-sm-9">
+                            <label for="exampleInputName1">SELECT MONTH</label>
+                            @Html.DropDownListFor(x => x.t_DAILYATTEND.FK_MONTHCODE, empSelectList, new { @class = "js-example-responsive col-sm-12", @id = "ddlMonth", @required = "required" })
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-primary pull-right aLoader" id="btnNext" type="submit">
+                                    NEXT <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Login card end -->
+                }
+            </div>
+            }
+
+            else
+            {
+
+                <div class="modal fade" id="dataModalADD" tabindex="-1" role="dialog" aria-labelledby="dataModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="dataModalLabel">Add New</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <a href=@Url.Action("Index","Menu") class="btn btn-sm btn-info">
+                                    <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+                                </a>
+                            </div>
+                            <div class="modal-body">
+                                <label for="dataType">Select Add Type:</label>
+                                <select class="form-control" id="dataType">
+                                    <option value="single">Add New (Single Emp)</option>
+                                    <option value="multiple">Add New (All Active Emp)</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="generateBtn">Okay</button>
+                                @*<a class="btn btn-primary" href="@Url.Action("AddEmployeeEntry", "Attendance",new {MonthCode= ViewBag.FK_ID })">Okay</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="card">*@
+                <div class="card-header pull-right">
+                    @*<button id="IdaddNewRecord" type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#IdModal" data-id="@ViewBag.FK_ID">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+                </button>*@
+
+
+                    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#dataModalADD" data-id="@ViewBag.FK_ID">
+                        <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+                    </button>
+                    @*<button id="IdAddNewAllActiveEmpRecord" type="button" class="btn btn-sm btn-info" data-id="@ViewBag.FK_ID">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Generate PaySlip
+                </button>*@
+                    <a href=@Url.Action("Index","Menu") class="btn btn-sm   float-right">
+                        <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true"></i>
+                    </a>
+                    @*<button id="QueryExcel" type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#IdModal" data-id="@ViewBag.FK_ID">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Query
+                </button>*@
+                    <div class="text-center" style="margin-top: -29px;"><h4>Attendance Entry (@ViewBag.MonthName @ViewBag.Year)</h4></div>
+                </div>
+                <div class="card-block" id="divcontainer">
+                    <div class="dt-responsive table-responsive">
+                        <table id="ajax-table" class="table table-striped table-bordered nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th width="1%">Action</th>
+                                    <th width="5%">Employee Id</th>
+                                    <th>Employee's Name</th>
+                                    @if (ViewBag.Loca != "AGR")
+                                    {
+                                        @*<th width="10%">MonthCode*</th>*@
+                                        <th width="10%">Shift</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.Attend != null)
+                                {
+                                    foreach (var item in Model.payMaster_ModelView)
+                                    {
+                                        if (item.t_DAILY_ATTEND != null)
+                                        {
+                                            <tr>
+                                                @*<td><a class='btn btn-sm btn-info' data-toggle='modal' data-target='#IdModal' onclick=PopupForm('@item.m_EMPMAS.PK_EMPCODE')><i class='icofont icofont-pencil-alt-4 icofont-1x'></i></a></td>*@
+                                                <td>
+                                                    <a class='btn btn-mini btn-outline-primary aLoader' href="@Url.Action("EmployeesList","Attendance",new {Id=item.t_DAILY_ATTEND.FK_EMPCODE,mcode=@ViewBag.FK_ID })"><i class='icofont icofont-hand-drag1 icofont-2x'></i></a>
+                                                    <a class='btn btn-mini btn-outline-primary aLoader' href="@Url.Action("EmployeesCalenderList","Attendance",new {Id=item.t_DAILY_ATTEND.FK_EMPCODE,mcode=@ViewBag.FK_ID })"><i class='icofont icofont-hand-drag1 icofont-2x'></i></a>
+                                                </td>
+
+                                                <td>@item.t_DAILY_ATTEND.FK_EMPCODE</td>
+                                                <td>@item.m_EMPMAS.FNAME  @item.m_EMPMAS.LNAME</td>
+                                                @if (ViewBag.Loca != "AGR")
+                                                {
+                                                    @*<td>@item.t_DAILY_ATTEND.FK_MONTHCODE</td>*@
+                                                    <td>@item.t_DAILY_ATTEND.FK_SHIFT_CODE </td>
+                                                }
+
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="5"><center> No Data </center></td>
+                                            </tr>
+                                        }
+
+                                    }
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script src="~/libraries/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/jszip.min.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/vfs_fonts.js"></script>
+    <script src="~/libraries/assets/pages/data-table/extensions/buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/libraries/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script src="~/JsProject/commanJs.js"></script>
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <link href="~/libraries/js/loader/easy-loading.css" rel="stylesheet" />
+
+    <script src="~/libraries/Loader/waiting/bootstrap-waitingfor.js"></script>
+
+
+    <script src="~/libraries/assets/js/select2.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+
+
+
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Editable-table js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/edit-table/jquery.tabledit.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/pages/edit-table/editable.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/pages/ace-editor/ace-editor-custom.js"></script>
+
+    <!-- Select 2 js -->
+    <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/sweetalert/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modal.js"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+
+    <!-- Accordion js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/accordion/accordion.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>
+
+    <script src="~/JsProject/TD_Loder.js"></script>
+    <script src="~/libraries/js/jsmomentDate.js"></script>
+
+    <script src="~/libraries/Multi-column-Dropdown-Plugin-jQuery-Inputpicker/jquery.inputpicker.js"></script>
+    <link href="~/libraries/Multi-column-Dropdown-Plugin-jQuery-Inputpicker/jquery.inputpicker.css" rel="stylesheet" />
+    <script src="~/JsProject/DownloadExcel.js"></script>
+    <script>
+        var table;
+        $(document).ready(function () {
+
+            var Turl='@Url.Action("ExcelExport", "PAY_Report")';
+            $(function () {
+                table = $("#ajax-table").DataTable({
+                    scrollY: '300px',
+                    scrollX: true,
+                    "processing": true, // for show progress bar,
+                    "retrieve": true,
+                    "language": {
+                        'processing': '<i class="icofont icofont-spinner-alt-2 icofont-3x"></i>'
+                    },
+                    responsive: true,
+                    "scrollX": true,
+                    "sScrollXInner": "100%",
+                    scrollCollapse: true,
+                    lengthMenu: [
+                        [50, 100, 500, -1],
+                        ['50', '100', '500', 'Show all']
+                    ],
+
+
+                    dom: 'lBfrtip',
+                    buttons: [
+                       {
+                            text: '<i class="icofont icofont-file-excel"></i> Attendance Sheet ',
+                            action: function (e, dt, node, config) {
+                                debugger;
+                                var RptFilter = {};
+                                RptFilter.MonthCode = @ViewBag.FK_ID;
+                                RptFilter.ReportCaseCode = '1';
+                                AjaxSubmit('', Turl, RptFilter);
+                                // $("#btnDowlaodExcelRefresh").click();
+
+                            }
+                        }
+                    ],
+                });
+            });
+
+
+
+        })
+
+        function PopupForm(Id) {
+            @*var data = { Id: Id,mcode: @ViewBag.FK_ID };*@
+            var data = { Id: Id, mcode: @ViewBag.FK_ID };
+            @*var returnUrl = '@Url.Action("EmpPost", "Attendance")'*@
+            var returnUrl = '@Url.Action("EmpPost", "Attendance")'
+        debugger
+            $.ajax({
+                type: "GET",
+               /* url: "../MastEmpLinkDel/AddEditModel",*/
+                url: returnUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    $("#IdModal").empty().append(data);
+                    waitingDialog.hide();
+
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $('.btnClose').click();
+                    $.notify("Error In Edit", {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        }
+        $("#IdaddNewRecord").click(function () {
+            debugger
+            var Id = $(this).data('id');
+            var data = { monthcode: Id };
+
+            //var x = httpGetWithObj("/MastEmp/AddEditModel", data);
+            //$("#IdModal").empty().append(x.data);
+            debugger;
+            var directUrl = '@Url.Action("AddEmployeeEntry", "Attendance",new {})';
+            $.ajax({
+                type: "GET",
+                url: directUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    debugger;
+                    $("#IdModal").empty().append(data);
+
+                },
+                error: function (errorjqXHR, exception) {
+                    $("#divMsg").empty();
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+
+        });
+
+        $('#addAllBtn').click(function() {
+            debugger
+            var Id = $(this).data('id');
+            var data = { monthcode: Id };
+            //var x = httpGetWithObj("/MastEmp/AddEditModel", data);
+            //$("#IdModal").empty().append(x.data);
+            debugger;
+            var directUrl = '@Url.Action("AddEmployeeEntry", "Attendance")';
+            $.ajax({
+                type: "GET",
+                url: directUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    debugger;
+                    $("#AddEmp").empty().append(data);
+
+                },
+                error: function (errorjqXHR, exception) {
+                    $("#divMsg").empty();
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        });
+
+        $('#IdAddNewAllActiveEmpRecord').click(function() {
+            // Code to handle click on "Add New (All Active Emp)" button
+            var data = { mcode: @ViewBag.FK_ID };
+
+            var directUrl = '@Url.Action("MonthlyCalculation", "Attendance")';
+            blockUIStart();
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: directUrl,
+                async: false,
+                data: data,
+
+                success: function (data) {
+                    $.unblockUI();
+                    debugger
+                    if (data.success == false) {
+                        debugger;
+                       /* $("#IdDivMsg").empty().append("Please add Rate Master data against this Employee first before generating Monthly PaySlip: \n" + data.message);*/
+
+                        msgError("Please add Rate Master data against this Employee first before generating Monthly PaySlip: \n" + data.message);
+                       /* $("#myModal2").modal('show');*/
+
+                    }
+                    //if (data.success == true) {
+                    //    /*$("#IdModal").empty().append(data);*/
+                    //    /* msg(data.message);*/
+                    //    $("IdDivMsg").empty().append(data);
+                    //    msg(data.msg);
+
+                    //}
+                    if (data.success == true) {
+                         data.message = data.msg;
+                        //$.notify(successMsg, {
+                        //    globalPosition: "top center",
+                        //    className: "success"
+                        //})
+                        OnSuccess(data);
+
+                    }
+                },
+                error: function (errorajpXHR, exception) {
+                    OnFailure(exception + "\r\n" + errorajpXHR.statusText + "\r\n" + errorajpXHR.responseText);
+                    //$.unblockUI();
+                    //$("#divMsg").empty();
+                    //$.notify(data.message, {
+                    //    globalPosition: "top center",
+                    //    className: "Errror"
+                    //})
+                },
+            });
+        });
+        function OnFailure() {
+            $.unblockUI();
+        }
+        function OnBegin() {
+            blockUIStart();
+        }
+
+        function OnSuccess(result) {
+
+            $.unblockUI();
+            if (result.success == false) {
+                debugger;
+                msgError(result.details);
+                $.notify(result.message, {
+                    globalPosition: "top center",
+                    className: "Error"
+                })
+
+            } else {
+                //msgSuccess(result.message);
+                //$('form').smkClear();
+                //$("#ddlaccounthead option:selected").val(null).trigger("change");
+
+                $.confirm({
+
+                    title: 'Confirmation !!',
+                    type: 'green',
+                    content: result.message,
+                    typeAnimated: true,
+                    icon: 'icon-smiley',
+                    buttons: {
+                        Okay: function () {
+                            $("#btnclose").click();
+                            /*location.reload();*/
+
+                        },
+                    }
+                });
+            }
+        }
+
+        function OnFailure(result) {
+            $.unblockUI();
+        }
+        $("#generateBtn").click(function () {
+
+           
+            var dataType = document.getElementById("dataType").value;
+            var data = { monthcode: @ViewBag.FK_ID };
+            $('#dataModalADD').modal('hide');
+            // Perform desired action based on selected data type
+            if (dataType === "single") {
+                blockUIStart();
+                debugger
+               /* var Id = $(this).data('id');*/
+                @*var data = { monthcode: @ViewBag.FK_ID };*@
+                //var x = httpGetWithObj("/MastEmp/AddEditModel", data);
+                //$("#IdModal").empty().append(x.data);
+                debugger;
+                @*var directUrl = '@Url.Action("AddEmployeeEntry", "Attendance")',data;*@
+                var directUrl = '@Url.Action("AddEmployeeEntry", "Attendance")' + '?monthcode=' + data.monthcode;
+                var link = document.createElement('a');
+                link.href = directUrl;
+                link.data = data;
+                link.click();
+                //$.ajax({
+                //    type: "GET",
+                //    url: directUrl,
+                //    async: false,
+                //    data: data,
+                //    beforeSend: function () {
+                //        blockUIStart();
+                //    },
+                //    success: function (data) {
+
+                //        debugger;
+                //        $("#AddEmp").empty().append(data);
+
+
+                //    },
+                //    error: function (errorjqXHR, exception) {
+                //        $("#divMsg").empty();
+                //        $.notify(data.message, {
+                //            globalPosition: "top center",
+                //            className: "Errror"
+                //        })
+                //    },
+                //    complete: function () {
+                //        $.unblockUI();
+                //    },
+                //});
+            }
+            else if (dataType === "multiple") {
+                blockUIStart();
+                debugger
+               /* alert("Generating multiple data...");*/
+               /* var Id = $(this).data('id');*/
+                var data = { mcode: @ViewBag.FK_ID };
+                //var x = httpGetWithObj("/MastEmp/AddEditModel", data);
+                //$("#IdModal").empty().append(x.data);
+                var directUrl = '@Url.Action("AddAllEmployeeDailyAttendance", "Attendance")';
+                debugger;
+                $.ajax({
+                   
+                    type: "POST",
+                    url: directUrl,
+                    async: false,
+                    data: data,
+                    //beforeSend: function () {
+                    //    blockUIStart();
+                    //},
+                    success: function (data) {
+                       
+                        $.unblockUI();
+                        debugger;
+                        //$("#AddEmp").empty().append(data);
+                        //location.reload();
+                        if (data.success == false) {
+                            debugger;
+                            msgError( data.message);
+                        }
+                      
+                        if (data.success == true) {
+                            data.message = data.msg;
+                            //$.notify(successMsg, {
+                            //    globalPosition: "top center",
+                            //    className: "success"
+                            //})
+                            OnSuccess(data);
+                            location.reload();
+
+
+                        }
+
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    },
+                    complete: function () {
+                        $.unblockUI();
+                    },
+                });
+               /* unblockUI();*/
+            }
+        });
+        $("#QueryExcel").click(function () {
+            debugger
+            var Id = $(this).data('id');
+            var data = { monthcode: Id };
+             var redirectUrl = '@Url.Action("SaveEmpMonthlyExcel", "Attendance")';
+            //var x = httpGetWithObj("/MastEmp/AddEditModel", data);
+            //$("#IdModal").empty().append(x.data);
+            debugger;
+            $.ajax({
+                type: "GET",
+              /*  url: "/Attendance/AddEmployeeEntry",*/
+                url: redirectUrl,
+                async: false,
+                data: data,
+                success: function (data) {
+
+                    debugger;
+                    $("#IdModal").empty().append(data);
+                },
+                error: function (errorjqXHR, exception) {
+                    $("#divMsg").empty();
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+
+        });
+        function SubmitForm(form) {
+
+            $.validator.unobtrusive.parse(form);
+
+            if ($(form).valid()) {
+                $("#divMsg").empty().append("Please Wait......");
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    async: false,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        $("#divMsg").empty();
+                        if (data.success) {
+
+                            $('#IdModal').modal('toggle');
+
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "top center",
+                                className: "success"
+                            })
+                        }
+                        else {
+                            $("#IdDivMsg").empty().append(data.message);
+                            $("#IdDivDeatils").empty().append(data.details);
+                            // $("#divMsg").empty().append(data.details);
+                            $("#myModal2").modal('show');
+                        }
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+            }
+            return false;
+        }
+
+        function Delete(id) {
+            $.confirm({
+                title: "Confirmation required",
+                content: "Are you sure you want to delete?",
+                buttons: {
+                    YES: function () {
+
+                        DeleteRecord(id);
+                    },
+                    NO: function () {
+
+                    },
+                }
+            });
+        }
+
+        function DeleteRecord(id) {
+             var redirectUrl = '@Url.Action("Delete", "TD_OtherMaster")';
+            $.ajax({
+
+                type: "POST",
+                url: redirectUrl,
+                data: { Id: id },
+                success: function (data) {
+
+                    if (data.success) {
+
+                        dataTable.ajax.reload();
+
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "success"
+                        })
+                    }
+                    else {
+                        $("#IdDivMsg").empty().append(data.message);
+                        $("#IdDivDeatils").empty().append(data.details);
+                        // $("#divMsg").empty().append(data.details);
+                        $("#myModal2").modal('show');
+                    }
+                },
+                error: function (errorjqXHR, exception) {
+
+                    $.notify(data.message, {
+                        globalPosition: "top center",
+                        className: "Errror"
+                    })
+                }
+            });
+        }
+    </script>
+
+}

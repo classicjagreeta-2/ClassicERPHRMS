@@ -1,0 +1,538 @@
+﻿
+
+@using HRMS.Models.Master
+@model List< HRMS.Models.TRN.T_LEAVE_APPLICATION>
+@{
+    ViewBag.Title = "Apply Leave Master";
+    var jss = new System.Web.Script.Serialization.JavaScriptSerializer();
+    var _calenderlist = jss.Serialize(ViewBag.calender);
+
+    //var EmpId = ViewBag.EmpId;
+    var approveMonth = ViewBag.ApproveMonth;
+    //var cc = "";
+}
+
+
+
+<style>
+
+
+
+
+    .tooltipevent {
+        width: 200px; /*
+    height:100px;*/
+        background: red;
+        position: absolute;
+        z-index: 10001;
+        transform: translate3d(-50%,-100%,0);
+        font-size: 0.8rem;
+        box-shadow: 1px 1px 3px 0px #888888;
+        line-height: 1rem;
+    }
+
+        .tooltipevent div {
+            padding: 10px;
+        }
+
+            .tooltipevent div:first-child {
+                font-weight: bold;
+                color: White;
+                background-color: #888888;
+                border: solid 1px black;
+            }
+
+            .tooltipevent div:last-child {
+                background-color: whitesmoke;
+                position: relative;
+            }
+
+                .tooltipevent div:last-child::after, .tooltipevent div:last-child::before {
+                    width: 0;
+                    height: 0;
+                    border: solid 5px transparent; /*
+    box-shadow: 1px 1px 2px 0px #888888;*/
+                    border-bottom: 0;
+                    border-top-color: whitesmoke;
+                    position: absolute;
+                    display: block;
+                    content: "";
+                    bottom: -4px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+
+                .tooltipevent div:last-child::before {
+                    border-top-color: #888888;
+                    bottom: -5px;
+                }
+
+    .datespan, .timespan {
+        display: block;
+        font-weight: 500;
+        color: #ff9e12;
+    }
+
+    .timespan {
+        margin-bottom: 5px;
+    }
+
+
+    .fc-scrollgrid-sync-inner a {
+        color: #333;
+    }
+
+    .fc .fc-daygrid-day-number {
+        color: #333;
+    }
+
+    .calendar_modal .form-group {
+        font-weight: 500;
+    }
+
+    .fc-event-title.fc-sticky {
+        padding: 0 5px;
+        font-weight: 500;
+    }
+
+    #calendar {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .error {
+        color: red !important;
+    }
+
+    .box {
+        padding: 7px;
+    }
+
+        .box p {
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d0cfcf;
+        }
+
+            .box p:first-of-type {
+                margin-top: 0;
+            }
+
+            .box p:last-of-type {
+                margin-bottom: 0;
+            }
+
+
+
+    .checkbox_cal input[type="checkbox"] {
+        display: none;
+    }
+
+    .checkbox_cal label {
+        cursor: pointer;
+    }
+
+    .checkbox_cal input[type="checkbox"] + label span {
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+        margin: -2px 10px 0 0;
+        background: #fff;
+        border: 2px solid #ff9e12;
+        border-radius: 5px;
+        cursor: pointer;
+        vertical-align: middle;
+        float: left;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    .checkbox_cal input[type="checkbox"]:checked + label span {
+        background: #ff9e12 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M.5.5h79v79H.5z' fill='%23ff9e12'/%3E%3Cpath d='M60.7 16c1.2.3 2.2.8 3.1 1.7 1.5 1.6 1.7 4 .3 5.8l-9 13.2C49.5 45 43.8 53.2 38.2 61.5c-1.6 2.6-5.1 3.3-7.7 1.7-.5-.3-1-.8-1.4-1.3-4.3-5.2-8.7-10.4-13-15.7-.5-.7-.9-1.5-1.3-2.3v-1.6c.1-.1.1-.2.2-.4.5-1.9 2.2-3.3 4.1-3.5 2-.4 4 .3 5.2 1.9l8.2 9.8c.2.2.3.4.6.7l3.1-4.6c6.2-9.2 12.5-18.3 18.7-27.5.9-1.4 2.3-2.4 4-2.7h1.8z' fill='%23fff'/%3E%3C/svg%3E") no-repeat;
+    }
+
+
+    .checkbox_edit input[type="checkbox"] {
+        display: none;
+    }
+
+    .checkbox_edit label {
+        cursor: pointer;
+    }
+
+    .checkbox_edit input[type="checkbox"] + label span {
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+        margin: -2px 10px 0 0;
+        background: #fff;
+        border: 2px solid #ff9e12;
+        border-radius: 5px;
+        cursor: pointer;
+        vertical-align: middle;
+        float: left;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    .checkbox_edit input[type="checkbox"]:checked + label span {
+        background: #ff9e12 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Cpath d='M.5.5h79v79H.5z' fill='%23ff9e12'/%3E%3Cpath d='M60.7 16c1.2.3 2.2.8 3.1 1.7 1.5 1.6 1.7 4 .3 5.8l-9 13.2C49.5 45 43.8 53.2 38.2 61.5c-1.6 2.6-5.1 3.3-7.7 1.7-.5-.3-1-.8-1.4-1.3-4.3-5.2-8.7-10.4-13-15.7-.5-.7-.9-1.5-1.3-2.3v-1.6c.1-.1.1-.2.2-.4.5-1.9 2.2-3.3 4.1-3.5 2-.4 4 .3 5.2 1.9l8.2 9.8c.2.2.3.4.6.7l3.1-4.6c6.2-9.2 12.5-18.3 18.7-27.5.9-1.4 2.3-2.4 4-2.7h1.8z' fill='%23fff'/%3E%3C/svg%3E") no-repeat;
+    }
+
+    .calendar_modal label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #4f4f4f;
+    }
+
+    .calendar_modal .form-group {
+        margin-bottom: 5px;
+    }
+
+    .fc-event-time {
+        display: none;
+    }
+</style>
+
+<body>
+    <div class="modal fade" id="IdModal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <input type="hidden" id="startTime" />
+        <input type="hidden" id="endTime" />
+        <input type="hidden" id="eventTitle" />
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" Style="padding: 2px;background-color: #ff00008a;color: white;">
+                    <h4 class="modal-title">Alert Message</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="container"></div>
+                <div class="modal-body">
+
+                    <div id="IdDivMsg" style="font-size:22px;color:red;">
+                        Erorr In Edit
+                    </div>
+                    <br />
+                    <div id="IdDivDeatils" style="color: #cfcfcf;"> </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn btn-danger">Close</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="calendar"></div>
+
+    <div class="modal fade calendar_modal " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                @*@using (Ajax.BeginForm("AppliedLeaveWithNoOfDays", "T_Lev_App"))*@
+                @*@using (Ajax.BeginForm("AppliedLeaveWithNoOfDays", "T_Lev_App", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }))*@
+                @*{*@
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add an event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="DivContainer">
+                </div>
+                @*}*@
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="hrApprovalModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">HR Approval</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div> <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Leave Details:</label>
+                            <p id="leaveDetails"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="btnApprove" class="btn btn-success">Approve</button>
+                            <button type="submit" id="btnReject" class="btn btn-danger">Reject</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script src='~/Content/libraries/Calender/dist/index.global.js'></script>
+<script src="~/Content/libraries/Calender/js/jquery.min.js"></script>
+
+<script src="~/Content/libraries/Calender/js/bootstrap.min.js"></script>
+<script src="~/Content/libraries/Calender/js/moment.min.js"></script>
+<script src="~/Content/libraries/Calender/js/popper.min.js"></script>
+<script src="~/Content/libraries/Calender/js/tooltip.min.js"></script>
+<script src="~/Content/libraries/Calender/js/additional-methods.min.js"></script>
+<script src="~/Content/libraries/Calender/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Content/libraries/Calender/js/jquery.validate.min.js"></script>
+<script src="~/Content/libraries/Calender/js/jquery-ui.min.js"></script>
+<script src="~/Content/libraries/Calender/js/sweetalert2@11.js"></script>
+
+<script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+<script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+<script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
+<script src="~/Scripts/Notify/notify.js"></script>
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+<script>
+
+    $(document).ready(function ($) {
+
+        if (window.jQuery().datetimepicker) {
+            $('.datepicker').datetimepicker({
+                format: 'YYYY-MM-DD',
+            });
+            $('.timepicker').datetimepicker({
+                format: 'HH:mm',
+                icons: {
+                    time: 'fa fa-clock-o',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-chevron-up',
+                    down: 'fa fa-chevron-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-check',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-times'
+                }
+            });
+        }
+        debugger
+             var eventsL = JSON.parse('@Html.Raw(_calenderlist)');
+        GenerateCalander(eventsL, new Date());
+    });
+
+    function GenerateCalander(events, date1) {
+     debugger;
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+               /* right: 'dayGridMonth,timeGridWeek,timeGridDay'*/
+                right: 'dayGridMonth'
+            },
+            initialDate: date1,
+            navLinks: true, // can click day/week names to navigate views
+
+            selectable: true,
+            selectAllow: function (select) {
+                return moment().diff(select.start, 'days') <= 0
+            },
+            eventStartEditable: false,
+            selectMirror: true,
+            @*select: function (arg) {
+                //debugger
+                console.log(arg);
+                /*  $('#exampleModal').modal('show');*/
+                var redirectUrl = '@Url.Action("T_Lev_App", "T_Lev_App")';
+                var data = { Id: '@EmpId' };
+                $.ajax({
+                    type: "GET",
+                    url: redirectUrl,
+                    async: false,
+                    data: data,
+                    success: function (data) {
+                        debugger;
+
+                        $("#DivContainer").empty().append(data);
+                        $('#exampleModal').modal('show');
+                        var start = arg.startStr;
+                        var end = arg.endStr;
+                        var newEndDate = new Date(end);
+                        newEndDate.setDate(newEndDate.getDate() - 1);
+                        //var formattedEndDate = newEndDate.toLocaleDateString('en-US').format('YYYY-MM-DD');
+
+                        var formattedEndDate = newEndDate.toISOString().split('T')[0];
+
+                        $('#start_date').val(start);
+                        $('#end_date').val(formattedEndDate);
+
+
+                        //$("#exampleModal").empty().append(data);
+                        //$('#exampleModal').modal('show');
+
+                    },
+                    error: function (errorjqXHR, exception) {
+                        $("#divMsg").empty();
+                        $.notify(data.message, {
+                            globalPosition: "top center",
+                            className: "Errror"
+                        })
+                    }
+                });
+            },*@
+            eventClick: function (date, arg, info) {
+                debugger;
+                date.jsEvent.preventDefault();
+                     var color = date.event.backgroundColor;
+                     if (color == "#ffcc00") {
+                         let title = date.event.title;
+                         let startDate = date.event.start.toLocaleDateString("ddMMyyyy");
+                         var endDate = date.event.end ? date.event.end.toLocaleDateString() : startDate;
+
+                         $("#eventTitle").val(title);
+                         $("#startTime").val(startDate);
+                         $("#endTime").val(endDate);
+
+                         $('#hrApprovalModal').modal('show');
+                         $('#leaveDetails').html("<strong>Title:</strong> " + title + "<br><strong>Start Date:</strong> " + startDate + "<br><strong>End Date:</strong> " + endDate);
+                         };
+            },
+
+            eventMouseEnter: function (info) {
+              /*  debugger*/
+                console.log(info)
+                var tis = info.el;
+                var end = info.event.end || info.event.start;
+                var tooltip = '<div class="tooltipevent" style="top:' + ($(tis).offset().top - 5) + 'px;left:' + ($(tis).offset().left + ($(tis).width()) / 2) + 'px;width: 200px;"><div>' + info.event.title + '</div><div><span class="datespan">' + 'Date: ' + info.event.start.toLocaleDateString() + '-' + end.toLocaleDateString() + '</span>' + (info.event.extendedProps.details || 'No details available') + '</div></div>';
+                /*var tooltip = '<div class="tooltipevent" style="top:' + ($(tis).offset().top - 5) + 'px;left:' + ($(tis).offset().left + ($(tis).width()) / 2) + 'px;width: 200px;"><div>' + info.event.title + '</div><div><span class="datespan">' + 'Date: ' + info.event.start.toLocaleDateString() + '-' + (info.event.end.toLocaleDateString() || info.event.start.toLocaleDateString()) + '</span>' + (info.event.extendedProps.details || 'No details available') + '</div></div>';*/
+                var $tooltip = $(tooltip).appendTo('body');
+            },
+            eventMouseLeave: function (info) {
+                console.log('eventMouseLeave');
+                $(info.el).css('z-index', 8);
+                $('.tooltipevent').remove();
+            },
+            editable: true,
+            dayMaxEvents: true, // allow "more" link when too many events
+            events: events,
+        });
+
+        $('#btnApprove').click(function (e) {
+            e.preventDefault();
+            $('#hrApprovalModal').modal('hide');
+
+            debugger
+            var status = "A";
+            var title = $("#eventTitle").val();
+            var startDate = $("#startTime").val();
+            var endDate = $("#endTime").val();
+            var data = { Name: title, startDate: startDate, endDate: endDate, Status: status };
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("LeaveApproval", "T_Lev_App")',
+                async: false,
+                data: data,
+                success: function (data) {
+                    debugger
+                    if (data.success == true) {
+                        $("#hrApprovalModal").modal("hide");
+                        GenerateCalander(data.data, data.date);
+                        alert(data.msg);
+                        window.location.reload();
+                    }
+                    if (data.success == false) {
+                      /*  alert(data.msg);*/
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    // handle error
+                 },
+
+            });
+           /* e.stopPropagation();*/
+
+        });
+
+        $('#btnReject').click(function (e) {
+            $('#hrApprovalModal').modal('hide');
+            e.preventDefault();
+            var status = "R";
+
+            var title = $("#eventTitle").val();
+            var startDate = $("#startTime").val();
+            var endDate = $("#endTime").val();
+            var data = { Name: title, StartDate: startDate, EndDate: endDate, Status: status };
+            $.ajax({
+                type: 'POST',
+                url:  '@Url.Action("LeaveApproval", "T_Lev_App")',
+                async: false,
+                data: data,
+                 success: function (data) {
+                        if (data.success == true) {
+                             $("#hrApprovalModal").modal("hide");
+                                GenerateCalander(data.data, data.date);
+                            alert(data.msg);
+                            window.location.reload();
+                 }
+                 if (data.success == false) {
+                    /* alert(data.msg);*/
+                    }
+                 },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    // handle error
+                }
+            });
+        });
+        calendar.render();
+    }
+
+    function OnSuccess(result) {
+     debugger;
+     GenerateCalander(result, new Date());
+     $("#exampleModal").modal("hide");
+
+     if (result.success == false) {
+
+     } else {
+
+     }
+    }
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+        debugger
+        $('#btnSubmit1').click(function (e) {
+            debugger
+            var form = $("#myForm");
+            var formData = new FormData(form[0]);
+            debugger
+            $.ajax({
+
+                url:  '@Url.Action("AppliedLeaveWithNoOfDays", "T_Lev_App")',
+                method: form.attr('method'),
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    debugger
+                    OnSuccess(data);
+                    // handle success
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    // handle error
+                }
+            });
+        });
+    });
+        $('#mobile-collapse').on('click', function () {
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust();
+        });
+        $('.theme-loader').fadeOut('slow', function () {
+            $(this).remove();
+        });
+</script>
+
+
+
+
+
+

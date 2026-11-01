@@ -1,0 +1,142 @@
+﻿@model PagedList.StaticPagedList<HRMS.Models.Master.M_EMP_ALLOW_DET>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+
+    ViewBag.Title = "Master Allowance Link";
+    //var empName = Model.Select(x => x.FK_EMPCODE).FirstOrDefault();
+    //var unitCode = Model.Select(x => x.UNIT).FirstOrDefault();
+
+}
+
+<div class="page-body">
+    <div class="card">
+        <div class="card-header pull-right">
+            @using (Html.BeginForm("AddEditModal", "M_EmpAllowLinkDet", new { Unit = ViewBag.Unit, EmpId = ViewBag.EmployeeCode }, FormMethod.Post, new { style = "display:inline" }))
+            {
+                @*@Html.Hidden("Unit", @unitCode)
+            @Html.Hidden("EmpId", @unitCode)*@
+                <button type="submit" class="btn btn-sm btn-info aLoader" data-toggle="modal">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>  Add New
+                </button>
+            }
+            <a href=@Url.Action("Index","Menu") class="btn btn-sm btn-info">
+                <i class="fa fa-times-circle fa-lg" aria-hidden="true"></i>Close
+            </a>
+            <div class="text-center" style="margin-top: -29px;"><h4>Employee Allowance Link Details</h4></div>
+            <input type="hidden" value="@ViewBag.DisplayName" id="IdEmpId" />
+            <input type="hidden" value="@ViewBag.Unit" id="IdUcodee" />
+            <input type="hidden" value="@ViewBag.EmployeeCode" id="EmployeeCode" />
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="form-group">
+                        <div class="text-accent-2"><h5>Employee Name and Code :- <strong id="lblname">@ViewBag.DisplayName</strong></h5></div>
+                        <div class="text-accent-3"><h5>Unit Name:- <strong id="lblunt">@ViewBag.Unit</strong></h5></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-block">
+            <div class="table-responsive dt-responsive">
+                <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="dom-jqry_length">
+                                @using (Html.BeginForm("M_EmpAllowLinkDet", "M_EmpAllowLinkDet", FormMethod.Get))
+                                {
+                                    <label>
+                                        Show
+                                        <select name="pageSize" id="pageSize" onchange="document.forms[0]" aria-controls="dom-jqry" class="form-control input-sm" fdprocessedid="794bn7">
+                                            <option value=25>25</option>
+                                            <option value=50>50</option>
+                                            <option value=100>100</option>
+                                        </select>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6">
+                            <div id="dom-jqry_filter" class="dataTables_filter">
+                                @using (Html.BeginForm("M_EmpAllowLinkDet", "M_EmpAllowLinkDet", FormMethod.Get))
+                                {
+                                    <input type="hidden" name="UnitCode" value="@ViewBag.Unit" id="IdUcodee" />
+                                    <input type="hidden"  name="EmpId"  value="@ViewBag.EmployeeCode" id="EmployeeCode" />
+                                    <label> Search:@Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control input-sm" })</label>
+                                    <button type="submit" class="btn btn-sm btn-info aLoader"> Search</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <table id="employeeal" class="table table-striped table-bordered nowrap dataTable" style="width: 100%;" role="grid" aria-describedby="dom-jqry_info">
+                                <thead>
+                                    <tr role="row">
+                                        <th width="1%">Action</th>
+                                        <th width="10%">Allow Code & Description</th>
+
+                                        <th width="10%">Amount</th>
+                                        <th width="10%">Amount %</th>
+                                        <th width="10%">Limit</th>
+                                        <th width="10%">Currency Code</th>
+                                        <th width="10%">Effected From</th>
+                                        <th width="10%">Active Status</th>
+                                        <th width="10%">Effected To</th>
+                                        <th width="10%">INCL OT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="sorting_1">
+                                                    @using (Html.BeginForm("AddEditModal", "M_EmpAllowLinkDet", FormMethod.Post, new { style = "display:inline" }))
+                                                    {
+                                                        @Html.Hidden("Id", item.ID)
+                                                        @Html.Hidden("Unit", item.UNIT)
+                                                        @Html.Hidden("EmpId", item.FK_EMPCODE)
+                                                        <button type="submit" class="btn btn-mini btn-info"><i class="fa fa-home"></i></button>
+                                                    }
+                                                    <a class="btn btn-mini btn-danger" onclick="FnDelete('2')">
+                                                        <i class="fa fa-trash-o fa-lg">
+                                                        </i>
+                                                    </a>
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => item.FK_ALL_CODE)</td>
+                                                @*<td>@Html.DisplayFor(modelItem => item._allowanceDesc)</td>*@
+                                                <td>@Html.DisplayFor(modelItem => item.ALL_RS)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ALL_PERCENT)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ALL_LIMIT)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.FK_CURR_CODE)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.EFF_DATE)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.ACTIVE_STATUS)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.DDATE)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.INCL_OT)</td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-xs-12 col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </div>
+                                @*<div class="dataTables_info" id="dom-jqry_info" role="status" aria-live="polite"> Showing @(Model.value.pageSize < Model.value.pageSize ? 0 : Model.value.pageSize) of @Model.value.rowCount </div>*@
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dom-jqry_paginate">
+                                    @Html.PagedListPager(Model, page => Url.Action("M_EmpAllowLinkDet", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

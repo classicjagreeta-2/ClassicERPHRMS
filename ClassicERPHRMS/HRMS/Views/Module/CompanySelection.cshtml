@@ -1,0 +1,203 @@
+﻿@model  HRMS.Controllers.SelectListModel
+
+@{
+    Layout = null;
+}
+<title>Classic ERP Payroll</title>
+<!-- Favicon icon -->
+<link rel="icon" href="~/Content/libraries/assets/images/favicon.ico" type="image/x-icon">
+<!-- Google font-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css" href="~/Content/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+<!-- feather Awesome -->
+<link rel="stylesheet" type="text/css" href="~/Content/libraries/assets/icon/feather/css/feather.css">
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="~/Content/libraries/assets/css/style.css">
+<!-- jpro forms css -->
+@*<link href="~/Content/libraries/assets/pages/j-pro/css/demo.css" rel="stylesheet" />
+<link href="~/Content/libraries/assets/pages/j-pro/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/libraries/assets/pages/j-pro/css/j-forms.css" rel="stylesheet" />
+<link href="~/Content/libraries/assets/pages/j-pro/css/j-pro-modern.css" rel="stylesheet" />*@
+
+<style>
+    .select2-container--default .select2-selection--single {
+        color: #fff;
+        height: 41px;
+    }
+
+    input[type="checkbox"] {
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.5em;
+        height: 1.5em;
+        border: 0.15em solid currentColor;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+        border: 2px solid #01a9ac;
+    }
+
+    .pull-center {
+        text-align: -moz-center;
+        text-align: -webkit-center;
+    }
+</style>
+<div class="pcoded">
+    <div class="pcoded-container navbar-wrapper">
+        @*<nav class="navbar header-navbar pcoded-header">
+            </nav>*@
+        <!-- Sidebar chat start -->
+        <!-- Sidebar inner chat start-->
+        <!-- Sidebar inner chat end-->
+        <div class="pcoded-main-container">
+            <div>
+                <div class="pcoded-content">
+                    <div class="pcoded-inner-content">
+                        <!-- Main-body start -->
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page-header start -->
+                                <div class="page-header">
+                                    <div class="pull-right align-items-end">
+                                        <div class="col-lg-8">
+                                            <div class="page-header-title">
+                                                <div class="d-inline">
+                                                    <h4>COMPANY SELECTION</h4>
+                                                    <span style="color:darkblue"> User Name : @HRMS.Utility.SessionHelper.GetUser().getUserName </span>
+                                                    <span style="color:darkblue"> , Your Last Login Date :  @HRMS.Utility.SessionHelper.GetUser().lastLoginDt</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="page-header-breadcrumb">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Page-header end -->
+                                <!-- Page body start -->
+                                <div class="page-body pull-center">
+
+                                    @using (Ajax.BeginForm("CompanySelection", "ProjectStartUp_CompanySelection",
+                                                  new AjaxOptions
+                                                  {
+                                                      OnSuccess = "OnSuccess",
+                                                      OnFailure = "OnFailure",
+                                                      LoadingElementId = "OnLoading",
+                                                      OnBegin = "OnBegin"
+
+                                                  }, new { @class = "form-group pull-center" }))
+                                    {
+                                        <div>
+                                            <div class="col-sm-12">
+                                                <!-- Login card start -->
+                                                <div class="card">
+                                                    <div class="card-block">
+                                                        <div class="j-wrapper j-wrapper-400">
+                                                            <form action="j-pro/php/action.php" method="post" class="j-pro" id="j-pro" novalidate="">
+                                                                <!-- end /.header -->
+                                                                <div class="well well-lg j-content col-sm-5">
+                                                                    <!-- start login -->
+                                                                    <div class="j-unit">
+                                                                        <div class="j-input" style="text-align:left;">
+                                                                            <label for="exampleInputName1">Select Company</label>
+                                                                            @Html.DropDownListFor(m => m.CompanyName, @Model.CompanyList, "Please select", new { @class = "js-example-disabled-results col-sm-12 select2-hidden-accessible", @id = "ddlcompany", @required = "required", onchange = "document.forms[0].submit();" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="j-unit">
+                                                                        <div class="j-input" style="text-align:left;">
+                                                                            <label for="exampleInputName1">Select Location</label>
+                                                                            @Html.DropDownListFor(m => m.LocationName, @Model.LocationList, "Please select", new { @class = "js-example-disabled-results col-sm-12", @id = "ddlcompany", @required = "required", onchange = "document.forms[0].submit();" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="j-unit">
+                                                                        <div class="j-input" style="text-align:left;">
+                                                                            <label for="exampleInputName1">Select Financial Year</label>
+                                                                            @Html.DropDownListFor(m => m.FinancialYear, @Model.FinancialYearList, "Please select", new { @class = "js-example-disabled-results col-sm-12", @id = "ddlcompany", @required = "required", onchange = "document.forms[0].submit();" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="j-unit">
+                                                                        <div class="j-input">
+                                                                            <div class="checkbox-zoom zoom-primary">
+                                                                                <div class="form-group">
+                                                                                </div>
+                                                                                <div class="checkbox-fade fade-in-primary">
+                                                                                    <div>
+                                                                                        @*@Html.CheckBoxFor(x => x)*@
+                                                                                        @*<span>  SET AS DEFAULT</span>*@
+                                                                                    </div>
+                                                                                </div>
+                                                                                @*<label>
+                                                                                        <input type="checkbox" value="">
+                                                                                        <span class="cr">
+                                                                                            <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
+                                                                                        </span>
+                                                                                        <span>  SET AS DEFAULT</span>
+                                                                                    </label>*@
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <div class="form-group">
+                                                                            <a href="../" class="btn btn-danger m-r-20">
+                                                                                <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> BACK
+                                                                            </a>
+                                                                            <a href=@Url.Action("Index","Menu") id="btnsubmit" class="btn btn-primary pull-right">
+                                                                                <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> NEXT
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Login card end -->
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <!-- Page body end -->
+                            </div>
+                        </div>
+                        <!-- Main-body end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function OnBegin() {
+        $("#btnsubmit").buttonLoader('stop', '');
+        $("#btnsubmit").buttonLoader('start', 'Verifying..');
+    }
+    function Oncomplete(response) {
+        debugger;
+        if (response.responseJSON.result == "Redirect") {
+            window.location = response.responseJSON.url;
+            setTimeout(function () {
+                $("#btnsubmit").buttonLoader('stop', '');
+            }, 1000);
+        }
+        else {
+            $(".notification").notify(
+                response.responseJSON.Message, "error",
+                { position: "bottom center" }
+            );
+            $("#btnsubmit").buttonLoader('stop', '');
+        }
+
+    }
+    function OnSuccess(response) {
+
+    }
+    function OnFailure(response) {
+
+    }
+</script>

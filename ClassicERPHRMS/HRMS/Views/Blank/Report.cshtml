@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+}
+
+<h2>Report</h2>
+
+<a href=@Url.Action("ReportSelect","Blank",new {@i=0}) class="btn btn-danger m-r-20">
+    <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Crystal Report pdf
+</a>
+
+<a href=@Url.Action("ReportSelect","Blank",new {@i=2}) class="btn btn-danger m-r-20">
+    <i class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></i> Crystal Report Excel
+</a>

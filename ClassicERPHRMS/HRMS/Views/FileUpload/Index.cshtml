@@ -1,0 +1,170 @@
+﻿
+@{
+
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Redesign</title>
+    @*Add your CSS framework (e.g., Bootstrap, Font Awesome)*@
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    .form-check-inline .form-check-input {
+        position: static;
+        margin-top: 0px;
+        margin-right: -0.6875rem;
+        margin-left: 0;
+    }
+</style>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><strong>File Creation for PF (ECR) data upload</strong></h4>
+            </div>
+            <div class="card-body">
+                <!-- Unit Selection -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="unitSelect" class="form-label"><strong>Select Unit</strong></label>
+                        <select id="unitSelect" name="unit" class="form-control">
+                            <option value="" selected>Select Unit</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Austria">Austria</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Canada">Canada</option>
+                            <option value="Germany">Germany</option>
+                            <option value="India">India</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Netherlands">Netherlands</option>
+                            <option value="New Zealand">New Zealand</option>
+                            <option value="Philippines">Philippines</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="Spain">Spain</option>
+                            <option value="Switzerland">Switzerland</option>
+                            <option value="Sweden">Sweden</option>
+                            <option value="Turkey">Turkey</option>
+                            <option value="UAE">United Arab Emirates</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="USA">USA</option>
+                        </select>
+                    </div>
+
+                    <!-- Employee Type Selection -->
+                    <div class="col-md-3">
+                        <label for="employeeTypeSelect" class="form-label"><strong>Select Employee Type</strong></label>
+                        <select id="employeeTypeSelect" name="employeeType" class="form-control">
+                            <option value="" selected>Select Employee Type</option>
+                            <option value="FullTime">Full Time</option>
+                            <option value="PartTime">Part Time</option>
+                            <option value="Contract">Contract</option>
+                        </select>
+                    </div>
+
+                    <!-- Department Selection -->
+                    <div class="col-md-3">
+                        <label for="departmentSelect" class="form-label"><strong>Select Department</strong></label>
+                        <select id="departmentSelect" name="department" class="form-control">
+                            <option value="" selected>Select Department</option>
+                            <option value="HR">HR</option>
+                            <option value="Finance">Finance</option>
+                            <option value="IT">IT</option>
+                            <option value="Sales">Sales</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="monthYearSelect" class="form-label"><strong>Select Month & Year</strong></label>
+                        <select id="monthYearSelect" name="monthYear" class="form-control">
+                            <option value="" selected>Select Month & Year</option>
+                            <option value="Jan2025">January 2025</option>
+                            <option value="Feb2025">February 2025</option>
+                            <option value="Mar2025">March 2025</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Radio Buttons for PF No / UAN Wise -->
+                <fieldset class="mb-4">
+                    @*<legend class="col-form-label">Select PF or UAN Wise</legend>*@
+                    <legend class="col-form-label"><strong>Select PF or UAN Wise</strong></legend>
+
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="radio" id="pfNoWise" value="PF" checked>
+                        <label class="form-check-label" for="pfNoWise">PF No Wise</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="radio" id="uanWise" value="UAN">
+                        <label class="form-check-label" for="uanWise">UAN Wise</label>
+                    </div>
+                </fieldset>
+
+                <!-- Data Import Options -->
+                <fieldset class="mb-4">
+                    <legend class="col-form-label"><strong>Select Data Import Type</strong></legend>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="dataImport" id="monthlyDataImport" value="Monthly" checked>
+                        <label class="form-check-label" for="monthlyDataImport">Monthly Data Import</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="dataImport" id="employeeUpload" value="Employee">
+                        <label class="form-check-label" for="employeeUpload">Employee Upload</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="dataImport" id="form2Upload" value="Form2">
+                        <label class="form-check-label" for="form2Upload">Form 2 Upload</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="dataImport" id="annexureUpload" value="Annexure">
+                        <label class="form-check-label" for="annexureUpload">Annexure II Upload</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="dataImport" id="form12AUpload" value="Form12A">
+                        <label class="form-check-label" for="form12AUpload">Form 12A Upload</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="dataImport" id="esiDataUpload" value="ESI">
+                        <label class="form-check-label" for="esiDataUpload">ESI Data Upload</label>
+                    </div>
+                </fieldset>
+
+                <!-- Month and Year Selection -->
+                <!--<div class="mb-4">
+                    <label for="monthYearSelect" class="form-label">Select Month & Year</label>
+                    <select id="monthYearSelect" name="monthYear" class="form-control">
+                        <option value="" selected>Select Month & Year</option>
+                        <option value="Jan2025">January 2025</option>
+                        <option value="Feb2025">February 2025</option>
+                        <option value="Mar2025">March 2025</option>
+                    </select>
+                </div>-->
+                <!-- File Upload Section -->
+                <div class="mb-4">
+                    <label for="fileUpload" class="form-label"><strong>Select Excel File Import</strong></label>
+                    <input type="file" class="form-control-file" id="fileUpload" name="files[]" multiple>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add your JS libraries here -->
+    <!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>-->
+</body>
+
+</html>
+
+
+
+
+

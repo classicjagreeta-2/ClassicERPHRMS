@@ -1,0 +1,472 @@
+﻿@model WEB_VIEWMODEL17.TD_Model.TD_Model_CustomerMaster
+
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Customer", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin",OnFailure= "OnFailure" }, new {
+            onsubmit = "return SubmitForm(this)" }))*@
+    @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+
+    {
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Customer Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Customer Id</label>
+                                @Html.TextBoxFor(x => x.CustHead.PK_PCD, new { @class = "form-control mustfiled", @maxlength = "6", @readonly = true })
+                                @Html.HiddenFor(x => x.CustHead.RES_TEL)
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Name*</label>
+                                @Html.TextBoxFor(x => x.CustHead.NAME, new { @class = "form-control mustfiled", @required = "required", @maxlength = "100" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Short Name</label>
+                                @Html.TextBoxFor(x => x.CustHead.SHT_NAME, new { @class = "form-control", @required = "required", @maxlength = "20" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Company Name</label>
+                                @Html.TextBoxFor(x => x.CustHead.COMP_NAME, new { @class = "form-control", @maxlength = "100" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Address 1*</label>
+                                @Html.TextAreaFor(x => x.CustHead.ADD1, new { @class = "form-control", @required = "required", @maxlength = "100" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Address 2</label>
+                                @Html.TextAreaFor(x => x.CustHead.ADD2, new { @class = "form-control", @maxlength = "100" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Address 3</label>
+                                @Html.TextAreaFor(x => x.CustHead.ADD3, new { @class = "form-control", @maxlength = "100" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Address 4</label>
+                                @Html.TextAreaFor(x => x.CustHead.ADD4, new { @class = "form-control", @maxlength = "100" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">City</label>
+                                @Html.TextBoxFor(x => x.CustHead.CITY, new { @class = "form-control", @maxlength = "15" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">PIN</label>
+                                @Html.TextBoxFor(x => x.CustHead.PIN, new { @class = "form-control", @maxlength = "10" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">State</label>
+                                @Html.TextBoxFor(x => x.CustHead.STATE, new { @class = "form-control", @maxlength = "15" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Office Phone No</label>
+                                @Html.TextBoxFor(x => x.CustHead.OFF_TEL, new { @class = "form-control", @maxlength = "30" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Mobile No</label>
+                                @Html.TextBoxFor(x => x.CustHead.MOBILE_NO, new { @class = "form-control", @maxlength = "20" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">WhatsApp No</label>
+                                @Html.TextBoxFor(x => x.CustHead.WAPP_NO, new { @class = "form-control", @maxlength = "20" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Fax No</label>
+                                @Html.TextBoxFor(x => x.CustHead.FAX_NO, new { @class = "form-control", @maxlength = "30" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">E-Mail</label>
+                                @Html.TextBoxFor(x => x.CustHead.E_MAIL_ID, new { @class = "form-control", @maxlength = "40" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Country*</label>
+                                @Html.DropDownListFor(x => x.CustHead.FK_COUNTRY_CODE, new SelectList(ViewBag.DropdownListMasterCountry, "PK_CODE", "NAME"),
+                                    "SELECT..", new { @class = "js-example-responsive", @id = "ddlCountry", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Destination</label>
+                                @Html.TextBoxFor(x => x.CustHead.DESTI, new { @class = "form-control", @maxlength = "20" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Currency*</label>
+                                @Html.DropDownListFor(x => x.CustHead.FK_CURRENCY_CD, new SelectList(ViewBag.DropdownListMasterCurrency, "PK_CODE", "NAME"),
+                                    "SELECT..", new { @class = "js-example-responsive", @id = "ddlCurrency", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="PartyType">
+                                <label for="exampleInputName1">Customer Type*</label>
+                                @Html.DropDownListFor(x => x.CustHead.TYPE, new SelectList(ViewBag.DropdownListMasterPartyType, "PK_CODE", "DESCN"),
+                                    "SELECT..", new { @class = "js-example-responsive", @id = "ddlPartyType", @required = "required" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">IBAN No</label>
+                                @Html.TextBoxFor(x => x.CustHead.IBAN, new { @class = "form-control", @maxlength = "30" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">TRN/TIN No</label>
+                                @Html.TextBoxFor(x => x.CustHead.TRN_NO, new { @class = "form-control", @maxlength = "20" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Contact Person 1</label>
+                                @Html.TextBoxFor(x => x.CustHead.CONT_NAME1, new { @class = "form-control", @maxlength = "50" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Contact Person 2</label>
+                                @Html.TextBoxFor(x => x.CustHead.CONT_NAME2, new { @class = "form-control", @maxlength = "50" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Contact Person 2 Phone No</label>
+                                @Html.TextBoxFor(x => x.CustHead.CONT_PH2, new { @class = "form-control", @maxlength = "15" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="TableMaxRow" value=@ViewBag.MaxRowIndex />
+                <input type="hidden" id="IdHiddenProject" value="@ViewBag.Unit" />
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="hidden" name="hiddentablei" id="hiddentablei" value="0">
+                            <div class="dataTables_scroll">
+                                <div class="table-responsive text-nowrap" id="DivTble">
+                                    <div style="overflow:auto">
+                                        <table id="tblUnit" class="table table-striped table-bordered nowrap dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="ajax-table_info">
+                                            <thead class="classHaeder">
+                                                <tr>
+                                                    <th width="6%">
+                                                        <a type="button" class="button button-small ag-i-btn" onclick="addItemRow()"><i class="fa fa-plus"></i></a>
+                                                    </th>
+                                                    <th width="40%"><label class="col-form-label">  Unit </label> </th>
+                                                    <th><label class="col-form-label"> Customer Type </label> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @Html.Partial("_CustomerUnitChild", Model)
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <div id="divMsg" class="text-danger"> </div>
+                
+                <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<!-- Multiselect js -->
+<!-- Custom js -->
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+
+
+@*<script src="~/Scripts/notify.min.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>*@
+
+
+<script>
+    $("#btnclose").click(function () {
+        debugger;
+        $('#IdModal').modal('hide');
+    })
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            ResetTableControlNames();
+          
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+           // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: "../Master_Customer/StoreOrEdit",
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+    });
+    function ResetTableControlNames() {
+        debugger;
+        var tableRows = $("#tblUnit tbody .RowTable");
+
+        if (tableRows.length > 0) {
+            var index = 0;
+            tableRows.each(function () {
+                //set new id of row
+                //console.log("New row id = " + "POITable_" + index);
+                $(this).attr("id", "CustITable_" + index);
+
+
+
+
+                $(this).closest('tr').find("input").each(function () {
+
+                    var OldName = $(this).attr("name");
+                    if (OldName != null) {
+                        var NewName = $(this).attr("name").split('[')[0] + "[" +
+                            index + "]" +
+                            $(this).attr("name").split('[')[1].split(']')[1];
+
+                        $(this).attr("name", NewName);
+
+                        console.log(OldName + '----' + NewName);
+                    }
+
+
+                    //(parseInt($(this).attr("name").split('[')[1].split(']')[0]) + 1)
+
+                });
+
+                $(this).closest('tr').find("select").each(function () {
+
+                    var OldName = $(this).attr("name");
+                    if (OldName != null) {
+                        var NewName = $(this).attr("name").split('[')[0] + "[" +
+                            index + "]" +
+                            $(this).attr("name").split('[')[1].split(']')[1];
+
+                        $(this).attr("name", NewName);
+
+                        //(parseInt($(this).attr("name").split('[')[1].split(']')[0]) + 1)
+                        console.log(OldName + '----' + NewName);
+                    }
+
+                });
+
+
+
+
+                index++;
+            });
+        }
+
+    }
+    function ReArrangeIdexSrl() {
+        debugger;
+        var tableRows = $('#tblUnit tbody .RowTable');
+        var i = 0;
+        tableRows.each(function () {
+            // $('#tblProduct tbody tr td:second').html(i + 1);
+            $(this).find('td').eq(1).find('input').val(i + 1);
+            i++;
+        })
+    }
+
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function delRow(delrowid) {
+        // alert(delrowid);
+        $('#CustITable_' + delrowid + '').remove();
+
+
+        ReArrangeIdexSrl();
+
+
+        //  ResetTableControlNames();
+    }
+
+    function addItemRow() {
+        debugger;
+        var last_id = $('#hiddentablei').val();
+        tablei = parseInt(last_id) + 1;
+
+        //  var rowCount = $('#tblProduct tbody .RowTable').length;
+
+
+        var MaxId = Number($("#TableMaxRow").val());
+        $("#TableMaxRow").val(MaxId + 1);
+        var rowCount = MaxId + 1;
+
+        var ValProductCode = $("#tblUnit").find('tr.RowTable').last().find('td').eq(2).find('input').val();
+
+        var html = '';
+
+        html += '<tr id="TblInnerTable_' + rowCount + '">';
+        html += '<td colspan="20" class="hiddenRow">';
+        html += '<div class="accordian-body collapse" id="demoAG_' + rowCount + '">';
+        html += '<div class="row justify-content-center">';
+        html += '<div class="col-md-10 TableChild">';
+        html += '<table class="table table-bordered mb-0" id="innertable_' + rowCount + '" data-tablelastcolumn="1">';
+        html += '<thead class="classHaeder">';
+        html += '<tr>';
+        html += '<th class="text-center">';
+        html += '<a type="button" class="button button-small ag-i-btn" onclick="addRowColumn(' + rowCount + ',0)">';
+        html += '<i class="fa fa-plus"></i>';
+        html += '</a>';
+        html += '</th>';
+        html += '<th class="text-center">Product ID</th>';
+
+        html += '</tr>';
+        html += '</thead>';
+        html += '</table>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</td>';
+        html += '</tr>';
+
+
+        var data = { Id: rowCount }
+        var JsReturn = httpGetWithObj("/Master_Customer/AddNewRow", data);
+
+        JsReturn.data += html;
+        // $('#div_add_row').append(JsReturn.data);
+        $("#tblUnit tbody:first").append(JsReturn.data);
+        $('#hiddentablei').val(tablei);
+        ReArrangeIdexSrl();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result) {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+                    //cancel: function () {
+
+                    //}
+                }
+
+            });
+            //  debugger;
+            // $("#ddlaccounthead").empty().trigger('change')
+            // $("#ddlaccounthead option:selected").prop("selected", false);
+            // $("#ddlaccounthead").selectpicker("refresh");
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "success"
+            //})
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+
+    }
+</script>
+
+}
+

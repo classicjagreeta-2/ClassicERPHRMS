@@ -1,0 +1,261 @@
+﻿
+
+
+@using HRMS.Models.Master
+
+@using System.Globalization
+
+<head>
+    <title> Report View</title>
+    <link href="~/src/selectstyle.css" rel="stylesheet">
+    <link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+    <!-- feather Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+    <!-- Select 2 css -->
+    <link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+    <!-- jpro forms css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/pages/j-pro/css/j-pro-modern.css">
+
+    <!-- Switch component css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/switchery/css/switchery.min.css">
+
+    <!-- Tags css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css">
+    <script src="~/JsProject/TD_Loder.js"></script>
+
+
+    <style>
+        .select2-container--default .select2-selection--single {
+            color: #fff;
+            height: 41px;
+        }
+
+        .j-wrapperForm {
+            margin: 0 auto;
+            outline: none;
+            padding: 40px 15px;
+            /*-webkit-box-sizing: content-box;*/
+            -moz-box-sizing: content-box;
+            /*box-sizing: content-box;*/
+        }
+
+        input[type="checkbox"] {
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 0.15em solid currentColor;
+            border-radius: 0.15em;
+            transform: translateY(-0.075em);
+            border: 2px solid #01a9ac;
+        }
+
+        .shade {
+            -webkit-box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+            box-shadow: 0px 10px 13px -7px #000000, -6px 2px 23px 5px rgba(14,0,166,0.44);
+        }
+    </style>
+</head>
+@if (TempData["toastrSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>@TempData["toastrSuccess"]</strong>
+        @*<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>*@
+    </div>
+}
+@if (TempData["toastrError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>@TempData["toastrError"]</strong>
+    </div>
+}
+<div class="page-body">
+
+
+
+    <div class="col-sm-12">
+
+        <!-- Login card start -->
+        <div class="card">
+
+            <div class="card-block" id="divcontainer">
+
+                @*<div class="j-wrapperForm j-wrapper-640">*@
+                <div class="">
+
+                    <!-- end /.header -->
+                    <!--<div class="j-content">-->
+                    <!-- start login -->
+                    <!--</div>-->
+
+
+                    <div class="row">
+                        <div class="col-sm-1">
+                        </div>
+                        @*<div class="col-sm-4">
+                                <label for="exampleInputName1"><b>SELECT UNIT</b></label>
+                                @Html.DropDownList("UNIT", new SelectList(ViewBag.Unit, "CODE", "NAME"), "SELECT..",
+                               new { @class = "js-example-responsive col-sm-12", @id = "ddlUnit" , disabled="disabled"})
+                            </div>*@
+                        <div class="col-sm-6">
+                            <label for="exampleInputName1"><b>SELECT Employee</b></label>
+                            @{
+                                var empList = ViewBag.EmpList as List<M_EMPMAS>;
+                                var empSelectList = empList.Select(item => new SelectListItem { Text = item.PK_EMPCODE + "-" + item.FNAME + " " + item.LNAME, Value = item.PK_EMPCODE.ToString() }).ToList();
+                            }
+                            <select id="ddlEmp" multiple="multiple" class="js-example-responsive col-sm-12">
+                                @foreach (var emp in empSelectList)
+                                {
+                                    <option value="@emp.Value">@emp.Text</option>
+                                }
+                            </select>
+                        </div>
+                        @*<div class="col-sm-4">
+                                <label for="exampleInputName1"><b>SELECT Employee</b></label>
+                                @{
+                                    var empList = ViewBag.EmpList as List<M_EMPMAS>;
+                                    var empSelectList = empList.Select(item => new SelectListItem { Text = item.PK_EMPCODE + "-" + item.FNAME + " " + item.LNAME, Value = item.PK_EMPCODE.ToString() }).ToList();
+                                    empSelectList.Insert(0, new SelectListItem { Text = "Select Option", Value = "" });
+                                }
+                                @Html.DropDownList("FK_EMPCODE", empSelectList, new { @class = "js-example-responsive col-sm-12", multiple = "multiple", @id = "ddlEmp1", @required = "required" })
+
+                            </div>*@
+
+                        <div class="col-sm-4">
+                            <label for="exampleInputName1"><b>SELECT MONTH</b></label>
+                            @{ var monthList = ViewBag.Month as List<M_MONTH>;
+
+
+                                // Assuming ViewBag.Month is of type List<string>
+
+                                var monthSelectList = monthList.Select(item => new SelectListItem
+                                {
+                                    //Text = GetMonthYearText(item.PK_MONTHCODE.ToString()),
+                                    Text = DateTime.ParseExact(item.PK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture).ToString("MMM") + " " + DateTime.ParseExact(item.PK_MONTHCODE, "yyyyMM", CultureInfo.InvariantCulture).ToString("yyyy"),
+                                    Value = item.PK_MONTHCODE.ToString()
+                                }).ToList();
+                                monthSelectList.Insert(0, new SelectListItem { Text = "SELECT OPTION", Value = "" });
+                            }
+
+                            @*@Html.DropDownList("MONTHCODE", empSelectList, new { @class = "selectpicker multiple", @id = "ddlMonth", })*@
+                            @Html.DropDownList("MONTHCODE", monthSelectList, new { @class = "js-example-responsive col-sm-12", @id = "ddlMonth" })
+
+                        </div>
+
+                        @*<div class="col-sm-4">
+                                <label for="exampleInputName1"><b>SELECT DEPARTMENT</b></label>
+                                @Html.DropDownList("DEPT", new SelectList(ViewBag.Dept, "PK_DEPT_CODE", "DESCRIPTION"), "SELECT..",
+                               new { @class = "js-example-responsive col-sm-12", @id = "ddlDeptCode", disabled = "disabled" })
+                            </div>*@
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="report">Print Annexure </label><br>
+                            @Html.CheckBox("type", new { @class = "js-example-responsive col-sm-12", @id = "report", type = "checkbox" })
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a id="btnSubmit" class="btn btn-sm btn-primary pull-right">VIEW REPORT</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <link href="~/libraries/MultiSelectDropDown/Boostrap.css" rel="stylesheet" />
+    <link href="~/libraries/MultiSelectDropDown/bootstrap-select.css" rel="stylesheet" />
+    <script src="~/libraries/MultiSelectDropDown/bootstrap-select.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+    <!-- Include Select2 JS -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>-->
+
+    <script src="~/libraries/assets/js/select2.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Include Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script>
+
+        $("#btnSubmit").click(function () {
+            //alert('');
+            debugger;
+            MCode = $("#ddlMonth").val() ;
+            MUnit = $("#ddlUnit").val() || "";
+            MDpartCode = $("#ddlDeptCode").val() || "";
+            MEmp = $('#ddlEmp').val() || "";
+            MType = $('#report').prop('checked');
+
+
+            var DirectUrl = '@Url.Action("Report_Payroll_PaySlip", "Report_Payroll")' + '?MonthCode=' + MCode + '&Unit=' + MUnit + '&DpartCode=' + MDpartCode + '&RptType=' + MType +'&EmpCode='+MEmp;
+            var link = document.createElement('a');
+            link.href = DirectUrl;
+            link.target = "_blank";
+            document.body.appendChild(link);
+            link.click();
+        })
+        setTimeout(function () { $('.alert').alert('close'); }, 5000);
+        $(document).ready(function () {
+            // Initialize Select2
+            $('#ddlEmp').select2({
+                placeholder: 'Select employees',
+                closeOnSelect: false, // Keep the dropdown open after selection
+                allowClear: true, // Allow clearing selection
+                templateResult: function (data) {
+                    if (!data.element) {
+                        return data.text;
+                    }
+                    var $element = $(data.element);
+                    var text = $element.text();
+                    var $result = $('<span></span>');
+                    $result.text(text);
+                    return $result;
+                }
+            });
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+

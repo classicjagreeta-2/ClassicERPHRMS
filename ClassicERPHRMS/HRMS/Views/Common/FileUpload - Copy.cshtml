@@ -1,0 +1,175 @@
+﻿
+
+<style>
+    .input-group a {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        /* font-size: 12px; */
+    }
+</style>
+<div class="file-loading">
+    <input id="kv-explorer" type="file" multiple>
+</div>
+
+
+<div class="file-loading">
+    <input id="input-excel" name="kartik-input-709[]" type="file" multiple>
+</div>
+
+
+@section scripts{
+
+
+
+
+    <link href="~/libraries/fileupload/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" crossorigin="anonymous">
+    <link href="~/libraries/fileupload/themes/explorer-fa5/theme.css" media="all" rel="stylesheet" type="text/css" />
+
+    <script src="~/libraries/fileupload/js/plugins/buffer.min.js" type="text/javascript"></script>
+    <script src="~/libraries/fileupload/js/plugins/filetype.min.js" type="text/javascript"></script>
+    <script src="~/libraries/fileupload/js/plugins/piexif.js" type="text/javascript"></script>
+    <script src="~/libraries/fileupload/js/plugins/sortable.js" type="text/javascript"></script>
+
+
+
+    <script src="~/libraries/fileupload/js/fileinput.js" type="text/javascript"></script>
+    <script src="~/libraries/fileupload/js/locales/fr.js" type="text/javascript"></script>
+    <script src="~/libraries/fileupload/js/locales/es.js" type="text/javascript"></script>
+    <script src="~/libraries/fileupload/themes/fa5/theme.js" type="text/javascript"></script>
+    <script src="~/libraries/fileupload/themes/explorer-fa5/theme.js" type="text/javascript"></script>
+
+
+
+    <script>
+
+
+
+        $(document).ready(function () {
+
+            $("#kv-explorer").fileinput({
+                'theme': 'explorer-fa5',
+                'uploadUrl': '#',
+                overwriteInitial: false,
+                initialPreviewAsData: true,
+                initialPreview: [
+                    "https://dummyimage.com/1920x1080/1aa.png&text=Nature+1",
+                    "https://dummyimage.com/1920x1080/2ef.png&text=Nature+2",
+                    "https://dummyimage.com/1920x1080/3f0.png&text=Nature+3"
+                ],
+                initialPreviewConfig: [
+                    { caption: "nature-1.jpg", size: 329892, width: "120px", url: "{$url}", key: 1 },
+                    { caption: "nature-2.jpg", size: 872378, width: "120px", url: "{$url}", key: 2 },
+                    { caption: "nature-3.jpg", size: 632762, width: "120px", url: "{$url}", key: 3 }
+                ]
+            });
+
+         $("#input-excel").fileinput({
+              uploadUrl: '@Url.Action("UploadFiles")',
+                uploadAsync: true,
+                showPreview: false,
+               // allowedFileExtensions: ['xls', 'xlsx'],
+              //  maxFileCount: 5,
+                elErrorContainer: '#kv-error-1',
+
+            }).on('filebatchpreupload', function (event, data, id, index) {
+
+                $('#kv-success-1').html('<h4>Upload Status</h4><ul></ul>').hide();
+
+                }).on('fileuploaded', function (event, data, id, index) {
+                    //if exception then show exception message
+                    debugger;
+                    if (data.response.StatusText == "exception") {
+                        //alert("Exception : " + data.response.Message);
+                        var out = '<li>' + 'Error Occured #  : ' + data.response.Message + '</li>';
+                        $('#kv-error-1').append(out);
+                        $('#kv-error-1').fadeIn('slow');
+                    }
+                    else if (data.response.StatusText == "ErrorRows") {
+                        //alert("Exception : " + data.response.Message);
+                        var out = '<li>' + 'Error Occured #  : ' + data.response.Message + '</li> <li> Message # ' + data.response.ExtraText + '</li>';
+
+                        $('#kv-error-1').append(out);
+                        $('#kv-error-1').fadeIn('slow');
+                        $.jGrowl("Error In Table  "  + " </br><button type='button' class='btn btn-primary' id='btnExcel'>View</button>", { sticky: true, theme: 'growl-error', header: 'Error!' });
+
+                    } else {
+                        var fname = data.files[index].name,
+                            out = '<li>' + 'Duplicate National Id Found  # ' + (data.response.StatusCode ) + '</li>';
+
+                        //$('#kv-success-1 ul').append(out);
+                        //$('#kv-success-1').fadeIn('slow');
+
+                        if (data.response.Message == "Duplicate") {
+                            $('#kv-error-1').append(out);
+                            $('#kv-error-1').fadeIn('slow');
+                            $.jGrowl("Duplicate Policy (" + data.response.StatusCode + ")</br><button type='button' class='btn btn-primary' id='btnViewDuplicatePolicy'>View</button>", { sticky: true, theme: 'growl-error', header: 'Error!' });
+                            // BindDuplicatePolicies(data);
+                        }
+
+                        if (data.response.Message =="Success") {
+
+                            ShowNotificationCount(data.response.ExtraText, data.response.StatusText)
+                            $("#divimageUpload").show("fast");
+                            $("#idCount").html(data.response.ExtraText);
+                            $("#idCountD").html(data.response.StatusText);
+                            var t = parseInt(data.response.ExtraText) + parseInt(data.response.StatusText);
+                            $("#idCountT").html(t);
+
+
+                            $("#idCountU").html(0);
+                            $("#idCountUD").html(0);
+                            $("#idCountTU").html(0);
+                            $("#divExcelUpload").hide();
+                            $("#dvUploadedSection").hide();
+                            $("#frmSaveLater").show();
+                        }
+                    }
+
+
+                }).on('filebatchuploadcomplete', function (event, files, extra, data) {
+                   // msgSuccess("Succesfully Uploaded");
+
+
+            });
+
+
+        $("#input-711").fileinput({
+
+
+        }).on('filebatchuploadcomplete', function (event, files, extra, data) {
+
+            var obj = {};
+            obj.ClaimNumber = $("#txtclaimNumber").val();
+            obj.FileCount = $("#txtfilecount").val();
+            obj.rDate = $("#txtrdate").val();
+            var content = httpPOST("../CashLessReimbursement/SaveData", obj, true);
+
+            if (content.data.StatusCode > 0) {
+                msgSuccess("Successfully Uploaded");
+
+                $("#input-711").attr('disabled', 'disabled');
+                $("#input-711").fileinput('refresh');
+            } else {
+                msgError(content.data.Message);
+            };
+
+            }).on('filebatchpreupload', function (event, data, id, index) {
+
+            $("#txtfilecount").val(data.filescount);
+            }).on('filepreajax', function (event, previewId, index) {
+
+                if ($("#txtrdate").val() != "") {
+
+                } else {
+                    msgErrorMsg("File Receive Date Missing");
+                    return false;
+                }
+
+
+            });
+    });
+
+    </script>
+
+}

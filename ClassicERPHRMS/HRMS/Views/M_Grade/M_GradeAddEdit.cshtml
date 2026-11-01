@@ -1,0 +1,209 @@
+﻿
+@model HRMS.Models.Master.M_GRADE
+
+
+
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<div class="modal-dialog modal-lg" role="document">
+
+
+    @*@using (Ajax.BeginForm("StoreOrEdit", "Master_Item", new AjaxOptions
+        { OnSuccess = "OnSuccess", OnBegin = "OnBegin" }, new { onsubmit = "return SubmitForm(this)" }))*@
+
+    @using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+    {
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Grade Master</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-block">
+
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Grade Code :</label>
+                                    @Html.TextBoxFor(x => x.PK_GRADE_CODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4", @disabled = "disabled" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                                @Html.HiddenFor(x => x.PK_GRADE_CODE)
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Grade Code :</label>
+                                    @Html.TextBoxFor(x => x.PK_GRADE_CODE, new { @class = "form-control mustfiled", @required = "required", @maxlength = "4" })
+                                </div>
+                                @Html.HiddenFor(x => x.ID)
+                            </div>
+
+                        }
+
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Grade Description :</label>
+                                @Html.TextBoxFor(x => x.DESCRIPTION, new { @class = "form-control", @maxlength = "60", @required = "required" })
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Start Basic:</label>
+                                @Html.TextBoxFor(x => x.START_BASIC, new { @class = "form-control", @maxlength = "10"})
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">End Basic:</label>
+                                @Html.TextBoxFor(x => x.END_BASIC, new { @class = "form-control", @maxlength = "10"})
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Increment Rate:</label>
+                                @Html.TextBoxFor(x => x.INCR_RATE, new { @class = "form-control", @maxlength = "8" })
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputName1">No of Years:</label>
+                                @Html.TextBoxFor(x => x.NO_OF_YEAR, new { @class = "form-control", @maxlength = "6" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div id="divMsg" class="text-danger"> </div>
+                    <button type="button" class="btn btn-default waves-effect" id="btnclose" data-dismiss="modal">Close</button>
+                    <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+
+
+    });
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        var IstoVlidate = 'form';
+        var directUrl = '@Url.Action("StoreOrEdit", "M_Grade")';
+        debugger;
+        if ($(IstoVlidate).smkValidate()) {
+            debugger;
+            var dataString = new FormData($("#myForm").get(0));
+            blockUIStart();
+            // "StoreOrEdit", "Master_Customer"
+            $.ajax({
+                url: directUrl,
+                data: dataString,
+                contentType: false,
+                processData: false,
+                cache: false,
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                    OnSuccess(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    debugger;
+                    OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+
+
+        }
+        else
+        {
+           /* alert('');*/
+        }
+    });
+
+    function OnFailure() {
+        $.unblockUI();
+    }
+    function OnBegin() {
+        blockUIStart();
+    }
+
+    function OnSuccess(result)
+    {
+
+        $.unblockUI();
+        if (result.success == false) {
+            debugger;
+            msgError(result.details);
+
+            //$.notify(result.message, {
+            //    globalPosition: "top center",
+            //    className: "Errror"
+            //})
+
+        } else {
+            //msgSuccess(result.message);
+            $('form').smkClear();
+            $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+            $.confirm({
+
+                title: 'Confirmation !!',
+                type: 'green',
+                content: result.message,
+                typeAnimated: true,
+                icon: 'icon-smiley',
+                buttons: {
+
+                    Okay: function () {
+                        $("#btnclose").click();
+                        dataTable.ajax.reload();
+
+                    },
+
+                }
+
+            });
+
+
+        }
+
+    }
+
+    function OnFailure(result) {
+        $.unblockUI();
+    }
+</script>
+
+}
+
+
+
+

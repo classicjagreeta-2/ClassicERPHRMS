@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRMS", "HRMS\HRMS.csproj", "{696471B5-345E-4F4D-9F49-D7D9EC437426}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{696471B5-345E-4F4D-9F49-D7D9EC437426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{696471B5-345E-4F4D-9F49-D7D9EC437426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{696471B5-345E-4F4D-9F49-D7D9EC437426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{696471B5-345E-4F4D-9F49-D7D9EC437426}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {260DBE75-1EA8-458D-818D-5E04DFE176CE}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://dev.azure.com/classicerptfs
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HRMS\\HRMS.csproj
+		SccProjectName1 = HRMS
+		SccLocalPath1 = HRMS
+	EndGlobalSection
+EndGlobal

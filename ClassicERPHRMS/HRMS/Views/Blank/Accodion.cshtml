@@ -1,0 +1,256 @@
+﻿@model WEB_VIEWMODEL17.TD_Model.TD_Model_EntrHead
+@using WEB_PRO17.Common
+
+
+
+@{
+    ViewBag.Title = "Entry";
+}
+ 
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<style>
+    .modal-backdrop {
+        opacity: 0.5 !important;
+    }
+
+    .dataTables_length {
+        margin: 0px 0px -45px 6px;
+    }
+
+    div.dt-buttons {
+        margin: 0px 0px 0px 188px;
+    }
+
+    .form-group {
+        margin-bottom: 0.2em;
+    }
+
+    .col-form-label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700
+    }
+
+    /*.panels-wells .panel {
+        margin-bottom: 0px;
+    }*/
+    /*.card-block {
+        padding: 0.25rem
+    }*/
+    .main-body .page-wrapper {
+        padding: 0.1rem;
+    }
+
+    .accordion-msg {
+        padding: 1px 20px;
+    }
+
+
+ 
+</style>
+<!-- Page-body start -->
+<div class="page-body">
+    <div class="accordion" id="myAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne">1. What is HTML?</button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
+                <div class="card-body">
+                    <p>HTML stands for HyperText Markup Language. HTML is the standard markup language for describing the structure of web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-block panels-wells">
+
+
+
+        <div class="m-4">
+            <div class="accordion" id="myAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne">1. What is HTML?</button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
+                        <div class="card-body">
+                            <p>HTML stands for HyperText Markup Language. HTML is the standard markup language for describing the structure of web pages. <a href="https://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">2. What is Bootstrap?</button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#myAccordion">
+                        <div class="card-body">
+                            <p>Bootstrap is a sleek, intuitive, and powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="https://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree">3. What is CSS?</button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#myAccordion">
+                        <div class="card-body">
+                            <p>CSS stands for Cascading Style Sheet. CSS allows you to specify various style properties for a given HTML element such as colors, backgrounds, fonts etc. <a href="https://www.tutorialrepublic.com/css-tutorial/" target="_blank">Learn more.</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page-body end -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+@section scripts{
+
+
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Editable-table js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/edit-table/jquery.tabledit.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/pages/edit-table/editable.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/pages/ace-editor/ace-editor-custom.js"></script>
+
+    <!-- Select 2 js -->
+    <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/sweetalert/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modal.js"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+
+    <!-- Accordion js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/accordion/accordion.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>
+    <script src="~/libraries/jsEntryForm/ag-script.js"></script>
+
+    <script>
+            $(document).ready(function () {
+                $("#mobile-collapse").click();
+            });
+
+            $('#btnSubmit').click(function (e) {
+                e.preventDefault();
+                if ($('form').smkValidate()) {
+
+                    var dataString = new FormData($("#myForm").get(0));
+                    blockUIStart();
+                    var redirectUrl = '@Url.Action("StoreOrEdit", "Master_AccountHead")';
+                    $.ajax({
+                        url: redirectUrl,
+                        data: dataString,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            OnSuccess(data);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+
+
+                }
+            });
+
+
+            function PopupForm() {
+                alert('');
+                $('#myModal2').modal('show');
+
+            }
+
+            function LoadProgess() {
+                alert('');
+            }
+
+
+
+            function OnSuccess(result) {
+                $.unblockUI();
+                if (result.success == false) {
+                    debugger;
+                    msgError(result.details);
+                    //$.notify(result.message, {
+                    //    globalPosition: "top center",
+                    //    className: "Errror"
+                    //})
+
+                } else {
+                    //msgSuccess(result.message);
+                    $('form').smkClear();
+                    $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+                    $.confirm({
+
+                        title:'Confirmation !!',
+                        type: 'green',
+                        content: result.message,
+                        typeAnimated: true,
+                        icon: 'icon-smiley',
+                        buttons: {
+
+                            Okay: function () {
+                               var url = '@Url.Action("Master_AccountHead", "Master_AccountHead")';
+                               window.location.href = url;
+                            },
+                            //cancel: function () {
+
+                            //}
+                        }
+
+                    });
+
+
+                    //  debugger;
+                    // $("#ddlaccounthead").empty().trigger('change')
+                    // $("#ddlaccounthead option:selected").prop("selected", false);
+                    // $("#ddlaccounthead").selectpicker("refresh");
+                    //$.notify(result.message, {
+                    //    globalPosition: "top center",
+                    //    className: "success"
+                    //})
+                }
+
+            }
+
+            function OnFailure(result) {
+                $.unblockUI();
+            }
+
+    </script>
+
+}

@@ -1,0 +1,376 @@
+﻿@model WEB_VIEWMODEL17.TD_Model.MAST_ITEM
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<link href="~/src/selectstyle.css" rel="stylesheet">
+<link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+<!-- Google font-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+<!-- themify-icons line icon -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+<!-- feather Awesome -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+<!-- Select 2 css -->
+<link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+
+<link href="~/libraries/smoke-v3.1.1/css/smoke.css" rel="stylesheet" />
+<link href="~/libraries/msg/jquery-confirm.min.css" rel="stylesheet" />
+<style>
+    input[type="checkbox"] {
+        background-color: #fff;
+        margin: 0;
+        font: inherit;
+        color: currentColor;
+        width: 1.5em;
+        height: 1.5em;
+        border: 0.15em solid currentColor;
+        border-radius: 0.15em;
+        transform: translateY(-0.075em);
+        border: 2px solid #01a9ac;
+    }
+</style>
+
+
+<style>
+    .select2-container--default .select2-selection--single:focus {
+        outline: none !important;
+        border-color: #719ECE;
+        box-shadow: 0 0 10px #719ECE;
+    }
+
+    .table td, .table th {
+        padding: .15rem;
+    }
+    /*.mustfiled {
+        background-color: #ffff0038;
+    }*/
+
+
+
+</style>
+
+@*<div class="page-header">
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                <div class="page-header-title">
+                    <div class="d-inline">
+                        <h4>Account Master</h4>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>*@
+
+@using (Ajax.BeginForm("", "", new AjaxOptions { }, new { Id = "myForm" }))
+{
+
+    <div class="panel panel-primary">
+
+        <div class="panel-heading bg-info">
+
+        </div>
+
+
+
+        <div class="card-block">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Description</label>
+                        @Html.TextBoxFor(x => x.ITEM_DESCN, new { @class = "form-control mustfiled", @required = "required" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Short Name</label>
+                        @Html.TextBoxFor(x => x.SHT_DESCN, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                @*<div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Address 1</label>
+                        @Html.TextBoxFor(x => x.ADD1, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Address 2</label>
+                        @Html.TextBoxFor(x => x.ADD2, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">City </label>
+                        @Html.TextBoxFor(x => x.CITY, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Pin Code </label>
+                        @Html.TextBoxFor(x => x.PIN, new { @class = "form-control" })
+                    </div>
+                </div>*@
+
+
+
+                <div class="col-md-3">
+
+                    <div class="form-group" id="sub_category">
+                        <label for="exampleInputName1">Broad Head</label>
+                        @Html.DropDownListFor(x => x.FK_BH, new SelectList(ViewBag.DropdownListMasterBH, "PK_CODE", "DESCN"),
+                            "SELECT..", new { @class = "js-example-responsive col-sm-12 ddlstate", @id = "ddluom" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">HS Code</label>
+                        @Html.TextBoxFor(x => x.HS_CODE, new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">BIN Card No.</label>
+                        @Html.TextBoxFor(x => x.BIN_NO, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Active</label>
+                        @Html.TextBoxFor(x => x.ACTIVE_TAG, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Opening Quantity</label>
+                        @Html.TextBoxFor(x => x.EOQ, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                @*<div class="col-md-8">
+                    <div class="form-group">
+
+                        <div>
+
+                            @Html.CheckBoxFor(x => x.REF_ORA_BOOL)
+                            <span>Maintain Reference Account</span>
+                        </div>
+                        <div class="checkbox-fade fade-in-primary">
+                            <div>
+
+                                @Html.CheckBoxFor(x => x.LOGIC1_BOOL)
+                                <span>Maintain Cost Center</span>
+                            </div>
+                        </div>
+                        <div class="checkbox-fade fade-in-primary">
+                            <div>
+
+                                @Html.CheckBoxFor(x => x.DUMMY_BOOL)
+                                <span>Maintain Quality also</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>*@
+
+                @*<div class="col-md-8">
+                    <div class="form-group">
+
+                        <div class="checkbox-fade fade-in-primary">
+
+                            @Html.CheckBoxFor(x => x.TCS_TAG_BOOL)
+                            <span>TCS Applicable</span>
+
+                        </div>
+                        <div class="checkbox-fade fade-in-primary">
+
+                            @Html.CheckBoxFor(x => x.TDS_TAG_BOOL)
+                            <span>TDS Applicable</span>
+
+                        </div>
+                        <div class="checkbox-fade fade-in-primary">
+                            @Html.CheckBoxFor(x => x.SPECIFIED_PERSON_BOOL)
+                            <span>Specified Person</span>
+
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div id="divMsg" class="text-danger"> </div>
+
+
+            @*<button type="button" class="btn btn-default waves-effect btnClose" data-dismiss="modal">Close</button>*@
+            <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+        </div>
+    </div>
+
+
+}
+
+
+
+
+@section scripts{
+
+
+
+    <script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Select 2 js -->
+    <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+    <!-- Multiselect js -->
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+    <script src="~/libraries/assets/js/pcoded.min.js"></script>
+
+    <script src="~/libraries/js/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+    <script type="text/javascript" src="~/libraries/bower_components/sweetalert/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/modal.js"></script>
+    <!-- sweet alert modal.js intialize js -->
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="~/libraries/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="~/libraries/assets/js/classie.js"></script>
+
+    <script type="text/javascript" src="~/libraries/assets/js/script.js"></script>
+
+    <script src="~/libraries/js/loader/jquery.blockUI.js"></script>
+
+    <script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+
+    <script src="~/libraries/msg/jquery-confirm.min.js"></script>
+
+    <script src="~/JsProject/commanJs.js"></script>
+
+
+    <script>
+            //$(document).ready(function () {
+            //    $("#IdMenu").pcodedmenu({
+            //        themelayout: 'horizontal',
+            //        FixedNavbarPosition: true,
+            //        FixedHeaderPosition: true,
+            //    });
+            //});
+
+            $('#btnSubmit').click(function (e) {
+                e.preventDefault();
+                if ($('form').smkValidate()) {
+
+                    var dataString = new FormData($("#myForm").get(0));
+                    blockUIStart();
+
+                    $.ajax({
+                        url: "../Master_Item/StoreOrEdit",
+                        data: dataString,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            OnSuccess(data);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            OnFailure(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+
+
+                }
+            });
+
+
+            function PopupForm() {
+                alert('');
+                $('#myModal2').modal('show');
+
+            }
+
+            function LoadProgess() {
+                alert('');
+            }
+
+
+
+            function OnSuccess(result) {
+                $.unblockUI();
+                if (result.success == false) {
+                    debugger;
+                    msgError(result.details);
+                    //$.notify(result.message, {
+                    //    globalPosition: "top center",
+                    //    className: "Errror"
+                    //})
+
+                } else {
+                    //msgSuccess(result.message);
+                    $('form').smkClear();
+                    $("#ddlaccounthead option:selected").val(null).trigger("change");
+
+                    $.confirm({
+
+                        title:'Confirmation !!',
+                        type: 'green',
+                        content: result.message,
+                        typeAnimated: true,
+                        icon: 'icon-smiley',
+                        buttons: {
+
+                            Okay: function () {
+                               var url = '@Url.Action("Master_Item", "Master_Item")';
+                               window.location.href = url;
+                            },
+                            //cancel: function () {
+
+                            //}
+                        }
+
+                    });
+
+                   
+                    //  debugger;
+                    // $("#ddlaccounthead").empty().trigger('change')
+                    // $("#ddlaccounthead option:selected").prop("selected", false);
+                    // $("#ddlaccounthead").selectpicker("refresh");
+                    //$.notify(result.message, {
+                    //    globalPosition: "top center",
+                    //    className: "success"
+                    //})
+                }
+
+            }
+
+            function OnFailure(result) {
+                $.unblockUI();
+            }
+
+    </script>
+
+}

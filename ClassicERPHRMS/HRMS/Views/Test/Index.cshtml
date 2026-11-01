@@ -1,0 +1,580 @@
+﻿@{
+    ViewBag.Title = "Policy Details Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="libraries/assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/icofont/css/icofont.css">
+    <!-- feather Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/icon/feather/css/feather.css">
+    <!-- Select 2 css -->
+    <link rel="stylesheet" href="~/libraries/bower_components/select2/css/select2.min.css">
+    <!-- Multi Select css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/bower_components/multiselect/css/multi-select.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/libraries/assets/css/jquery.mCustomScrollbar.css">
+
+
+    @*<link rel="stylesheet" type="text/css" href="libraries\bower_components\bootstrap\css\bootstrap.min.css">
+        <!-- themify-icons line icon -->
+        <link rel="stylesheet" type="text/css" href="libraries\assets\icon\themify-icons\themify-icons.css">
+        <!-- ico font -->
+        <link rel="stylesheet" type="text/css" href="libraries\assets\icon\icofont\css\icofont.css">
+        <!-- feather Awesome -->
+        <link rel="stylesheet" type="text/css" href="libraries\assets\icon\feather\css\feather.css">
+        <!-- Select 2 css -->
+        <link rel="stylesheet" href="libraries\bower_components\select2\css\select2.min.css">
+        <!-- Multi Select css -->
+        <link rel="stylesheet" type="text/css" href="libraries\bower_components\bootstrap-multiselect\css\bootstrap-multiselect.css">
+        <link rel="stylesheet" type="text/css" href="libraries\bower_components\multiselect\css\multi-select.css">
+        <!-- Style.css -->
+        <link rel="stylesheet" type="text/css" href="libraries\assets\css\style.css">
+        <link rel="stylesheet" type="text/css" href="libraries\assets\css\jquery.mCustomScrollbar.css">*@
+
+
+</head>
+<body class="fix-menu">
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+        <div class="ball-scale">
+            <div class='contain'>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+                <div class="ring">
+                    <div class="frame"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Default select start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Default Select</h5>
+                        <span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>
+
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-3 m-b-30">
+                                <h4 class="sub-title">Default Select</h4>
+                                <select name="select" class="form-control form-control-default">
+                                    <option value="opt1">Select One Value Only</option>
+                                    <option value="opt2">Type 2</option>
+                                    <option value="opt3">Type 3</option>
+                                    <option value="opt4">Type 4</option>
+                                    <option value="opt5">Type 5</option>
+                                    <option value="opt6">Type 6</option>
+                                    <option value="opt7">Type 7</option>
+                                    <option value="opt8">Type 8</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-xl-3 m-b-30">
+                                <h4 class="sub-title">Primary Select</h4>
+                                <select name="select" class="form-control form-control-primary">
+                                    <option value="opt1">Select One Value Only</option>
+                                    <option value="opt2">Type 2</option>
+                                    <option value="opt3">Type 3</option>
+                                    <option value="opt4">Type 4</option>
+                                    <option value="opt5">Type 5</option>
+                                    <option value="opt6">Type 6</option>
+                                    <option value="opt7">Type 7</option>
+                                    <option value="opt8">Type 8</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-xl-3 m-b-30">
+                                <h4 class="sub-title">Success Select</h4>
+                                <select name="select" class="form-control form-control-success">
+                                    <option value="opt1">Select One Value Only</option>
+                                    <option value="opt2">Type 2</option>
+                                    <option value="opt3">Type 3</option>
+                                    <option value="opt4">Type 4</option>
+                                    <option value="opt5">Type 5</option>
+                                    <option value="opt6">Type 6</option>
+                                    <option value="opt7">Type 7</option>
+                                    <option value="opt8">Type 8</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-xl-3 m-b-30">
+                                <h4 class="sub-title">Info Select</h4>
+                                <select name="select" class="form-control form-control-info">
+                                    <option value="opt1">Select One Value Only</option>
+                                    <option value="opt2">Type 2</option>
+                                    <option value="opt3">Type 3</option>
+                                    <option value="opt4">Type 4</option>
+                                    <option value="opt5">Type 5</option>
+                                    <option value="opt6">Type 6</option>
+                                    <option value="opt7">Type 7</option>
+                                    <option value="opt8">Type 8</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-3 m-b-30">
+                                <h4 class="sub-title">Warning Select</h4>
+                                <select name="select" class="form-control form-control-warning">
+                                    <option value="opt1">Select One Value Only</option>
+                                    <option value="opt2">Type 2</option>
+                                    <option value="opt3">Type 3</option>
+                                    <option value="opt4">Type 4</option>
+                                    <option value="opt5">Type 5</option>
+                                    <option value="opt6">Type 6</option>
+                                    <option value="opt7">Type 7</option>
+                                    <option value="opt8">Type 8</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-xl-3 m-b-30">
+                                <h4 class="sub-title">Danger Select</h4>
+                                <select name="select" class="form-control form-control-danger">
+                                    <option value="opt1">Select One Value Only</option>
+                                    <option value="opt2">Type 2</option>
+                                    <option value="opt3">Type 3</option>
+                                    <option value="opt4">Type 4</option>
+                                    <option value="opt5">Type 5</option>
+                                    <option value="opt6">Type 6</option>
+                                    <option value="opt7">Type 7</option>
+                                    <option value="opt8">Type 8</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-xl-3 m-b-30">
+                                <h4 class="sub-title">Inverse Select</h4>
+                                <select name="select" class="form-control form-control-inverse">
+                                    <option value="opt1">Select One Value Only</option>
+                                    <option value="opt2">Type 2</option>
+                                    <option value="opt3">Type 3</option>
+                                    <option value="opt4">Type 4</option>
+                                    <option value="opt5">Type 5</option>
+                                    <option value="opt6">Type 6</option>
+                                    <option value="opt7">Type 7</option>
+                                    <option value="opt8">Type 8</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Default select end -->
+                <!-- Select2 start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Select2</h5>
+                        <span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>
+
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Single Select</h4>
+                                <p>
+                                    <code>select2</code> can take a regular select box like
+                                    this...
+                                </p>
+                                <select class="js-example-basic-single col-sm-12 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <optgroup label="Developer">
+                                        <option value="AL">Alabama</option>
+                                        <option value="WY">Wyoming</option>
+                                    </optgroup>
+                                    <optgroup label="Designer">
+                                        <option value="WY">Peter</option>
+                                        <option value="WY">Hanry Die</option>
+                                        <option value="WY">John Doe</option>
+                                    </optgroup>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-vlha-container"><span class="select2-selection__rendered" id="select2-vlha-container" title="Alabama">Alabama</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Multi Select</h4>
+                                <p>
+                                    The select below is declared with the
+                                    <code>multiple</code> attribute
+                                </p>
+                                <select class="js-example-basic-multiple col-sm-12 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">With Placeholder</h4>
+                                <p>
+                                    <code>select2</code> uses the <code>placeholder</code>
+                                    attribute on multiple select boxes
+                                </p>
+                                <select class="js-example-placeholder-multiple col-sm-12 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline ms-hover"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Select Your Name" style="width: 371.725px;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Tagging Support</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-tags</code>
+                                </p>
+                                <select class="js-example-tags col-sm-12 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Automatic Tokenization</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-tokenizer</code>
+                                </p>
+                                <select class="js-example-tokenizer col-sm-12 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">RTL Support</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-rtl</code>
+                                </p>
+                                <select class="js-example-rtl col-sm-12 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default" dir="rtl" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Limiting The Number Of Selections</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-basic-multiple-limit</code>
+                                </p>
+                                <select class="js-example-basic-multiple-limit col-sm-12 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Diacritics Support</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-diacritics</code>
+                                </p>
+                                <select class="js-example-diacritics col-sm-12 select2-hidden-accessible" multiple="" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Responsive Width</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-responsive</code>
+                                </p>
+                                <select class="js-example-responsive col-sm-12 select2-hidden-accessible" multiple="" style="width:75%;" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Alabama</option>
+                                    <option value="WY">Wyoming</option>
+                                    <option value="WY">Coming</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--above" dir="ltr" style="width: 75%;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline ms-hover"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Loading With Array</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-data-array</code>
+                                </p>
+                                <select class="js-example-data-array col-sm-12 select2-hidden-accessible" tabindex="-1" aria-hidden="true"><option value="0">enhancement</option><option value="1">bug</option><option value="2">duplicate</option><option value="3">invalid</option><option value="4">wontfix</option></select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-7g57-container"><span class="select2-selection__rendered" id="select2-7g57-container" title="invalid">invalid</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Loading Remote Data ( Ajax )</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-data-example-ajax</code>
+                                </p>
+                                <select class="js-data-example-ajax col-sm-12 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="3620194" selected="selected">
+                                        select2
+                                    </option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;">
+                                    <span class="selection">
+                                        <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-jjp3-container">
+                                            <span class="select2-selection__rendered" id="select2-jjp3-container" title="select2
+                                                                ">
+                                                select2
+                                            </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                                        </span>
+                                    </span><span class="dropdown-wrapper" aria-hidden="true"></span>
+                                </span>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Disabled Results</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-disabled-results</code>
+                                </p>
+                                <select class="js-example-disabled-results col-sm-12 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="one">First</option>
+                                    <option value="two" disabled="disabled">
+                                        Second
+                                        (disabled)
+                                    </option>
+                                    <option value="three">Third</option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 379.725px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-39mi-container"><span class="select2-selection__rendered" id="select2-39mi-container" title="First">First</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Hiding The Search Box</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-basic-hide-search</code>
+                                </p>
+                                <select class="js-example-basic-hide-search col-sm-12 select2-hidden-accessible" multiple="" style="width: 75%" tabindex="-1" aria-hidden="true">
+                                    <optgroup label="Developer">
+                                        <option value="AL">Smith</option>
+                                        <option value="WY">Peter</option>
+                                        <option value="WY">James</option>
+                                        <option value="WY">Hanry Die</option>
+                                        <option value="WY">John Doe</option>
+                                        <option value="WY">Harry Poter</option>
+                                    </optgroup>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 75%;"><span class="selection"><span class="select2-selection select2-selection--multiple" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1"><ul class="select2-selection__rendered"><li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="" style="width: 0.75em;"></li></ul></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                            </div>
+                            <div class="col-sm-12 col-xl-8">
+                                <h4 class="sub-title">Enable-Disable</h4>
+                                <p>
+                                    The select below is declared with the class<code>.js-example-disabled</code>
+                                </p>
+                                <select class="js-example-disabled col-sm-8 select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                    <option value="AL">Smith</option>
+                                    <option value="WY">Peter</option>
+                                    <option value="WY">James</option>
+                                    <option value="WY">Hanry Die</option>
+                                    <option value="WY">John Doe</option>
+                                    <option value="WY">Harry Poter</option>
+                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" style="width: 526.3px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-fibi-container"><span class="select2-selection__rendered" id="select2-fibi-container" title="Smith">Smith</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                <button class="btn btn-success m-t-20 waves-effect waves-light js-programmatic-enable ">
+                                    Enable
+                                </button>
+                                <button class="btn btn-danger m-t-20 m-l-10 waves-effect waves-light js-programmatic-disable">
+                                    Disable
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Select2 end -->
+                <!-- Multi-select start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Multi-Select</h5>
+                        <span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>
+
+                    </div>
+                    <div class="card-block">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Single</h4>
+                                <select id="hello-single" class="form-control">
+                                    <option value="cheese">Cheese</option>
+                                    <option value="h">Hanry Die</option>
+                                    <option value="c">Come Leo</option>
+                                    <option value="h">Hampri Catlin</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Multiple</h4>
+                                <select id="hello-single-2" class="form-control">
+                                    <option value="cheese">Cheese</option>
+                                    <option value="h">Hanry Die</option>
+                                    <option value="c">Come Leo</option>
+                                    <option value="h">Hampri Catlin</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">All Group Option Select</h4>
+                                <select id="hello-single-3" class="form-control">
+                                    <option value="cheese">Cheese</option>
+                                    <option value="h">Hanry Die</option>
+                                    <option value="c">Come Leo</option>
+                                    <option value="h">Hampri Catlin</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Pre-Selected Options</h4>
+                                <select multiple="multiple" id="my-select" name="my-select[]" style="position: absolute; left: -9999px;">
+                                    <option value="elem_1" selected="">elem 1</option>
+                                    <option value="elem_2">elem 2</option>
+                                    <option value="elem_3">elem 3</option>
+                                    <option value="elem_4">elem 4</option>
+                                    <option value="elem_5">elem 5</option>
+                                </select><div class="ms-container" id="ms-my-select"><div class="ms-selectable"><ul class="ms-list" tabindex="-1"><li selected="" class="ms-elem-selectable ms-selected" id="-1300566143-selectable" style="display: none;"><span>elem 1</span></li><li class="ms-elem-selectable ms-hover" id="-1300566142-selectable"><span>elem 2</span></li><li class="ms-elem-selectable" id="-1300566141-selectable"><span>elem 3</span></li><li class="ms-elem-selectable" id="-1300566140-selectable"><span>elem 4</span></li><li class="ms-elem-selectable" id="-1300566139-selectable"><span>elem 5</span></li></ul></div><div class="ms-selection"><ul class="ms-list" tabindex="-1"><li selected="" class="ms-elem-selection ms-selected" id="-1300566143-selection" style=""><span>elem 1</span></li><li class="ms-elem-selection" id="-1300566142-selection" style="display: none;"><span>elem 2</span></li><li class="ms-elem-selection" id="-1300566141-selection" style="display: none;"><span>elem 3</span></li><li class="ms-elem-selection" id="-1300566140-selection" style="display: none;"><span>elem 4</span></li><li class="ms-elem-selection" id="-1300566139-selection" style="display: none;"><span>elem 5</span></li></ul></div></div>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Custom Headers And Footers</h4>
+                                <select id="custom-headers1" multiple="multiple" style="position: absolute; left: -9999px;">
+                                    <option value="elem_1">elem 1</option>
+                                    <option value="elem_2">elem 2</option>
+                                    <option value="elem_3">elem 3</option>
+                                    <option value="elem_4">elem 4</option>
+                                    <option value="elem_5">elem 5</option>
+                                    <option value="elem_6">elem 6</option>
+                                    <option value="elem_7">elem 7</option>
+                                    <option value="elem_8">elem 8</option>
+                                    <option value="elem_9">elem 9</option>
+                                    <option value="elem_10">elem 10</option>
+                                </select><div class="ms-container" id="ms-custom-headers1"><div class="ms-selectable"><div class="custom-header">Selectable items</div><ul class="ms-list" tabindex="-1"><li class="ms-elem-selectable" id="-1300566143-selectable"><span>elem 1</span></li><li class="ms-elem-selectable" id="-1300566142-selectable"><span>elem 2</span></li><li class="ms-elem-selectable" id="-1300566141-selectable"><span>elem 3</span></li><li class="ms-elem-selectable" id="-1300566140-selectable"><span>elem 4</span></li><li class="ms-elem-selectable" id="-1300566139-selectable"><span>elem 5</span></li><li class="ms-elem-selectable ms-hover" id="-1300566138-selectable"><span>elem 6</span></li><li class="ms-elem-selectable" id="-1300566137-selectable"><span>elem 7</span></li><li class="ms-elem-selectable" id="-1300566136-selectable"><span>elem 8</span></li><li class="ms-elem-selectable" id="-1300566135-selectable"><span>elem 9</span></li><li class="ms-elem-selectable" id="-1662844721-selectable"><span>elem 10</span></li></ul><div class="custom-header">Selectable footer</div></div><div class="ms-selection"><div class="custom-header">Selection items</div><ul class="ms-list" tabindex="-1"><li class="ms-elem-selection" id="-1300566143-selection" style="display: none;"><span>elem 1</span></li><li class="ms-elem-selection" id="-1300566142-selection" style="display: none;"><span>elem 2</span></li><li class="ms-elem-selection" id="-1300566141-selection" style="display: none;"><span>elem 3</span></li><li class="ms-elem-selection" id="-1300566140-selection" style="display: none;"><span>elem 4</span></li><li class="ms-elem-selection" id="-1300566139-selection" style="display: none;"><span>elem 5</span></li><li class="ms-elem-selection" id="-1300566138-selection" style="display: none;"><span>elem 6</span></li><li class="ms-elem-selection" id="-1300566137-selection" style="display: none;"><span>elem 7</span></li><li class="ms-elem-selection" id="-1300566136-selection" style="display: none;"><span>elem 8</span></li><li class="ms-elem-selection" id="-1300566135-selection" style="display: none;"><span>elem 9</span></li><li class="ms-elem-selection" id="-1662844721-selection" style="display: none;"><span>elem 10</span></li></ul><div class="custom-header">Selection footer</div></div></div>
+                            </div>
+                            <div class="col-sm-12 col-xl-4 m-b-30">
+                                <h4 class="sub-title">Optgroup</h4>
+                                <select id="optgroup" multiple="multiple" style="position: absolute; left: -9999px;">
+                                    <optgroup label="Friends">
+                                        <option value="1">Yoda</option>
+                                        <option value="2" selected="">Obiwan</option>
+                                    </optgroup>
+                                    <optgroup label="Enemies">
+                                        <option value="3">Palpatine</option>
+                                        <option value="4" disabled="">Darth Vader</option>
+                                    </optgroup>
+                                </select><div class="ms-container" id="ms-optgroup"><div class="ms-selectable"><ul class="ms-list" tabindex="-1"><li class="ms-optgroup-container" id="optgroup-selectable-1064558965"><ul class="ms-optgroup"><li class="ms-optgroup-label"><span>Friends</span></li><li class="ms-elem-selectable ms-hover" id="49-selectable"><span>Yoda</span></li><li selected="" class="ms-elem-selectable ms-selected" id="50-selectable" style="display: none;"><span>Obiwan</span></li></ul></li><li class="ms-optgroup-container" id="optgroup-selectable-59078150"><ul class="ms-optgroup"><li class="ms-optgroup-label"><span>Enemies</span></li><li class="ms-elem-selectable" id="51-selectable"><span>Palpatine</span></li><li class="ms-elem-selectable disabled" id="52-selectable"><span>Darth Vader</span></li></ul></li></ul></div><div class="ms-selection"><ul class="ms-list" tabindex="-1"><li class="ms-optgroup-container" id="optgroup-selection-1064558965"><ul class="ms-optgroup"><li class="ms-optgroup-label" style=""><span>Friends</span></li><li class="ms-elem-selection" id="49-selection" style="display: none;"><span>Yoda</span></li><li selected="" class="ms-elem-selection ms-selected" id="50-selection" style=""><span>Obiwan</span></li></ul></li><li class="ms-optgroup-container" id="optgroup-selection-59078150"><ul class="ms-optgroup"><li class="ms-optgroup-label" style="display: none;"><span>Enemies</span></li><li class="ms-elem-selection" id="51-selection" style="display: none;"><span>Palpatine</span></li><li class="ms-elem-selection disabled" id="52-selection" style="display: none;"><span>Darth Vader</span></li></ul></li></ul></div></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-xl-6 m-b-30">
+                                <h4 class="sub-title">Searchable</h4>
+                                <select id="custom-headers" class="searchable" multiple="multiple" style="position: absolute; left: -9999px;">
+                                    <option value="elem_1" selected="">elem 1</option>
+                                    <option value="elem_2">elem 2</option>
+                                    <option value="elem_3">elem 3</option>
+                                    <option value="elem_4" selected="">elem 4</option>
+                                    <option value="elem_5">elem 5</option>
+                                    <option value="elem_6">elem 6</option>
+                                    <option value="elem_7">elem 7</option>
+                                    <option value="elem_8">elem 8</option>
+                                    <option value="elem_9">elem 9</option>
+                                    <option value="elem_10">elem 10</option>
+                                    <option value="elem_11">elem 11</option>
+                                    <option value="elem_12">elem 12</option>
+                                    <option value="elem_13">elem 13</option>
+                                    <option value="elem_14">elem 14</option>
+                                    <option value="elem_15">elem 15</option>
+                                    <option value="elem_16">elem 16</option>
+                                </select><div class="ms-container" id="ms-custom-headers"><div class="ms-selectable"><input type="text" class="form-control" autocomplete="off" placeholder="try &quot;12&quot;"><ul class="ms-list" tabindex="-1"><li selected="" class="ms-elem-selectable ms-selected" id="-1300566143-selectable" style="display: none;"><span>elem 1</span></li><li class="ms-elem-selectable" id="-1300566142-selectable"><span>elem 2</span></li><li class="ms-elem-selectable" id="-1300566141-selectable"><span>elem 3</span></li><li selected="" class="ms-elem-selectable ms-selected" id="-1300566140-selectable" style="display: none;"><span>elem 4</span></li><li class="ms-elem-selectable" id="-1300566139-selectable"><span>elem 5</span></li><li class="ms-elem-selectable" id="-1300566138-selectable"><span>elem 6</span></li><li class="ms-elem-selectable" id="-1300566137-selectable"><span>elem 7</span></li><li class="ms-elem-selectable" id="-1300566136-selectable"><span>elem 8</span></li><li class="ms-elem-selectable" id="-1300566135-selectable"><span>elem 9</span></li><li class="ms-elem-selectable" id="-1662844721-selectable"><span>elem 10</span></li><li class="ms-elem-selectable" id="-1662844720-selectable"><span>elem 11</span></li><li class="ms-elem-selectable" id="-1662844719-selectable"><span>elem 12</span></li><li class="ms-elem-selectable" id="-1662844718-selectable"><span>elem 13</span></li><li class="ms-elem-selectable" id="-1662844717-selectable"><span>elem 14</span></li><li class="ms-elem-selectable" id="-1662844716-selectable"><span>elem 15</span></li><li class="ms-elem-selectable" id="-1662844715-selectable"><span>elem 16</span></li></ul></div><div class="ms-selection"><input type="text" class="form-control" autocomplete="off" placeholder="try &quot;4&quot;"><ul class="ms-list" tabindex="-1"><li selected="" class="ms-elem-selection ms-selected ms-hover" id="-1300566143-selection" style=""><span>elem 1</span></li><li class="ms-elem-selection" id="-1300566142-selection" style="display: none;"><span>elem 2</span></li><li class="ms-elem-selection" id="-1300566141-selection" style="display: none;"><span>elem 3</span></li><li selected="" class="ms-elem-selection ms-selected" id="-1300566140-selection" style=""><span>elem 4</span></li><li class="ms-elem-selection" id="-1300566139-selection" style="display: none;"><span>elem 5</span></li><li class="ms-elem-selection" id="-1300566138-selection" style="display: none;"><span>elem 6</span></li><li class="ms-elem-selection" id="-1300566137-selection" style="display: none;"><span>elem 7</span></li><li class="ms-elem-selection" id="-1300566136-selection" style="display: none;"><span>elem 8</span></li><li class="ms-elem-selection" id="-1300566135-selection" style="display: none;"><span>elem 9</span></li><li class="ms-elem-selection" id="-1662844721-selection" style="display: none;"><span>elem 10</span></li><li class="ms-elem-selection" id="-1662844720-selection" style="display: none;"><span>elem 11</span></li><li class="ms-elem-selection" id="-1662844719-selection" style="display: none;"><span>elem 12</span></li><li class="ms-elem-selection" id="-1662844718-selection" style="display: none;"><span>elem 13</span></li><li class="ms-elem-selection" id="-1662844717-selection" style="display: none;"><span>elem 14</span></li><li class="ms-elem-selection" id="-1662844716-selection" style="display: none;"><span>elem 15</span></li><li class="ms-elem-selection" id="-1662844715-selection" style="display: none;"><span>elem 16</span></li></ul></div></div>
+                            </div>
+                            <div class="col-sm-12 col-xl-6">
+                                <h4 class="sub-title">Public Methods</h4>
+                                <button type="button" class="btn btn-primary waves-effect waves-light m-b-10" id="select-all">
+                                    select all
+                                </button>
+                                <button type="button" class="btn btn-primary waves-effect waves-light m-b-10" id="deselect-all">
+                                    deselect all
+                                </button>
+                                <button type="button" class="btn btn-primary waves-effect waves-light m-b-10" id="select-5">
+                                    select 5 elems
+                                </button>
+                                <button type="button" class="btn btn-primary waves-effect waves-light m-b-10" id="deselect-5">
+                                    deselect 5 elems
+                                </button>
+                                <select id="public-methods" multiple="multiple" style="position: absolute; left: -9999px;">
+                                    <option value="elem_1">elem 1</option>
+                                    <option value="elem_2" disabled="">elem 2</option>
+                                    <option value="elem_3">elem 3</option>
+                                    <option value="elem_4">elem 4</option>
+                                    <option value="elem_5">elem 5</option>
+                                    <option value="elem_6">elem 6</option>
+                                    <option value="elem_7">elem 7</option>
+                                    <option value="elem_8">elem 8</option>
+                                    <option value="elem_9">elem 9</option>
+                                    <option value="elem_10">elem 10</option>
+                                </select><div class="ms-container" id="ms-public-methods"><div class="ms-selectable"><ul class="ms-list" tabindex="-1"><li class="ms-elem-selectable" id="-1300566143-selectable"><span>elem 1</span></li><li class="ms-elem-selectable disabled" id="-1300566142-selectable"><span>elem 2</span></li><li class="ms-elem-selectable ms-hover" id="-1300566141-selectable"><span>elem 3</span></li><li class="ms-elem-selectable" id="-1300566140-selectable"><span>elem 4</span></li><li class="ms-elem-selectable" id="-1300566139-selectable"><span>elem 5</span></li><li class="ms-elem-selectable" id="-1300566138-selectable"><span>elem 6</span></li><li class="ms-elem-selectable" id="-1300566137-selectable"><span>elem 7</span></li><li class="ms-elem-selectable" id="-1300566136-selectable"><span>elem 8</span></li><li class="ms-elem-selectable" id="-1300566135-selectable"><span>elem 9</span></li><li class="ms-elem-selectable" id="-1662844721-selectable"><span>elem 10</span></li></ul></div><div class="ms-selection"><ul class="ms-list" tabindex="-1"><li class="ms-elem-selection" id="-1300566143-selection" style="display: none;"><span>elem 1</span></li><li class="ms-elem-selection disabled" id="-1300566142-selection" style="display: none;"><span>elem 2</span></li><li class="ms-elem-selection" id="-1300566141-selection" style="display: none;"><span>elem 3</span></li><li class="ms-elem-selection" id="-1300566140-selection" style="display: none;"><span>elem 4</span></li><li class="ms-elem-selection" id="-1300566139-selection" style="display: none;"><span>elem 5</span></li><li class="ms-elem-selection" id="-1300566138-selection" style="display: none;"><span>elem 6</span></li><li class="ms-elem-selection" id="-1300566137-selection" style="display: none;"><span>elem 7</span></li><li class="ms-elem-selection" id="-1300566136-selection" style="display: none;"><span>elem 8</span></li><li class="ms-elem-selection" id="-1300566135-selection" style="display: none;"><span>elem 9</span></li><li class="ms-elem-selection" id="-1662844721-selection" style="display: none;"><span>elem 10</span></li></ul></div></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Multi-select end -->
+            </div>
+        </div>
+    </div>
+    <!-- Required Jquery -->
+
+  
+
+
+    @section scripts{
+
+        <script type="text/javascript" src="~/libraries/bower_components/jquery/js/jquery.min.js"></script>
+        <!-- Select 2 js -->
+        <script type="text/javascript" src="~/libraries/bower_components/select2/js/select2.full.min.js"></script>
+        <!-- Multiselect js -->
+        <script type="text/javascript" src="~/libraries/bower_components/bootstrap-multiselect/js/bootstrap-multiselect.js">
+        </script>
+        <script type="text/javascript" src="~/libraries/bower_components/multiselect/js/jquery.multi-select.js"></script>
+        <script type="text/javascript" src="~/libraries/assets/js/jquery.quicksearch.js"></script>
+        <!-- Custom js -->
+        <script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+        <script src="~/libraries/assets/js/pcoded.min.js"></script>
+        <script src="~/libraries/assets/js/vartical-layout.min.js"></script>
+
+
+
+    }
+
+
+</body>
+</html>

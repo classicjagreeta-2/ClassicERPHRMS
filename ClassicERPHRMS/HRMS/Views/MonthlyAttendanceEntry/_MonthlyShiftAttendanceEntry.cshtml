@@ -1,0 +1,74 @@
+﻿@model List<HRMS.Models.Master.SHIFT_DET>
+@{
+    ViewBag.Title = "_MonthlyShiftAttendanceEntry";
+}
+
+
+    <div class="card">
+        <div class="card-block" style="FONT-SIZE: smaller;">
+            <ul class="nav nav-tabs  tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab"><b>Shift Details</b></a>
+                </li>
+            </ul>
+
+            <div class="col-lg-12 col-xl-12">
+                <div class="tab-pane active" id="overview" role="tabpanel">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="example-1">
+                            <thead>
+                                <tr role="row">
+                                    <th width="60px">Code</th>
+                                    <th width="60px">Shift-Description</th>
+                                    <th width="60px">Days</th>
+                                    <th width="60px">Hour</th>
+                                    <th width="60px">Minute</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.RCP != null)
+                                {
+                                    var item = Model;
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@item[i].DESCRIPTION</td>
+                                            <td><input class="form-control text-box single-line" type="text" value="@item[i].DAYS" id="@("DAYS_" + i)" name="@("DAYS_" + i)" style=" text-align: right; width : 101px;"></td>
+                                            <td><input class="form-control text-box single-line" type="text" value="@item[i].HOURS" id="@("HOURS" + i)" name="@("HOURS" + i)" style=" text-align: right; width: 101px;"></td>
+                                            <td><input class="form-control text-box single-line" type="text" value="@item[i].MINS" id="@("MINS" + i)" name="@("MINS" + i)" style="text-align: right; width: 101px;"></td>
+                                        </tr>
+                                        @*<input type="hidden" name="@("item_name_" + i)" value="@Model[i]." />*@
+                                    }
+
+                                    @*foreach (var item in Model) //ViewBag.RCP
+                                        {
+                                            <tr>
+                                                <td>@item.SHIFT_CODE</td>
+                                                <td>@item.DESCRIPTION</td>
+                                                <td><input class="form-control text-box single-line" value="@item.DAYS" type="text" id="DAYS" name="DAYS" style=" text-align: right; width : 101px;"></td>
+                                                <td><input class="form-control text-box single-line" value="@item.HOURS" type="text" id="hour" name="hour" style=" text-align: right; width: 101px;"></td>
+                                                <td><input class="form-control text-box single-line" value="@item.MINS" type="text" id="min" name="min" style="text-align: right; width: 101px;"></td>
+                                            </tr>
+                                        }*@
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" style=" text-align: center;"> No Data Found</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        @*<button hidden name="submit" type="submit" id="btnSubmitshift" class="btn btn-grd-info pull-right"><i class="fa fa-save"></i>SAVE</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@*<script>
+    $('#btnSubmit').click(function () { $('#btnSubmitshift').toggle() });
+</script>*@

@@ -1,0 +1,152 @@
+﻿@model HRMS.Models.Master.M_PTAX
+@using HRMS.Models.Master
+@using System.Globalization;
+@{
+    ViewBag.Title = "AddEditModal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<div class="modal-dialog modal-lg" role="document">*@
+@using (Html.BeginForm("AddOrUpdate", "M_Ptax", FormMethod.Post, new { id = "myForm" }))
+{
+    @Html.HiddenFor(x => x.id)
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Professional Tax Master</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card-block">
+                <div class="row">
+                    @if (Model.id != 0)
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Applicable in State Code and State Name :</label>
+                              <div>
+                                  @*@Html.TextBoxFor(x => x.fK_STATE_CODE, new { @class = "form-control", @readonly = "readonly", @required = "required" })*@
+                                  @Html.DropDownListFor(x => x.fK_STATE_CODE, new SelectList(ViewBag.State, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required", @disabled = "disabled" })
+                                  @Html.HiddenFor(x => x.fK_STATE_CODE)
+                              </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Applicable in State Code and State Name :</label>
+                                @Html.DropDownListFor(x => x.fK_STATE_CODE, new SelectList(ViewBag.State, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required" })
+                                @Html.HiddenFor(x => x.fK_STATE_CODE)
+                                @Html.HiddenFor(x => x.pK_PTAX_CODE)
+                            </div>
+                        </div>
+                    }
+                    @if (Model.id != 0)
+                    {
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Unit :</label>
+                               
+                                @Html.TextBoxFor(x => x.unit, new { @class = "form-control", @readonly = "readonly", @required = "required" })
+                                @Html.HiddenFor(x => x.unit)
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Unit :</label>
+                                @Html.DropDownListFor(x => x.unit, new SelectList(ViewBag.Unit, "Value", "Text"),
+                                "SELECT..", new { @class = "form-control", @required = "required" })
+                            </div>
+                        </div>
+                    }
+                    @if (Model.id != 0)
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Effective Date :</label>
+                                @*@Html.EditorFor(x => x.EDATE, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @placeholder = "Datetime", @required = "required", @disabled = "disabled" })*@
+                                @*@Html.EditorFor(x => x.edate, new { htmlAttributes = new { @type = "date", @class = "form-control", @required = "required", @readonly = true } })*@
+
+                                @Html.EditorFor(x => x.edate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "text", @class = "form-control", @id = "nxt_dt" , @required = "required" } })
+
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Effective Date :</label>
+                                @Html.EditorFor(x => x.edate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "date", @class = "form-control", @required = "required" } })
+
+                            </div>
+                        </div>
+                    }
+                    @if (Model.id != 0)
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Maximum:</label>
+                                @Html.TextBoxFor(x => x.max, new { @class = "form-control", @maxlength = "12", @required = "required" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Maximum:</label>
+                                @Html.TextBoxFor(x => x.max, new { @class = "form-control", @maxlength = "12", @required = "required" })
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.id != 0)
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Minimum:</label>
+                                @Html.TextBoxFor(x => x.min, new { @class = "form-control", @maxlength = "12", @required = "required" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="exampleInputName1">Minimum:</label>
+                                @Html.TextBoxFor(x => x.min, new { @class = "form-control", @maxlength = "12", @required = "required" })
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Amount:</label>
+                            @Html.TextBoxFor(x => x.amounT_RS, new { @class = "form-control", @maxlength = "14", @required = "required" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="exampleInputName1">Percent:</label>
+                            @Html.TextBoxFor(x => x.amounT_PERCENT, new { @class = "form-control", @maxlength = "7",  })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div id="divMsg" class="text-danger"> </div>
+        <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("M_Ptax","M_Ptax")'" id="btnclose" data-dismiss="modal">Close</a>
+        <button name="submit" type="submit" id="nextButton1" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>Submit</button>
+    </div>
+}
+

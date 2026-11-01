@@ -1,0 +1,822 @@
+﻿
+@model HRMS.Models.Master.M_EMPMAS
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="modal-dialog modal-lg" role="document">
+    @using (Html.BeginForm("AddOrUpdate", "MastEmp", FormMethod.Post, new { id = "myForm" }))
+    {
+
+        @Html.HiddenFor(x => x.id)
+
+        <div class="card-block accordion-block">
+            <div id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="accordion-panel">
+                    <div class="accordion-heading" role="tab" id="headingOne" style="background-color: darkgrey; ">
+                        <h3 class="card-title accordion-title">
+                            <a class="accordion-msg b-none" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Personal Details
+                            </a>
+                        </h3>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse in collapse show" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="accordion-content accordion-desc">
+
+
+                            <div class="row">
+                                @if (Model.id != 0)
+                                {
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Employee Code*</label>
+                                            @Html.TextBoxFor(x => x.pK_EMPCODE, new { @class = "form-control", @required = "required", @minlength = "10", @maxlength = "10", @style = "text-transform:uppercase", @readonly = true })
+                                            @Html.HiddenFor(x => x.pK_EMPCODE)
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Employee Code*</label>
+                                            @Html.TextBoxFor(x => x.pK_EMPCODE, new { @type = "", @class = "form-control", @required = "required", @min = "10", @maxlength = "10", @style = "text-transform:uppercase" })
+
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName2">Title</label>
+                                        @Html.DropDownListFor(x => x.title, new SelectList(ViewBag.UserTitle, "Value", "Text"), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">First Name*</label>
+                                        @Html.TextBoxFor(x => x.fname, new { @class = "form-control", @required = "required", @maxlength = "25" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Middle Name</label>
+                                        @Html.TextBoxFor(x => x.mname, new { @class = "form-control", @maxlength = "25" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Last Name*</label>
+                                        @Html.TextBoxFor(x => x.lname, new { @class = "form-control", @required = "required", @maxlength = "25" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Short Name</label>
+                                        @Html.TextBoxFor(x => x.shorT_NAME, new { @class = "form-control", @maxlength = "40" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Name as per Valid Documents </label>
+                                        @Html.TextBoxFor(x => x.namE_IN_VALID_DOC, new { @class = "form-control", @maxlength = "40" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Gender*</label>
+                                        @Html.DropDownList("sex", new SelectList(ViewBag.Gender, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Title</label>
+                                        @Html.DropDownListFor(x => x.g_TITLE, new SelectList(ViewBag.UserTitle, "Value", "Text"), "SELECT..", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Father Name</label>
+                                        @Html.TextBoxFor(x => x.g_FNAME, new { @class = "form-control", @maxlength = "25" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Father Middle Name</label>
+                                        @Html.TextBoxFor(x => x.g_MNAME, new { @class = "form-control", @maxlength = "25" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Father Last Name</label>
+                                        @Html.TextBoxFor(x => x.g_LNAME, new { @class = "form-control", @maxlength = "25" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Email Id</label>
+                                        @Html.TextBoxFor(x => x.emaiL_ID, new { @class = "form-control", @maxlength = "100", @type = "email" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="NUMBER">Mobile</label>
+                                        @Html.TextBoxFor(x => x.perM_MOBILENO, new { @class = "form-control", @maxlength = "10", @type = "tel" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Emergency Contact Name</label>
+                                        @Html.TextBoxFor(x => x.emeR_CONCT_NAME, new { @class = "form-control", @maxlength = "25" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="NUMBER">Emergency Contact Mobile</label>
+                                        @Html.TextBoxFor(x => x.emeR_CONCT_MOBILE, new { @class = "form-control", @maxlength = "10", @type = "tel" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Emergency Contact Relation</label>
+                                        @Html.TextBoxFor(x => x.emeR_CONCT_RELATION, new { @class = "form-control", @maxlength = "25" })
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Payment Type*</label>
+                                        @Html.DropDownList("chQ_CSH", new SelectList(ViewBag.Payment, "Value", "Text"), "SELECT..", new { @class = "form-control", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Active</label>
+                                        @Html.DropDownListFor(x => x.activE_TAG, new SelectList(ViewBag.YesNo, "Value", "Text"), "SELECT..", new { @class = "form-control", @id = "ACTIVE_TAG" })
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Incentive</label>
+                                        @Html.DropDownList("INCENTIVE", new SelectList(ViewBag.YesNo, "Value", "Text"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Aadhar No.</label>
+                                        @Html.TextBoxFor(x => x.aadhaR_NO, new { @class = "form-control", @maxlength = "12", @type = "number" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Voter Id</label>
+                                        @Html.TextBoxFor(x => x.voteR_ID, new { @class = "form-control", @maxlength = "15", @type = "number" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Shift*</label>
+                                        @Html.DropDownList("fK_SHIFT_CODE", new SelectList(ViewBag.Shift, "Value", "Text"), "SELECT..", new { @class = "js-example-responsive col-sm-12", @required = "required" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Legacy Code</label>
+                                        @Html.TextBoxFor(x => x.leG_CODE, new { @class = "form-control", @maxlength = "8" })
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="accordion-panel">
+                        <div class="accordion-heading" role="tab" id="headingTwo" style="background-color: lightgrey; ">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Statutory Detail
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="accordion-content accordion-desc">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Date of Birth</label>
+                                            @Html.EditorFor(x => x.dateofbirth, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @Id = "DATEOFBIRTH", @class = "form-control" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Date of Joining*</label>
+                                            @Html.EditorFor(x => x.dateofjoining, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "Date_of_joining", @required = "required" } })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Date of Leaving</label>
+                                            @Html.EditorFor(x => x.dateofleaving, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "DATEOFLEAVING" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Left Service</label>
+                                            @Html.DropDownListFor(x => x.lefT_SERVICE, new SelectList(ViewBag.YesNo, "Value", "Text", 0), "SELECT..", new { @class = "js-example-responsive col-sm-12", @id = "LEFT_SERVICE" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="gratuity">Date of Joining Gratuity</label>
+                                            @Html.EditorFor(x => x.dog, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @id = "Date_of_Joining_gratuity" } })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Reason of Leaving</label>
+                                            @*@Html.DropDownList("fK_REASON_CODE", new SelectList(ViewBag.Reason, "PK_CODE", "DESCRIPTION"), "SELECT..", new { @class = "js-example-responsive col-sm-12", @id = "FK_REASON_CODE" })*@
+                                            @Html.DropDownList("fK_REASON_CODE", new SelectList(ViewBag.Reason, "Value", "Text"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Blood Group</label>
+                                            @Html.DropDownList("bloodgroup", new SelectList(ViewBag.Blood, "Value", "Text"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+                                        </div>
+                                    </div>
+
+                                    @if (ViewBag.LOCA != "AGR")
+                                    {
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">TNO</label>
+                                                @Html.TextBoxFor(x => x.tnno, new { @class = "form-control", @maxlength = "4" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">PF No</label>
+                                                @Html.TextBoxFor(x => x.pfno, new { @class = "form-control", @maxlength = "12" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Date of Joining(EPS)</label>
+                                                @Html.EditorFor(x => x.doJ_EPS, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "Date_of_joining_EPS" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Pension No</label>
+                                                @Html.TextBoxFor(x => x.pensioN_NO, new { @class = "form-control", @maxlength = "10" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Date of Leaving(EPS)</label>
+                                                @Html.EditorFor(x => x.doL_EPS, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "Date_of_leaving_EPS" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">ESI No</label>
+                                                @Html.TextBoxFor(x => x.esino, new { @class = "form-control", @maxlength = "10" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Date of Joining(EPF)</label>
+                                                @Html.EditorFor(x => x.doJ_EPF, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "Date_of_joining_EPF" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">PAN</label>
+                                                @Html.TextBoxFor(x => x.pancardno, new { @class = "form-control", @maxlength = "10" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Date of Leaving(EPF)</label>
+                                                @Html.EditorFor(x => x.doL_EPF, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "Date_of_leaving_EPF" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">UAN</label>
+                                                @Html.TextBoxFor(x => x.uan, new { @class = "form-control", @maxlength = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Transfer Date</label>
+                                                @Html.EditorFor(x => x.transferred, new { htmlAttributes = new { @type = "Date", @class = "form-control", @id = "Transfer_date" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1"> Place</label>
+                                                @Html.TextBoxFor(x => x.transferredto, new { @class = "form-control", @maxlength = "10" })
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-panel">
+                        <div class=" accordion-heading" role="tab" id="headingFive" style="background-color: darkgrey; ">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Passport Details
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                            <div class="accordion-content accordion-desc">
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Passport No.</label>
+                                                @Html.TextBoxFor(x => x.passportno, new { @class = "form-control", @maxlength = "15" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Issued Date</label>
+                                                @Html.EditorFor(x => x.passportissuedon, "{0:yyyy-MM-dd}",
+                                               new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "Passport_issued_on" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Renewable Date</label>
+                                                @Html.EditorFor(x => x.p_RENEWALDATE, "{0:yyyy-MM-dd}",
+                                               new { htmlAttributes = new { @type = "Date", @class = "form-control", @Id = "Passport_renew_date" } })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Password issued from</label>
+                                                @Html.TextBoxFor(x => x.pasprT_ISD_FRM, new { @class = "form-control", @maxlength = "40" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-panel">
+                        <div class=" accordion-heading" role="tab" id="headingThree" style="background-color: lightgrey; ">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Other Detail
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                            <div class="accordion-content accordion-desc">
+                                <h6>Permanent Information</h6>
+
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">House No.</label>
+                                                @Html.TextBoxFor(x => x.perM_HOUSENO, new { @class = "form-control", @maxlength = "10" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Street</label>
+                                                @Html.TextBoxFor(x => x.perM_STREETNAME1, new { @class = "form-control", @maxlength = "60" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Street 2</label>
+                                                @Html.TextBoxFor(x => x.perM_STREETNAME2, new { @class = "form-control", @maxlength = "60" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">City</label>
+                                                @Html.TextBoxFor(x => x.perM_CITY, new { @class = "form-control", @maxlength = "30" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Pincode</label>
+                                                @Html.TextBoxFor(x => x.perM_PINCODE, new { @class = "form-control", @maxlength = "6" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Country</label>
+                                                @Html.DropDownListFor(x => x.fK_COUNTRY_CODE_PERM, new SelectList(ViewBag.Country, "Value", "Text"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Telephone</label>
+                                                @Html.TextBoxFor(x => x.perM_RESTEL1, new { @class = "form-control", @maxlength = "10", @type = "tel" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Telephone 2</label>
+                                                @Html.TextBoxFor(x => x.perM_RESTEL2, new { @class = "form-control", @maxlength = "10", @type = "tel" })
+                                            </div>
+                                        </div>
+
+                                        @*@if (ViewBag.LOCA != "AGR")
+                                            {
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Post Office</label>
+                                                        @Html.TextBoxFor(x => x.perM_POSTOFF, new { @class = "form-control", @maxlength = "30" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Police Station</label>
+                                                        @Html.TextBoxFor(x => x.perM_POLICEST, new { @class = "form-control", @maxlength = "30" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">State*</label>
+                                                        @Html.DropDownList("fK_STATE_CODE", new SelectList(ViewBag.State, "PK_STATE_CODE", "NAME"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+                                                    </div>
+                                                </div>
+                                            }*@
+                                    </div>
+                                </div>
+
+                                <h6>Present Information</h6>
+
+                                <div class="card-block">
+                                    <div class="row">
+                                        <h5>Present Information</h5>
+                                        <div class="card-block">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">House No.</label>
+                                                        @Html.TextBoxFor(x => x.temP_HOUSENO, new { @class = "form-control", @maxlength = "10" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Street</label>
+                                                        @Html.TextBoxFor(x => x.temP_STREETNAME1, new { @class = "form-control", @maxlength = "60" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Street 2</label>
+                                                        @Html.TextBoxFor(x => x.temP_STREETNAME2, new { @class = "form-control", @maxlength = "60" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">City</label>
+                                                        @Html.TextBoxFor(x => x.temP_CITY, new { @class = "form-control", @maxlength = "30" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Pincode</label>
+                                                        @Html.TextBoxFor(x => x.temP_PINCODE, new { @class = "form-control", @maxlength = "6" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Country</label>
+                                                        @Html.DropDownListFor(x => x.fK_COUNTRY_CODE_TEMP, new SelectList(ViewBag.Country, "Value", "Text"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Telephone</label>
+                                                        @Html.TextBoxFor(x => x.temP_RESTEL1, new { @class = "form-control", @maxlength = "10", @type = "tel" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Telephone2</label>
+                                                        @Html.TextBoxFor(x => x.temP_RESTEL2, new { @class = "form-control", @maxlength = "10", @type = "tel" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Mobile</label>
+                                                        @Html.TextBoxFor(x => x.temP_MOBILENO, new { @class = "form-control", @maxlength = "10", @type = "tel" })
+                                                    </div>
+                                                </div>
+
+                                                @if (ViewBag.LOCA != "AGR")
+                                                {
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputName1">Post Off. </label>
+                                                            @Html.TextBoxFor(x => x.temP_POSTOFF, new { @class = "form-control", @maxlength = "30" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputName1">Police Station</label>
+                                                            @Html.TextBoxFor(x => x.temP_POLICEST, new { @class = "form-control", @maxlength = "30" })
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-panel">
+                        <div class=" accordion-heading" role="tab" id="headingFour" style="background-color: darkgrey; ">
+                            <h3 class="card-title accordion-title">
+                                <a class="accordion-msg" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Finance & Bank Details
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                            <div class="accordion-content accordion-desc">
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Bank Name</label>
+                                                @Html.TextBoxFor(x => x.banK_NAME, new { @class = "form-control", @maxlength = "40" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Bank Country Name</label>
+                                                @*@Html.DropDownListFor(x => x.fK_COUNTRY_CODE_BANK, new SelectList(ViewBag.Country, "PK_COUNTRY_CODE", "DESCRIPTION"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })*@
+                                                @Html.TextBoxFor(x => x.fK_COUNTRY_CODE_BANK, new { @class = "form-control", @maxlength = "40" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Branch Name</label>
+                                                @Html.TextBoxFor(x => x.branch, new { @class = "form-control", @maxlength = "40" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">A/c No</label>
+                                                @Html.TextBoxFor(x => x.aC_NO, new { @class = "form-control", @maxlength = "30" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Account Type:</label>
+                                                @Html.DropDownList("svngS_CRNT", new SelectList(ViewBag.Account, "Value", "Text"), "SELECT..", new { @class = "js-example-responsive col-sm-12" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">International Bank A/c No</label>
+                                                @Html.TextBoxFor(x => x.ibaN_NO, new { @class = "form-control", @maxlength = "40" })
+                                            </div>
+                                        </div>
+
+                                        @if (ViewBag.LOCA != "AGR")
+                                        {
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">A/C Code</label>
+                                                    @Html.TextBoxFor(x => x.acode, new { @class = "form-control", @maxlength = "8" })
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Ref Code</label>
+                                                    @Html.TextBoxFor(x => x.reF_CODE, new { @class = "form-control", @maxlength = "7" })
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Emp Id</label>
+                                                    @Html.TextBoxFor(x => x.ssubcode, new { @class = "form-control", @maxlength = "6" })
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div id="divMsg" class="text-danger"> </div>
+                    <a class="btn btn-default waves-effect" onclick="location.href='@Url.Action("Index","MastEmp")'" id="btnclose" data-dismiss="modal"
+                       style="color: white;background-color: red;">Close</a>
+                    <button name="submit" type="submit" id="btnSubmit" class="btn btn-grd-info pull-right"><i class="icofont icofont-check-circled"></i>SUBMIT</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/libraries/assets/js/select2.js"></script>
+<script type="text/javascript" src="~/libraries/assets/pages/advance-elements/select2-custom.js"></script>
+<script src="~/libraries/smoke-v3.1.1/js/smoke.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#NUMBER').on('input', function () {
+            var mobileNo = $(this).val();
+            if (mobileNo.length != 10) {
+                $('#NUMBER').addClass('is-invalid');
+            }
+            else {
+                $('#NUMBER').removeClass('is-invalid');
+            }
+        });
+    });</script>
+<script>
+    $(document).ready(function () {
+
+        debugger
+        if ($('#DATEOFLEAVING').val() == "") {
+            // Disable the DATEOFLEAVING field initially
+            $('#DATEOFLEAVING').prop('disabled', true);
+            $('#FK_REASON_CODE').prop('disabled', true);
+            // Handle change event of LEFT_SERVICE field
+            $('#LEFT_SERVICE').change(function () {
+                debugger;
+
+                // Check if selected value is Y
+                if ($(this).val() == '1') {
+                    // Enable the DATEOFLEAVING field
+                    $('#DATEOFLEAVING').prop('disabled', false);
+                    $('#FK_REASON_CODE').prop('disabled', false);
+                }
+                else {
+                    // Disable the DATEOFLEAVING field
+                    $('#DATEOFLEAVING').prop('disabled', true);
+                    $('#FK_REASON_CODE').prop('disabled', true);
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        debugger
+        if ($('#Date_of_joining').val() == "") {
+            // Disable the DATEOFLEAVING field initially
+            /*$('#Date_of_joining').prop('disabled', true);*/
+            // Handle change event of LEFT_SERVICE field
+
+            $('#DATEOFBIRTH').change(function () {
+                debugger;
+                //// Check if selected value is Y
+                //if ($(this).val() === null) {
+
+                //    // Disable the DATEOFLEAVING field
+                //    $('#Date_of_joining').prop('disabled', true);
+                //}
+                //else {
+                // Enable the DATEOFLEAVING field
+                $('#Date_of_joining').prop('disabled', false);
+                /* }*/
+            });
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        debugger
+        $('#Date_of_leaving_EPS').change(function () {
+            debugger
+            if ($('#Date_of_leaving_EPS').val() < $('#Date_of_joining_EPS').val()) {
+                alert("Invalid Date Range");
+
+                $('#Date_of_leaving_EPS').prop('value', true)
+            }
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        debugger
+        $('#Date_of_leaving_EPF').change(function () {
+            debugger
+            if ($('#Date_of_leaving_EPF').val() < $('#Date_of_joining_EPF').val()) {
+                alert("Invalid Date Range");
+
+                $('#Date_of_leaving_EPF').prop('value', true)
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        debugger
+        $('#Passport_renew_date').blur(function () {
+
+            debugger
+            if ($('#Passport_renew_date').val() < $('#Passport_issued_on').val()) {
+                alert("Invalid Date Range");
+
+                $('#Passport_renew_date').prop('value', true)
+            }
+
+        });
+    });
+    $(document).ready(function () {
+        $("#Passport_issued_on, #Passport_renew_date,#Date_of_leaving_EPF,#Date_of_joining_EPF,#Date_of_leaving_EPS,#Date_of_joining_EPS,#Date_of_joining,#DATEOFBIRTH,#Date_of_Joining_gratuity,#Transfer_date").on("input", function () {
+            var inputValue = $(this).val();
+            var validDatePattern = /^\d{4}-\d{2}-\d{2}$/;
+
+            if (!validDatePattern.test(inputValue)) {
+                $(this).val(""); // Clear the input if it doesn't match the pattern
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        debugger
+        $('#DATEOFLEAVING').change(function () {
+            debugger
+            if ($('#DATEOFLEAVING').val() < $('#Date_of_joining').val()) {
+                alert("Invalid Date Range");
+
+                $('#DATEOFLEAVING').prop('value', true)
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        debugger
+        $('#Date_of_joining').blur(function () {
+            /* $('#Date_of_joining').change(function () {*/
+            debugger
+
+            if ($('#Date_of_joining').val() < $('#DATEOFBIRTH').val()) {
+                alert("Date of Joining cannot be less than Date Of Birth");
+
+                $('#Date_of_joining').prop('value', true)
+            }
+            $('#Date_of_joining').change(function () {
+                $('#Date_of_Joining_gratuity').val($(this).val());
+            });
+        });
+    });
+
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#Date_of_joining_EPS').change(function () {
+            if ($('#Date_of_joining_EPS').val() < $('#Date_of_joining').val()) {
+                alert("EPS cannot start before Joining");
+
+                $('#Date_of_joining_EPS').prop('value', true)
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#Date_of_joining_EPF').change(function () {
+            if ($('#Date_of_joining_EPF').val() < $('#Date_of_joining').val()) {
+                alert("EPS cannot start before Joining");
+
+                $('#Date_of_joining_EPF').prop('value', true)
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
